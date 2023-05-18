@@ -689,7 +689,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                       .getHeaders(),
                                 );
                                 String placeId = place.placeId ?? "0";
-                                print(placeId);
+
                                 final detail =
                                 await plist.getDetailsByPlaceId(placeId);
                                 final geometry = detail.result.geometry!;
