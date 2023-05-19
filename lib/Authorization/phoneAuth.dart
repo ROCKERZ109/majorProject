@@ -69,7 +69,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
     print("Hello I have entered here!");
     if (PhoneAuth.phone.length == 10) {
       setState(() {
-        HelperVariables.Phone=PhoneAuth.phone;
+        HelperVariables.Phone = PhoneAuth.phone;
         _visibility = true;
         //  _showMyDialog();
       });
@@ -99,7 +99,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
         dialogContext = context;
         return AlertDialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 5,
           content: Container(
               color: Colors.white,
@@ -179,7 +179,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
         dialogContext = contexts;
         return AlertDialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 5,
           content: Container(
             color: Colors.white,
@@ -244,232 +244,215 @@ class _PhoneAuthState extends State<PhoneAuth> {
       return noInternetScaff();
     } else
       return WillPopScope(
-      onWillPop: () async => false,
-      child: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: SafeArea(
-          child: Scaffold(
-            body: SingleChildScrollView(
-              child: Stack(children: [
-                Container(
-                  height: SizeConfig.safeBlockVertical * 100,
-                  width: SizeConfig.safeBlockHorizontal * 100,
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.safeBlockVertical * 10),
-                        height: SizeConfig.safeBlockVertical * 18,
-                        width: SizeConfig.safeBlockHorizontal * 48,
-                        // color: Colors.greenAccent,
-                        child: Image.asset('assets/logo1.png'),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 11,
-                      ),
-                      const Text(
-                        'Mobile Verification',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Nunito Sans',
-                            fontSize: 25),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 4,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 80,
-                        child: const Material(
-                          color: Colors.transparent,
-                          child: Text(
-                            'You will a receive a 6 digit one time password on this mobile number.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Nunito Sans',
-                                fontSize: 15,
-                                color: Colors.grey),
-                          ),
+        onWillPop: () async => false,
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: SafeArea(
+            child: Scaffold(
+              body: SingleChildScrollView(
+                child: Stack(children: [
+                  Container(
+                    height: SizeConfig.safeBlockVertical * 100,
+                    width: SizeConfig.safeBlockHorizontal * 100,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.safeBlockVertical * 10),
+                          height: SizeConfig.safeBlockVertical * 18,
+                          width: SizeConfig.safeBlockHorizontal * 48,
+                          // color: Colors.greenAccent,
+                          child: Image.asset('assets/logo1.png'),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 4,
-                      ),
-                      const Text(
-                        'Enter your phone number',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Nunito Sans',
-                            fontSize: 15,
-                            color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 0,
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 7.5,
-                        width: SizeConfig.safeBlockHorizontal * 55,
-                        child: TextFormField(
-                          textAlign: TextAlign.left,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp('[0-9,-]')),
-                            LengthLimitingTextInputFormatter(10),
-                            maskFormatter
-                          ],
-                          decoration: const InputDecoration(
-                              prefix: Text(
-                                '+91',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: 'Nunito Sans',
-                                    fontSize: 14.5,
-                                    color: Colors.black),
-                              )),
-                          style: const TextStyle(
-                              letterSpacing: 2,
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 11,
+                        ),
+                        const Text(
+                          'Mobile Verification',
+                          style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontFamily: 'Nunito Sans',
-                              fontSize: 14.5,
-                              color: Colors.black),
-                          onChanged: (value) {
-                            setState(() {
-                              PhoneAuth.phone = value;
-                            });
-                          },
-                          keyboardType: TextInputType.phone,
+                              fontSize: 25),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 4,
-                      ),
-                      Material(
-                        child: InkWell(
-                          onTap: () async {
-                            sendOtpcall();
-                          },
-                          child: SizedBox(
-                            height: SizeConfig.safeBlockVertical * 7,
-                            width: SizeConfig.safeBlockHorizontal * 55,
-                            child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                color: Colors.black,
-                                child: const Center(
-                                    child: Text(
-                                      'Send OTP',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontFamily: 'Nunito Sans',
-                                          fontSize: 14.5,
-                                          color: Colors.white),
-                                    ))),
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 4,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 80,
+                          child: const Material(
+                            color: Colors.transparent,
+                            child: Text(
+                              'You will a receive a 6 digit one time password on this mobile number.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Nunito Sans',
+                                  fontSize: 15,
+                                  color: Colors.grey),
+                            ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: _visibility,
-                  child: Container(
-                    width: SizeConfig.safeBlockHorizontal * 100,
-                    height: SizeConfig.safeBlockVertical * 100,
-                    color: Colors.grey.withOpacity(0.35),
-                    child: AbsorbPointer(
-                      absorbing: !checkAbsorb,
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: _visibility,
-                  child: Positioned(
-                    top: SizeConfig.safeBlockVertical * 45,
-                    left: SizeConfig.safeBlockHorizontal * 3,
-                    child: AlertDialog(
-                      content: Center(
-                        child: _timeout
-                            ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.signal_wifi_connected_no_internet_4,
-                                size: SizeConfig.safeBlockVertical * 5,
-                              ),
-                              const Text(
-                                "Slow internet!",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: 'NunitoSans',
-                                    fontSize: 15),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(
-                                      OtpValidation.id);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.black,
-                                  splashFactory: NoSplash.splashFactory,
-                                ),
-                                child: const Text(
-                                  "Test otp screen",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'NunitoSans',
-                                      fontSize: 16),
-                                ),
-                              ),
-                            ])
-                            : CircularProgressIndicator(
-                          color: Colors.black,
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 4,
                         ),
-                      ),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        _timeout
-                            ? Container(
-                          width: SizeConfig.safeBlockHorizontal * 40,
-                          height: SizeConfig.safeBlockVertical * 5,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              sendOtpcall();
-                              setState(() {
-                                _timeout = false;
-                                checkAbsorb = true;
-                              });
-                              print("cliked slow internet");
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              splashFactory: NoSplash.splashFactory,
-                            ),
-                            child: const Text(
-                              "Try Again",
+                        const Text(
+                          'Enter your phone number',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Nunito Sans',
+                              fontSize: 15,
+                              color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 0,
+                        ),
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 7.5,
+                          width: SizeConfig.safeBlockHorizontal * 55,
+                          child: TextFormField(
+                            textAlign: TextAlign.left,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9,-]')),
+                              LengthLimitingTextInputFormatter(10),
+                              maskFormatter
+                            ],
+                            decoration: const InputDecoration(
+                                prefix: Text(
+                              '+91',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'NunitoSans',
-                                  fontSize: 16),
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'Nunito Sans',
+                                  fontSize: 14.5,
+                                  color: Colors.black),
+                            )),
+                            style: const TextStyle(
+                                letterSpacing: 2,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Nunito Sans',
+                                fontSize: 14.5,
+                                color: Colors.black),
+                            onChanged: (value) {
+                              setState(() {
+                                PhoneAuth.phone = value;
+                              });
+                            },
+                            keyboardType: TextInputType.phone,
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 4,
+                        ),
+                        Material(
+                          child: InkWell(
+                            onTap: () async {
+                              sendOtpcall();
+                            },
+                            child: SizedBox(
+                              height: SizeConfig.safeBlockVertical * 7,
+                              width: SizeConfig.safeBlockHorizontal * 55,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  color: Colors.black,
+                                  child: const Center(
+                                      child: Text(
+                                    'Send OTP',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'Nunito Sans',
+                                        fontSize: 14.5,
+                                        color: Colors.white),
+                                  ))),
                             ),
                           ),
                         )
-                            : Container()
                       ],
                     ),
                   ),
-                )
-              ]),
+                  Visibility(
+                    visible: _visibility,
+                    child: Container(
+                      width: SizeConfig.safeBlockHorizontal * 100,
+                      height: SizeConfig.safeBlockVertical * 100,
+                      color: Colors.grey.withOpacity(0.35),
+                      child: AbsorbPointer(
+                        absorbing: !checkAbsorb,
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _visibility,
+                    child: Positioned(
+                      top: SizeConfig.safeBlockVertical * 45,
+                      left: SizeConfig.safeBlockHorizontal * 3,
+                      child: AlertDialog(
+                        content: Center(
+                          child: _timeout
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                      Icon(
+                                        Icons
+                                            .signal_wifi_connected_no_internet_4,
+                                        size: SizeConfig.safeBlockVertical * 5,
+                                      ),
+                                      const Text(
+                                        "Slow internet!",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'NunitoSans',
+                                            fontSize: 15),
+                                      ),
+                                    ])
+                              : CircularProgressIndicator(
+                                  color: Colors.black,
+                                ),
+                        ),
+                        actionsAlignment: MainAxisAlignment.center,
+                        actions: [
+                          _timeout
+                              ? Container(
+                                  width: SizeConfig.safeBlockHorizontal * 40,
+                                  height: SizeConfig.safeBlockVertical * 5,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      sendOtpcall();
+                                      setState(() {
+                                        _timeout = false;
+                                        checkAbsorb = true;
+                                      });
+                                      print("cliked slow internet");
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      splashFactory: NoSplash.splashFactory,
+                                    ),
+                                    child: const Text(
+                                      "Try Again",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'NunitoSans',
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                )
+                              : Container()
+                        ],
+                      ),
+                    ),
+                  )
+                ]),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
