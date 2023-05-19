@@ -850,33 +850,32 @@ class _PassengerScreenState extends State<PassengerScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 elevation: 5,
+                title: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Container(
+                    height: SizeConfig.safeBlockVertical * 5,
+                    width: SizeConfig.safeBlockHorizontal * 5,
+                    child: FloatingActionButton(
+                      elevation: 3,
+                      backgroundColor: const Color.fromARGB(255, 172, 172, 172),
+                      onPressed: () {
+                        waitingTime!.cancel();
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.close,
+                        size: SizeConfig.safeBlockVertical * 2,
+                      ),
+                    ),
+                  )
+                ]),
+                titlePadding: EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: SizeConfig.safeBlockHorizontal * 3),
                 content: SizedBox(
                     height: SizeConfig.safeBlockVertical * 12,
                     width: SizeConfig.safeBlockHorizontal * 45,
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.safeBlockVertical * 7,
-                              width: SizeConfig.safeBlockHorizontal * 7,
-                              child: FloatingActionButton(
-                                elevation: 3,
-                                backgroundColor:
-                                    const Color.fromARGB(255, 172, 172, 172),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  //Delete in database in cancel
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  size: SizeConfig.safeBlockVertical * 2,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
                         SizedBox(
                           height: SizeConfig.safeBlockVertical * 9,
                           width: SizeConfig.safeBlockHorizontal * 100,
