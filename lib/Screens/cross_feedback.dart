@@ -1,9 +1,15 @@
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class CrossFeedbackDialog  {
-  void postFeedback({int?phone,String? other,String?role, String? starRating, String? experienceRating, String? customFeedback,String? destination}) async {
+class CrossFeedbackDialog {
+  void postFeedback(
+      {int? phone,
+      String? other,
+      String? role,
+      String? starRating,
+      String? experienceRating,
+      String? customFeedback,
+      String? destination}) async {
     var response = await http.post(
       Uri.parse("http://209.38.239.190/feedback/crossFeedback"),
       body: jsonEncode({
@@ -11,7 +17,7 @@ class CrossFeedbackDialog  {
           "phone": phone,
           // HelperVariables.Phone, //variable needed
           "with": other,
-          "destination":destination,
+          "destination": destination,
           "riderStatus": role,
           "starRating": starRating.toString(),
           "experienceRating": experienceRating.toString(),
@@ -26,6 +32,4 @@ class CrossFeedbackDialog  {
     print(response
         .statusCode); //This thing not getting printed on console. ERROR!!!!!!
   }
-
-
 }

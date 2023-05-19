@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     getValidation().whenComplete(() async {
       Timer(
           const Duration(seconds: 2),
-          () => Get.to(
-              () => finalPhone == null ? const PhoneAuth() : const firstpage()));
+          () => Get.to(() =>
+              finalPhone == null ? const PhoneAuth() : const firstpage()));
     });
 
     // TODO: implement initState
@@ -87,25 +87,21 @@ class _SplashScreenState extends State<SplashScreen> {
     SizeConfig().init(context);
     return SafeArea(
         child: Scaffold(
-      body: Stack(
-        children: [Center(
+      body: Stack(children: [
+        Center(
           child: SizedBox(
               height: SizeConfig.safeBlockVertical * 35,
               width: SizeConfig.safeBlockHorizontal * 35,
               child: Image.asset('assets/logo.gif')),
         ),
         const Positioned(
-          bottom: 15,
+            bottom: 15,
             right: 15,
-
-            child: Text('Beta v1.0.0',
-            style: TextStyle(
-              fontSize:15
-            ),
+            child: Text(
+              'Beta v1.0.0',
+              style: TextStyle(fontSize: 15),
             ))
-
-        ]
-      ),
+      ]),
     ));
   }
 }

@@ -115,7 +115,7 @@ class _PassengerTripState extends State<PassengerTrip> {
     }
   }
 
-  _callNumber() async{
+  _callNumber() async {
     var number = '${widget.phone}';
     var res = await FlutterPhoneDirectCaller.callNumber(number);
   }
@@ -160,7 +160,7 @@ class _PassengerTripState extends State<PassengerTrip> {
           // print("Printing the widget.phone ${widget.phone!}");
         });
       } else if (end <= 0.075 && checkEnd == 0) {
-      print('entered end');
+        print('entered end');
         _EndDialog();
         checkEnd = 1;
         // print(checkEnd);
@@ -495,8 +495,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(width: 0.5, color: Colors.black),
+                            borderSide: const BorderSide(
+                                width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           hintText: "Write your feedback...",
@@ -570,7 +570,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.transparent,
                           child: Text(
                             'Your ride is completed! \n\n'
-                            'Please pay ₹${distance<3.25?10:3.25*distance} to the Pilot by any method you would like to pay\n\n'
+                            'Please pay ₹${distance < 3.25 ? 10 : 3.25 * distance} to the Pilot by any method you would like to pay\n\n'
                             'After completing the payment, please enter the OTP shared by Pilot to complete the ride',
                             style: const TextStyle(
                                 fontSize: 15,
@@ -804,7 +804,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                                       PassengerScreen.des.longitude);
                                 } else if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
-                                  Future.delayed(const Duration(seconds: 2), () {
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
                                     Navigator.of(context)
                                         .pushReplacementNamed(firstpage.id);
                                   });
@@ -882,7 +883,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              const Text('Tap on the name to call the person!',
+                              const Text(
+                                'Tap on the name to call the person!',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontFamily: 'Nunito Sans',
@@ -904,14 +906,14 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           _callNumber();
                                         },
                                         child: Material(
                                           elevation: 5,
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                           color: Colors.white,
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
@@ -975,7 +977,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                           padding: const EdgeInsets.all(10.50),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children:  [
+                            children: [
                               const Icon(
                                 Icons.my_location_outlined,
                                 color: Colors.white,
@@ -984,7 +986,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                                 width: 10,
                               ),
                               Text(
-                                widget.destiname!.split(',')[0]+widget.destiname!.split(',')[1],
+                                widget.destiname!.split(',')[0] +
+                                    widget.destiname!.split(',')[1],
                                 style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Nunito Sans',

@@ -127,8 +127,7 @@ class _ProviderTestState extends State<ProviderTest> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyModel>(
-        create: (BuildContext context)=>GetModel(),
-
+      create: (BuildContext context) => GetModel(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lightBlue,
@@ -158,9 +157,11 @@ class _ProviderTestState extends State<ProviderTest> {
             Consumer<MyModel>(
               // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
               builder: (context, MyModel, child) {
-                return ElevatedButton(onPressed: (){
-                  MyModel.doS();
-                }, child: const Text('Press me'));
+                return ElevatedButton(
+                    onPressed: () {
+                      MyModel.doS();
+                    },
+                    child: const Text('Press me'));
               },
             )
           ],
@@ -169,20 +170,22 @@ class _ProviderTestState extends State<ProviderTest> {
     );
   }
 }
+
 // ignore: non_constant_identifier_names
- GetModel(){
+GetModel() {
   return MyModel(username: 'Ride');
 }
+
 class MyModel with ChangeNotifier {
-String username;
-MyModel({required this.username});
-int a=0;
-void doS() async{
-  a++;
- username=a.toString();
- notifyListeners();
- print(username);
- }
+  String username;
+  MyModel({required this.username});
+  int a = 0;
+  void doS() async {
+    a++;
+    username = a.toString();
+    notifyListeners();
+    print(username);
+  }
 }
 // // // import 'package:provider/provider.dart';
 // // // import 'package:flutter/material.dart';

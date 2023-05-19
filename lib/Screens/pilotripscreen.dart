@@ -114,10 +114,12 @@ class _PilotTripState extends State<PilotTrip> {
 
     // print(response.body);
   }
-  _callNumber() async{
-   var number = '${HelperVariables.otherPhone}'; //set the number here
+
+  _callNumber() async {
+    var number = '${HelperVariables.otherPhone}'; //set the number here
     var res = await FlutterPhoneDirectCaller.callNumber(number);
   }
+
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var a = 0.5 -
@@ -219,8 +221,8 @@ class _PilotTripState extends State<PilotTrip> {
         builder: (BuildContext context) {
           return SingleChildScrollView(
             child: AlertDialog(
-              shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
               backgroundColor: Colors.white,
               title: const Text(
                 "How was your latest ride?",
@@ -251,21 +253,21 @@ class _PilotTripState extends State<PilotTrip> {
                 ),
                 Center(
                     child: SmoothStarRating(
-                      size: 35,
-                      color: Colors.amber,
-                      allowHalfRating: true,
-                      borderColor: Colors.grey,
-                      defaultIconData: Icons.directions_bike,
-                      halfFilledIconData: Icons.directions_bike,
-                      filledIconData: Icons.directions_bike,
-                      spacing: 10,
-                      rating: starRating,
-                      onRatingChanged: (rating) {
-                        starRating = rating;
-                        // print(starRating);
-                        setState(() {});
-                      },
-                    )),
+                  size: 35,
+                  color: Colors.amber,
+                  allowHalfRating: true,
+                  borderColor: Colors.grey,
+                  defaultIconData: Icons.directions_bike,
+                  halfFilledIconData: Icons.directions_bike,
+                  filledIconData: Icons.directions_bike,
+                  spacing: 10,
+                  rating: starRating,
+                  onRatingChanged: (rating) {
+                    starRating = rating;
+                    // print(starRating);
+                    setState(() {});
+                  },
+                )),
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 2,
                 ),
@@ -286,58 +288,58 @@ class _PilotTripState extends State<PilotTrip> {
                     padding: const EdgeInsets.all(10),
                     child: Center(
                         child: RatingBar.builder(
-                          glow: false,
-                          unratedColor: Colors.grey,
-                          initialRating: 3,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return const Icon(
-                                  Icons.sentiment_very_dissatisfied,
-                                  color: Colors.red,
-                                );
-                              case 1:
-                                return const Icon(
-                                  Icons.sentiment_dissatisfied,
-                                  color: Colors.redAccent,
-                                );
-                              case 2:
-                                return const Icon(
-                                  Icons.sentiment_neutral,
-                                  color: Colors.amber,
-                                );
-                              case 3:
-                                return const Icon(
-                                  Icons.sentiment_satisfied,
-                                  color: Colors.lightGreen,
-                                );
-                              case 4:
-                                return const Icon(
-                                  Icons.sentiment_very_satisfied,
-                                  color: Colors.green,
-                                );
-                              default:
-                                return const Icon(Icons.close);
-                            }
-                          },
-                          onRatingUpdate: (rating) {
-                            experienceRating = rating;
-                            // print("Experience Rating is: $experienceRating");
-                          },
-                        ))),
+                      glow: false,
+                      unratedColor: Colors.grey,
+                      initialRating: 3,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        switch (index) {
+                          case 0:
+                            return const Icon(
+                              Icons.sentiment_very_dissatisfied,
+                              color: Colors.red,
+                            );
+                          case 1:
+                            return const Icon(
+                              Icons.sentiment_dissatisfied,
+                              color: Colors.redAccent,
+                            );
+                          case 2:
+                            return const Icon(
+                              Icons.sentiment_neutral,
+                              color: Colors.amber,
+                            );
+                          case 3:
+                            return const Icon(
+                              Icons.sentiment_satisfied,
+                              color: Colors.lightGreen,
+                            );
+                          case 4:
+                            return const Icon(
+                              Icons.sentiment_very_satisfied,
+                              color: Colors.green,
+                            );
+                          default:
+                            return const Icon(Icons.close);
+                        }
+                      },
+                      onRatingUpdate: (rating) {
+                        experienceRating = rating;
+                        // print("Experience Rating is: $experienceRating");
+                      },
+                    ))),
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 2,
                 ),
                 Visibility(
-                  visible: true ,
+                  visible: true,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: SizeConfig.safeBlockVertical * 2,
                         vertical: SizeConfig.safeBlockVertical * 2),
                     child: Align(
                       alignment:
-                      Alignment(0, SizeConfig.safeBlockVertical * -0.09),
+                          Alignment(0, SizeConfig.safeBlockVertical * -0.09),
                       child: Material(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(10),
@@ -353,13 +355,14 @@ class _PilotTripState extends State<PilotTrip> {
                                     fontSize: 16.5),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
                                       style: ButtonStyle(
                                           backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.black)),
+                                              MaterialStateProperty.all(
+                                                  Colors.black)),
                                       onPressed: () {},
                                       child: const Text(
                                         'NO',
@@ -372,8 +375,8 @@ class _PilotTripState extends State<PilotTrip> {
                                   ElevatedButton(
                                       style: ButtonStyle(
                                           backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.black)),
+                                              MaterialStateProperty.all(
+                                                  Colors.black)),
                                       onPressed: () {},
                                       child: const Text(
                                         'Yes',
@@ -398,7 +401,8 @@ class _PilotTripState extends State<PilotTrip> {
                       horizontal: SizeConfig.safeBlockVertical * 2,
                       vertical: SizeConfig.safeBlockVertical * 2),
                   child: Align(
-                    alignment: Alignment(0, SizeConfig.safeBlockVertical * -0.09),
+                    alignment:
+                        Alignment(0, SizeConfig.safeBlockVertical * -0.09),
                     child: Material(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
@@ -410,8 +414,8 @@ class _PilotTripState extends State<PilotTrip> {
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderSide:
-                            const BorderSide(width: 0.5, color: Colors.black),
+                            borderSide: const BorderSide(
+                                width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           hintText: "Write your feedback...",
@@ -470,75 +474,71 @@ class _PilotTripState extends State<PilotTrip> {
       builder: (BuildContext context) {
         dialogContexts = context;
         return WillPopScope(
-            onWillPop: () async => false,
-            child: AlertDialog(
-              backgroundColor: const Color.fromARGB(255, 227, 227, 227),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            'Your ride is completed! \n\nPlease share this OTP with the passenger after the payment!',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'NunitoSans',
-                                color: Color.fromRGBO(30, 60, 87, 1),
-                                fontWeight: FontWeight.w600),
-                          ),
-                          // ignore: avoid_types_as_parameter_names
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: const Color.fromARGB(255, 227, 227, 227),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Your ride is completed! \n\nPlease share this OTP with the passenger after the payment!',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'NunitoSans',
+                              color: Color.fromRGBO(30, 60, 87, 1),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        // ignore: avoid_types_as_parameter_names
 
-                            // print("Data.load:${Data.load}");
-                          SizedBox(
-                              height: SizeConfig.safeBlockVertical * 10,
-                              width: SizeConfig.safeBlockHorizontal * 73,
-                              child: loading == true
-                                  ? const Center(
-                                      child: CircularProgressIndicator(
-                                      color: Colors.black,
-                                    ))
-                                  : ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: 4,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      padding: const EdgeInsets.all(10),
-                                      itemBuilder: (context, index) {
-                                        return Center(
-                                          child: Card(
-                                            color:
-                                                Colors.white.withOpacity(0.85),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: SizedBox(
-                                                width: SizeConfig
-                                                        .safeBlockHorizontal *
+                        // print("Data.load:${Data.load}");
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 10,
+                          width: SizeConfig.safeBlockHorizontal * 73,
+                          child: loading == true
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                ))
+                              : ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 4,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: const EdgeInsets.all(10),
+                                  itemBuilder: (context, index) {
+                                    return Center(
+                                      child: Card(
+                                        color: Colors.white.withOpacity(0.85),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: SizedBox(
+                                            width:
+                                                SizeConfig.safeBlockHorizontal *
                                                     14,
-                                                child: Center(
-                                                    child: Text(
-                                                  "${otp[index]}",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontFamily: 'NunitoSans',
-                                                      fontSize: 20),
-                                                ))),
-                                          ),
-                                        );
-                                      }),
-
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                                            child: Center(
+                                                child: Text(
+                                              "${otp[index]}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: 'NunitoSans',
+                                                  fontSize: 20),
+                                            ))),
+                                      ),
+                                    );
+                                  }),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-
+          ),
         );
       },
     );
@@ -803,7 +803,8 @@ class _PilotTripState extends State<PilotTrip> {
                                 val = jsonDecode(snapshot.data);
                                 if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
-                                  Future.delayed(const Duration(seconds: 2), () {
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
                                     Navigator.of(context)
                                         .pushReplacementNamed(firstpage.id);
                                   });
@@ -812,7 +813,6 @@ class _PilotTripState extends State<PilotTrip> {
                                   checkOnce = 1;
                                 } else if (val == 'end') {
                                   _FeedbackDialog();
-
                                 } else {
                                   data[0] = val[0];
                                   data[1] = val[1];
@@ -886,7 +886,8 @@ class _PilotTripState extends State<PilotTrip> {
                             color: Colors.white,
                             child: Column(
                               children: [
-                                const Text('Tap on the name to call the person!',
+                                const Text(
+                                  'Tap on the name to call the person!',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Nunito Sans',
@@ -898,7 +899,8 @@ class _PilotTripState extends State<PilotTrip> {
                                   children: [
                                     Container(
                                       height: SizeConfig.safeBlockVertical * 10,
-                                      width: SizeConfig.safeBlockHorizontal * 30,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 30,
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
@@ -910,17 +912,18 @@ class _PilotTripState extends State<PilotTrip> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-
                                         InkWell(
-                                          onTap: (){
+                                          onTap: () {
                                             _callNumber();
                                           },
                                           child: Material(
                                             elevation: 5,
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                             color: Colors.black,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(10.0),
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
                                               child: Text(
                                                 '$Othername',
                                                 style: const TextStyle(
@@ -939,7 +942,8 @@ class _PilotTripState extends State<PilotTrip> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        print("Entered the cancel ride secttion");
+                                        print(
+                                            "Entered the cancel ride secttion");
                                         await _Cancel();
                                         await closeSocket(
                                             int.parse(HelperVariables.Phone));
@@ -987,9 +991,9 @@ class _PilotTripState extends State<PilotTrip> {
                                 Icons.my_location_outlined,
                                 color: Colors.white,
                               ),
-
                               Text(
-                                widget.destname!.split(',')[0]+widget.destname!.split(',')[1],
+                                widget.destname!.split(',')[0] +
+                                    widget.destname!.split(',')[1],
                                 style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Nunito Sans',

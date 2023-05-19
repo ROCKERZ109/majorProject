@@ -9,7 +9,8 @@ class PilotPopupDialog extends StatefulWidget {
   final int pilot;
   final int passenger;
 
-  const PilotPopupDialog({super.key, required this.pilot, required this.passenger});
+  const PilotPopupDialog(
+      {super.key, required this.pilot, required this.passenger});
 
   @override
   State<PilotPopupDialog> createState() => _PilotPopupDialogState();
@@ -23,11 +24,12 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
         .validateOtp(otp: x, pilot: widget.pilot, passenger: widget.passenger);
     if (apiResponse.body == "true") {
       // Navigator.pop(this.context);
-      if(!mounted)return;
-      setState(()async {
+      if (!mounted) return;
+      setState(() async {
         showOTPs = false;
         rideStarted = true;
-        OtpMethods().deleteOtp(otp: x, pilot: widget.pilot, passenger: widget.passenger);
+        OtpMethods().deleteOtp(
+            otp: x, pilot: widget.pilot, passenger: widget.passenger);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -57,7 +59,7 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor:
               const Color.fromARGB(255, 227, 227, 227).withOpacity(0.90),
-          title: Row(children:  const [
+          title: Row(children: const [
             Material(
               color: Colors.transparent,
               child: Text(
@@ -66,7 +68,7 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'NunitoSans',
-                    fontSize:17.5),
+                    fontSize: 17.5),
               ),
             ),
           ]),
@@ -119,7 +121,6 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     validateInput(context);
-
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,

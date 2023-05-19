@@ -25,7 +25,7 @@ class WebSocketService {
   void _connect() {
     _channel = IOWebSocketChannel.connect(_baseUrl);
     _channel!.stream.listen(
-          (message) {
+      (message) {
         _streamController!.add(message);
       },
       onError: (error) {

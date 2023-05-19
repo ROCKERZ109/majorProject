@@ -158,6 +158,7 @@
 // //   for (int i = 0; i < 10; i++) _channel.sink.add('Hello a haa ab');
 // // }
 import 'package:http/http.dart' as http;
+
 // var channel;
 // void initailizeWebsocket() async {
 // channel = WebSocketChannel.connect(Uri.parse('ws://139.59.84.205:3005?phone=7452976914'));
@@ -170,21 +171,22 @@ import 'package:http/http.dart' as http;
 // }
 //
 //
-void calldata(var a, var b)async{
-
-  var response = await http.get(Uri.parse('http://167.71.238.162/users/updateToken?phone=$a&token=NULL'));
+void calldata(var a, var b) async {
+  var response = await http.get(
+      Uri.parse('http://167.71.238.162/users/updateToken?phone=$a&token=NULL'));
 }
+
 void main() {
-  calldata(7452976914,null);
- getData();
+  calldata(7452976914, null);
+  getData();
   print("Is the problem not here??");
 
- // channel.sink.add('2yo');
- // channel.sink.add('3yo');
- // channel.sink.add('4yo');
+  // channel.sink.add('2yo');
+  // channel.sink.add('3yo');
+  // channel.sink.add('4yo');
 }
+
 void getData() async {
   print("Is the problem here??");
   print("Is the problem not here??");
-
 }

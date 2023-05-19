@@ -20,6 +20,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+
 var token;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -33,9 +34,7 @@ void main() async {
   }
 
   await Firebase.initializeApp();
-  token = await FirebaseMessaging.instance
-      .getToken()
-      .then((value) =>value);
+  token = await FirebaseMessaging.instance.getToken().then((value) => value);
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
@@ -116,37 +115,43 @@ class MyApp extends StatelessWidget {
         // child:
         //
 
-      MultiProvider(
-        providers: [
-        StreamProvider(
-        create: (context) => NetworkService().controller.stream,
-    initialData: NetworkStatus.offline,
-    )
-    ],
-    child:GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      routes: {
-        SplashScreen.id: (_) =>  SplashScreen(token: token,),
-        PhoneAuth.id: (_) => const PhoneAuth(),
-        OtpValidation.id: (_) => OtpValidation(token: token,),
-        RegisterScreen.id: (_) => const RegisterScreen(),
-        ClickPicture.id: (_) =>  ClickPicture(token: token,),
-        Options.id: (_) => const Options(),
-        PassengerScreen.id: (_) => const PassengerScreen(),
-        PilotScreen.id: (_) => const PilotScreen(),
-        Notify.id: (_) => const Notify(),
-        // NotificationPage.id: (_) => const NotificationPage(),
-        PassengerTrip.id: (_) => const PassengerTrip(),
-        PilotTrip.id: (_) => const PilotTrip(),
-        firstpage.id:(_) => const firstpage()
+        MultiProvider(
+            providers: [
+          StreamProvider(
+            create: (context) => NetworkService().controller.stream,
+            initialData: NetworkStatus.offline,
+          )
+        ],
+            child: GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              navigatorKey: navigatorKey,
+              routes: {
+                SplashScreen.id: (_) => SplashScreen(
+                      token: token,
+                    ),
+                PhoneAuth.id: (_) => const PhoneAuth(),
+                OtpValidation.id: (_) => OtpValidation(
+                      token: token,
+                    ),
+                RegisterScreen.id: (_) => const RegisterScreen(),
+                ClickPicture.id: (_) => ClickPicture(
+                      token: token,
+                    ),
+                Options.id: (_) => const Options(),
+                PassengerScreen.id: (_) => const PassengerScreen(),
+                PilotScreen.id: (_) => const PilotScreen(),
+                Notify.id: (_) => const Notify(),
+                // NotificationPage.id: (_) => const NotificationPage(),
+                PassengerTrip.id: (_) => const PassengerTrip(),
+                PilotTrip.id: (_) => const PilotTrip(),
+                firstpage.id: (_) => const firstpage()
 
-        // List.id: (_) => const List(),
-        // PilotPopupDialog.id: (_) => PilotPopupDialog(pilot: 0, passenger:0,),
-        // PassengerPopupDialog.id: (_) => PassengerPopupDialog(pilot: 0, passenger: 0,),
-      },
-      initialRoute:SplashScreen.id,
-      // ),
-    ));
+                // List.id: (_) => const List(),
+                // PilotPopupDialog.id: (_) => PilotPopupDialog(pilot: 0, passenger:0,),
+                // PassengerPopupDialog.id: (_) => PassengerPopupDialog(pilot: 0, passenger: 0,),
+              },
+              initialRoute: SplashScreen.id,
+              // ),
+            ));
   }
 }

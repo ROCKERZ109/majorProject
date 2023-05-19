@@ -49,7 +49,7 @@ class _FirstScreenState extends State<FirstScreen> {
     print("permissionStatus1: $permissionGranted");
 
     while (permissionGranted == PermissionStatus.denied) //{
-        {
+    {
       print("permissionStatus2: $permissionGranted");
       permissionGranted = await location.requestPermission();
     }

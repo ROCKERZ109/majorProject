@@ -34,8 +34,6 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
       str = imageFile.path.substring(
         imageFile.path.lastIndexOf('/') + 1,
       );
-
-
     } else {
       print('Nahi Chalega');
     }
@@ -46,7 +44,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
       _formKey.currentState!.save();
 
       // Perform the form submission logic here
-      submitIssue(_issueDescription,context);
+      submitIssue(_issueDescription, context);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Issue reported successfully')),
@@ -56,14 +54,13 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
     }
   }
 
-  Future<void> submitIssue(String issueDescription,  BuildContext context)  async {
+  Future<void> submitIssue(
+      String issueDescription, BuildContext context) async {
     var url = Uri.parse('http://209.38.239.190/feedback/crossFeedback');
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    var response = await http.post(
-        url,
+    var response = await http.post(url,
         body: jsonEncode({'issue_description': issueDescription}),
-        headers: headers
-    );
+        headers: headers);
     if (response.statusCode == 200) {
       Navigator.pop(context);
       // Request successful, do something with the response
@@ -74,10 +71,10 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
     }
   }
 
-  var showPicture=false;
+  var showPicture = false;
   var opened;
   var resize;
-  File?image;
+  File? image;
   Future UploadImage(ImageSource source) async {
     // Permission permission;
     //
@@ -139,7 +136,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
     //   print('Permission granted');
     try {
       final image =
-      await ImagePicker().pickImage(source: source, imageQuality: 30);
+          await ImagePicker().pickImage(source: source, imageQuality: 30);
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() {
@@ -176,19 +173,19 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
                   height: SizeConfig.blockSizeVertical * 3,
                 ),
                 const Text(
-                  'To ensure a seamless user experience, kindly provide a concise summary of any technical issues or challenges faced while using the app or during a ride.'
-                  ,style: TextStyle(fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Nunito Sans',
-
+                  'To ensure a seamless user experience, kindly provide a concise summary of any technical issues or challenges faced while using the app or during a ride.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Nunito Sans',
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 TextFormField(
                   maxLines: 10,
                   validator: (value) {
-                    if (value == null || value.isEmpty &&showPicture==false) {
+                    if (value == null ||
+                        value.isEmpty && showPicture == false) {
                       return 'Please enter the issue description';
                     }
                     return null;
@@ -203,46 +200,44 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
                 ),
                 const SizedBox(height: 7),
                 GestureDetector(
-                 onTap: (){
-                   UploadImage(ImageSource.gallery);
-                 },
+                  onTap: () {
+                    UploadImage(ImageSource.gallery);
+                  },
                   child: SizedBox(
                     // color: Colors.grey,
-                    height: SizeConfig.safeBlockVertical*6,
-                    width: SizeConfig.safeBlockHorizontal*100,
+                    height: SizeConfig.safeBlockVertical * 6,
+                    width: SizeConfig.safeBlockHorizontal * 100,
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text('Click here to attach screenshot!',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Nunito Sans',
-                            fontSize: 17
-                        ),
+                        const Text(
+                          'Click here to attach screenshot!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Nunito Sans',
+                              fontSize: 17),
                         ),
                         const Icon(Icons.attach_file),
                         Visibility(
                             visible: showPicture,
-                            child: const Icon(Icons.check,
-                            color: Colors.green,
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.green,
                             ))
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.safeBlockVertical*5,
+                  height: SizeConfig.safeBlockVertical * 5,
                 ),
                 ElevatedButton(
-                  onPressed:(){
+                  onPressed: () {
                     _submitForm(context);
                     upload(context, image!);
-                    showPicture=false;
-                    setState(() {
-                      
-                    });
-
+                    showPicture = false;
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,

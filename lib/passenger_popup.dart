@@ -8,7 +8,8 @@ class PassengerPopupDialog extends StatefulWidget {
   static var id = 'PassengerPopupDialog';
   final int passenger;
   final int pilot;
-  const PassengerPopupDialog({super.key, required this.passenger,required this.pilot});
+  const PassengerPopupDialog(
+      {super.key, required this.passenger, required this.pilot});
   @override
   State<PassengerPopupDialog> createState() => _PassengerPopupDialogState();
 }
@@ -32,7 +33,10 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
     //   return;
     // }
     // print(_internetStat);
-    var apiResponse = await OtpMethods().postOtp(pilot:widget.pilot,passenger:widget.passenger ,otp: int.parse(otp.join('')));
+    var apiResponse = await OtpMethods().postOtp(
+        pilot: widget.pilot,
+        passenger: widget.passenger,
+        otp: int.parse(otp.join('')));
     if (apiResponse == 200) {
       setState(() {
         _isLoading = false;
