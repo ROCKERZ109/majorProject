@@ -12,7 +12,7 @@ class _messageState extends State<message> {
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 230, 230, 230),
+          backgroundColor: const Color.fromARGB(255, 230, 230, 230),
           foregroundColor: Colors.black,
           automaticallyImplyLeading: false,
           toolbarHeight: 150,

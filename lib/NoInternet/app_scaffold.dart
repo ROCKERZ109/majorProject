@@ -6,6 +6,8 @@ import 'package:veloce/Service/network_service.dart';
 class AppScaffold extends StatefulWidget {
   static var id = "AppScaffold";
 
+  const AppScaffold({super.key});
+
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
@@ -34,8 +36,9 @@ class _AppScaffoldState extends State<AppScaffold> {
     print("NetworkStatus:$networkStatus");
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
-      return SplashScreen();
+    } else {
+      return const SplashScreen();
+    }
   }
 }
 
@@ -44,7 +47,7 @@ Widget noInternetScaff() {
     child: Scaffold(
       body: Container(
           //child: Image.asset('assets/noint.jpg'),
-          child: Center(
+          child: const Center(
               child: Text(
         "No Internet",
         style: TextStyle(fontFamily: 'RubikMono', fontSize: 25),

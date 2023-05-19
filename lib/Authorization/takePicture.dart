@@ -12,13 +12,12 @@ import 'package:veloce/Profile/first.dart';
 import 'package:veloce/sizeConfig.dart';
 
 import '../NoInternet/app_scaffold.dart';
-import '../Screens/option.dart';
 import '../Service/network_service.dart';
 
 class ClickPicture extends StatefulWidget {
   static var id = 'ClickPicture';
   final String? token;
-  ClickPicture({this.token});
+  const ClickPicture({super.key, this.token});
 
   @override
   _ClickPictureState createState() => _ClickPictureState();
@@ -220,7 +219,7 @@ class _ClickPictureState extends State<ClickPicture> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return SafeArea(
         child: Scaffold(
           body: SizedBox(
@@ -387,18 +386,18 @@ class _ClickPictureState extends State<ClickPicture> {
                         style: TextButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
                         child: Row(
-                          children: [
+                          children: const [
                             Text(
                               "Skip",
                               style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontFamily: 'Nunito Sans',
                                   fontSize: 20,
-                                  color: const Color.fromARGB(255, 81, 81, 81)),
+                                  color: Color.fromARGB(255, 81, 81, 81)),
                             ),
                             Icon(
                               Icons.arrow_forward_ios,
-                              color: const Color.fromARGB(255, 81, 81, 81),
+                              color: Color.fromARGB(255, 81, 81, 81),
                               size: 35,
                             ),
                           ],
@@ -407,5 +406,6 @@ class _ClickPictureState extends State<ClickPicture> {
             ]),
           ),
         ));
+    }
   }
 }

@@ -3,20 +3,19 @@ import 'api_otp_methods.dart';
 // import 'internet_connect.dart';
 import 'package:veloce/sizeConfig.dart';
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
 
 class PassengerPopupDialog extends StatefulWidget {
   static var id = 'PassengerPopupDialog';
   final int passenger;
   final int pilot;
-  const PassengerPopupDialog({required this.passenger,required this.pilot});
+  const PassengerPopupDialog({super.key, required this.passenger,required this.pilot});
   @override
   State<PassengerPopupDialog> createState() => _PassengerPopupDialogState();
 }
 
 class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
   bool _isLoading = true;
-  bool _internetStat = true;
+  final bool _internetStat = true;
   List<int> otp = [
     Random().nextInt(9),
     Random().nextInt(9),
@@ -33,8 +32,8 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
     //   return;
     // }
     // print(_internetStat);
-    var _apiResponse = await OtpMethods().postOtp(pilot:widget.pilot,passenger:widget.passenger ,otp: int.parse(otp.join('')));
-    if (_apiResponse == 200) {
+    var apiResponse = await OtpMethods().postOtp(pilot:widget.pilot,passenger:widget.passenger ,otp: int.parse(otp.join('')));
+    if (apiResponse == 200) {
       setState(() {
         _isLoading = false;
       });
@@ -49,12 +48,13 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      backgroundColor: Color.fromARGB(255, 227, 227, 227),
+      backgroundColor: const Color.fromARGB(255, 227, 227, 227),
       title: const Text(
         "Please share this otp with Pilot",
         style: TextStyle(
@@ -75,7 +75,7 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
           child: _isLoading == true
               ? Center(
                   child: _internetStat == true
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: Colors.black,
                         )
                       : Column(
@@ -85,7 +85,7 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
                               Icons.signal_wifi_connected_no_internet_4,
                               size: SizeConfig.safeBlockVertical * 5,
                             ),
-                            Text(
+                            const Text(
                               "No internet",
                               style: TextStyle(
                                   color: Colors.black,
@@ -98,8 +98,8 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
               : ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.all(10),
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(10),
                   itemBuilder: (context, index) {
                     return Center(
                       child: Card(
@@ -111,7 +111,7 @@ class _PassengerPopupDialogState extends State<PassengerPopupDialog> {
                             child: Center(
                                 child: Text(
                               "${otp[index]}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'NunitoSans',

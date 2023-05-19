@@ -5,7 +5,7 @@ import 'package:location/location.dart';
 
 class FirstScreen extends StatefulWidget {
   final screenName;
-  const FirstScreen({required this.screenName});
+  const FirstScreen({super.key, required this.screenName});
   static double? latitude = 0.0;
   static double? longitude = 0.0;
   static String lat = '0.0';

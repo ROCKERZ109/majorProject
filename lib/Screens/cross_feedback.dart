@@ -1,9 +1,4 @@
-import 'package:veloce/Helper/HelperVariables.dart';
 
-import '/sizeConfig.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

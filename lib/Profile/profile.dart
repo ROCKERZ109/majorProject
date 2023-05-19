@@ -1,15 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'first.dart';
 import '../sizeConfig.dart';
 import 'profile_second.dart';
-import 'package:http/http.dart' as http;
 
 class profile_page extends StatefulWidget {
   final double? value;
-  profile_page({this.value});
+  const profile_page({super.key, this.value});
 
   @override
   State<profile_page> createState() => _profile_pageState();
@@ -22,12 +19,12 @@ class _profile_pageState extends State<profile_page> {
 
     // TODO: implement initState
   WidgetsBinding.instance.addPostFrameCallback((_){
-    _scrollControler.animateTo(widget.value!, duration: Duration(milliseconds: 1 ), curve:Curves.linear);
+    _scrollControler.animateTo(widget.value!, duration: const Duration(milliseconds: 1 ), curve:Curves.linear);
     //code will run when widget rendering complete
   });
     super.initState();
   }
-  ScrollController _scrollControler =ScrollController();
+  final ScrollController _scrollControler =ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +37,7 @@ class _profile_pageState extends State<profile_page> {
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: SizeConfig.blockSizeVertical*18,
                 child: Row(
                   children: [
@@ -58,12 +55,12 @@ class _profile_pageState extends State<profile_page> {
                                 onPressed:(){
                                   Navigator.pop(
                                     context,
-                                    SlideRightPageRoute(page: TwoWidget(),
+                                    SlideRightPageRoute(page: const TwoWidget(),
                                     ),
 
                                   );
                                 } ,
-                                icon: Icon(Icons.arrow_back,
+                                icon: const Icon(Icons.arrow_back,
                                 color: Colors.black,
                                 size: 35,),
                               );
@@ -91,7 +88,7 @@ class _profile_pageState extends State<profile_page> {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                 thickness: 5.0, // Adjust the thickness of the line
               ),
@@ -100,7 +97,7 @@ class _profile_pageState extends State<profile_page> {
                   top:  SizeConfig.blockSizeVertical*4,
                   left: SizeConfig.blockSizeHorizontal*2,
                 ),
-                child: Text(
+                child: const Text(
                   "Account Info",
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -118,11 +115,11 @@ class _profile_pageState extends State<profile_page> {
                 child: Material(
                   elevation: 10,
                   color: Colors.grey[300],
-                  shape:CircleBorder(),
+                  shape:const CircleBorder(),
                   child: CircleAvatar(
                     radius: SizeConfig.safeBlockHorizontal*15,
                     backgroundColor:Colors.transparent,
-                    backgroundImage: NetworkImage('${fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":"$fetched_image"}'),
+                    backgroundImage: NetworkImage(fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":fetched_image),
                   ),
                 ),
               ),
@@ -169,9 +166,9 @@ class _profile_pageState extends State<profile_page> {
                           left: SizeConfig.blockSizeHorizontal*3,
                         ),
                         child: Text(
-                          "$fetched_name",
+                          fetched_name,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -179,7 +176,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -207,7 +204,7 @@ class _profile_pageState extends State<profile_page> {
                         child: Text(
                           "$fetched_phone",
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -215,7 +212,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -241,9 +238,9 @@ class _profile_pageState extends State<profile_page> {
                           left: SizeConfig.blockSizeHorizontal*3,
                         ),
                         child: Text(
-                          "$fetched_email",
+                          fetched_email,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -251,7 +248,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -278,9 +275,9 @@ class _profile_pageState extends State<profile_page> {
                           right: SizeConfig.safeBlockHorizontal
                         ),
                         child: Text(
-                          "$fetched_gender",
+                          fetched_gender,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -288,7 +285,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -317,7 +314,7 @@ class _profile_pageState extends State<profile_page> {
                         child: Text(
                           "$fetched_total_rides",
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -325,7 +322,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -354,7 +351,7 @@ class _profile_pageState extends State<profile_page> {
                         child: Text(
                           "$fetched_ride_as_pilot",
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -362,7 +359,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -391,7 +388,7 @@ class _profile_pageState extends State<profile_page> {
                         child: Text(
                           "$fetched_ride_as_passenger",
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Nunito Sans',
@@ -399,7 +396,7 @@ class _profile_pageState extends State<profile_page> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                         thickness: 1.0, // Adjust the thickness of the line
                       ),
@@ -424,7 +421,7 @@ class SlideRightPageRoute<T> extends PageRouteBuilder<T> {
       : super(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(-1.0, 0.0);
+      var begin = const Offset(-1.0, 0.0);
       var end = Offset.zero;
 
       var slideAnimation = Tween<Offset>(

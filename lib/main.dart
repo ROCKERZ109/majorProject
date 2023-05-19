@@ -1,12 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:veloce/Profile/first.dart';
-import 'package:veloce/Screens/cross_feedback.dart';
-import 'package:veloce/passenger_popup.dart';
-import 'package:veloce/pilot_popup.dart';
 
 import 'Service/network_service.dart';
-import 'list.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,10 +13,7 @@ import 'package:veloce/Authorization/takePicture.dart';
 import 'package:veloce/Screens/pilot.dart';
 import 'package:veloce/Screens/option.dart';
 import 'package:veloce/Screens/pilotripscreen.dart';
-import 'package:veloce/notification_page.dart';
 import 'package:veloce/Screens/passengertripscreen.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'Helper/HelperVariables.dart';
 import 'Screens/passenger.dart';
 import 'package:veloce/Screens/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';

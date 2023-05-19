@@ -242,7 +242,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -428,14 +428,14 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                 ),
                               ),
                             ])
-                            : CircularProgressIndicator(
+                            : const CircularProgressIndicator(
                           color: Colors.black,
                         ),
                       ),
                       actionsAlignment: MainAxisAlignment.center,
                       actions: [
                         _timeout
-                            ? Container(
+                            ? SizedBox(
                           width: SizeConfig.safeBlockHorizontal * 40,
                           height: SizeConfig.safeBlockVertical * 5,
                           child: ElevatedButton(
@@ -471,5 +471,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
         ),
       ),
     );
+    }
   }
 }

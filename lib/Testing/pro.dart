@@ -179,7 +179,7 @@ MyModel({required this.username});
 int a=0;
 void doS() async{
   a++;
- username=await a.toString();
+ username=a.toString();
  notifyListeners();
  print(username);
  }

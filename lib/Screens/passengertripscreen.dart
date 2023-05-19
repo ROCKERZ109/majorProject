@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pinput/pinput.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Profile/first.dart';
 import 'package:veloce/Screens/passenger.dart';
-import 'package:veloce/Screens/splashscreen.dart';
 import 'package:veloce/passenger_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ import 'package:veloce/Consts/constants.dart';
 import '../api_otp_methods.dart';
 import 'cross_feedback.dart';
 import 'pilotripscreen.dart';
-import 'option.dart';
 
 var showOTP = false;
 List<LatLng> polylineCoordinate = [];
@@ -33,7 +30,7 @@ class PassengerTrip extends StatefulWidget {
   final String? destiname;
   final waypoint;
 
-  const PassengerTrip({this.destiname, this.phone, this.waypoint});
+  const PassengerTrip({super.key, this.destiname, this.phone, this.waypoint});
 
   @override
   _PassengerTripState createState() => _PassengerTripState();
@@ -163,7 +160,7 @@ class _PassengerTripState extends State<PassengerTrip> {
           // print("Printing the widget.phone ${widget.phone!}");
         });
       } else if (end <= 0.075 && checkEnd == 0) {
-
+      print('entered end');
         _EndDialog();
         checkEnd = 1;
         // print(checkEnd);
@@ -245,11 +242,11 @@ class _PassengerTripState extends State<PassengerTrip> {
     print("2");
     initailizeWebsocket();
     print("3");
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       getlocations();
     });
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       getDataOfOtherUser();
     });
     deleteFromIds(int.parse(HelperVariables.Phone));
@@ -272,11 +269,11 @@ class _PassengerTripState extends State<PassengerTrip> {
 
   void validateInput(BuildContext context) async {
     print(x);
-    var _apiResponse = await OtpMethods().validateOtp(
+    var apiResponse = await OtpMethods().validateOtp(
         otp: x,
         pilot: widget.phone!,
         passenger: int.parse(HelperVariables.Phone));
-    if (_apiResponse.body == "true") {
+    if (apiResponse.body == "true") {
       // Navigator.pop(this.context);
       channel!.sink.add(jsonEncode({'to': widget.phone, 'location': 'end'}));
       OtpMethods().deleteOtp(
@@ -287,9 +284,9 @@ class _PassengerTripState extends State<PassengerTrip> {
       _FeedbackDialog();
       // Navigator.pushNamedAndRemoveUntil(
       //     context, Options.id,(route)=>false);
-    } else if (_apiResponse.body == "false") {
+    } else if (apiResponse.body == "false") {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Wrong Otp"),
         duration: Duration(milliseconds: 2000),
       ));
@@ -324,7 +321,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                   padding: EdgeInsets.symmetric(
                       horizontal: SizeConfig.safeBlockVertical,
                       vertical: SizeConfig.safeBlockVertical),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Rate your Co-rider",
                       style: TextStyle(
@@ -356,7 +353,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 2,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 50),
                   child: Center(
                     child: Text(
@@ -370,7 +367,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Center(
                         child: RatingBar.builder(
                       glow: false,
@@ -380,32 +377,32 @@ class _PassengerTripState extends State<PassengerTrip> {
                       itemBuilder: (context, index) {
                         switch (index) {
                           case 0:
-                            return Icon(
+                            return const Icon(
                               Icons.sentiment_very_dissatisfied,
                               color: Colors.red,
                             );
                           case 1:
-                            return Icon(
+                            return const Icon(
                               Icons.sentiment_dissatisfied,
                               color: Colors.redAccent,
                             );
                           case 2:
-                            return Icon(
+                            return const Icon(
                               Icons.sentiment_neutral,
                               color: Colors.amber,
                             );
                           case 3:
-                            return Icon(
+                            return const Icon(
                               Icons.sentiment_satisfied,
                               color: Colors.lightGreen,
                             );
                           case 4:
-                            return Icon(
+                            return const Icon(
                               Icons.sentiment_very_satisfied,
                               color: Colors.green,
                             );
                           default:
-                            return Icon(Icons.close);
+                            return const Icon(Icons.close);
                         }
                       },
                       onRatingUpdate: (rating) {
@@ -499,11 +496,11 @@ class _PassengerTripState extends State<PassengerTrip> {
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderSide:
-                                BorderSide(width: 0.5, color: Colors.black),
+                                const BorderSide(width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           hintText: "Write your feedback...",
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'Nunito Sans',
@@ -530,7 +527,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                         // print("Custom Feedback is: $customFeedback");
                         CrossFeedbackDialog().postFeedback();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("Feedback Submitted"),
                             duration: Duration(seconds: 3),
                           ),
@@ -561,7 +558,7 @@ class _PassengerTripState extends State<PassengerTrip> {
         return WillPopScope(
           onWillPop: () async => false,
           child: AlertDialog(
-            backgroundColor: Color.fromARGB(255, 227, 227, 227),
+            backgroundColor: const Color.fromARGB(255, 227, 227, 227),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -573,9 +570,9 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.transparent,
                           child: Text(
                             'Your ride is completed! \n\n'
-                            'Please pay ${3.25*distance} to the Pilot by any method you would like to pay\n\n'
+                            'Please pay ₹${distance<3.25?10:3.25*distance} to the Pilot by any method you would like to pay\n\n'
                             'After completing the payment, please enter the OTP shared by Pilot to complete the ride',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15,
                                 fontFamily: 'NunitoSans',
                                 color: Color.fromRGBO(30, 60, 87, 1),
@@ -594,7 +591,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                             defaultPinTheme: PinTheme(
                               width: SizeConfig.safeBlockHorizontal * 15,
                               height: SizeConfig.safeBlockVertical * 7,
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'NunitoSans',
                                   color: Color.fromRGBO(30, 60, 87, 1),
@@ -807,7 +804,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                       PassengerScreen.des.longitude);
                                 } else if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
-                                  Future.delayed(Duration(seconds: 2), () {
+                                  Future.delayed(const Duration(seconds: 2), () {
                                     Navigator.of(context)
                                         .pushReplacementNamed(firstpage.id);
                                   });
@@ -821,7 +818,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                             });
                           }
                           // print("the value of data is $data");
-                          return Text('');
+                          return const Text('');
                         }),
                   ),
                   SizedBox(
@@ -860,7 +857,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     color: Colors.lightBlueAccent,
                                     width: 5),
                                 Polyline(
-                                    polylineId: PolylineId('PilotsRoute'),
+                                    polylineId: const PolylineId('PilotsRoute'),
                                     color: Colors.black,
                                     points: polylineCoordinate,
                                     width: 5),
@@ -885,8 +882,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              Text('Tap on the name to call the person!',
-                                style: const TextStyle(
+                              const Text('Tap on the name to call the person!',
+                                style: TextStyle(
                                     fontSize: 12,
                                     fontFamily: 'Nunito Sans',
                                     fontWeight: FontWeight.w900,
@@ -900,7 +897,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
-                                            image: NetworkImage('$image'),
+                                            image: NetworkImage(image),
                                             fit: BoxFit.fill)),
                                   ),
                                   Column(
@@ -917,7 +914,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                           borderRadius: BorderRadius.circular(15),
                                           color: Colors.white,
                                           child: Padding(
-                                            padding: EdgeInsets.all(10.0),
+                                            padding: const EdgeInsets.all(10.0),
                                             child: Text(
                                               '$Othername',
                                               style: const TextStyle(
@@ -931,7 +928,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 25,
                                   ),
                                   GestureDetector(
@@ -979,16 +976,16 @@ class _PassengerTripState extends State<PassengerTrip> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children:  [
-                              Icon(
+                              const Icon(
                                 Icons.my_location_outlined,
                                 color: Colors.white,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                "${widget.destiname!.split(',')[0]+widget.destiname!.split(',')[1]}",
-                                style: TextStyle(
+                                widget.destiname!.split(',')[0]+widget.destiname!.split(',')[1],
+                                style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Nunito Sans',
                                     fontWeight: FontWeight.w900,

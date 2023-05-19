@@ -12,7 +12,7 @@ class safety_protocol_page extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 230, 230, 230),
+        backgroundColor: const Color.fromARGB(255, 230, 230, 230),
         foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: Row(
@@ -22,11 +22,11 @@ class safety_protocol_page extends StatelessWidget {
                 return IconButton(
                   onPressed: () {
                     Navigator.pop(context,
-                        SlideRightPageRoute(page: TwoWidget(),
+                        SlideRightPageRoute(page: const TwoWidget(),
                     )
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back,
                     color: Colors.black,
                     size: 35,
@@ -34,7 +34,7 @@ class safety_protocol_page extends StatelessWidget {
                 );
               }
             ),
-            Text(
+            const Text(
               'Safety Protocol',
               style: TextStyle(fontFamily: 'Nunito Sans'),
             ),
@@ -42,18 +42,18 @@ class safety_protocol_page extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(2),
+        padding: const EdgeInsets.all(2),
         child: Container(
             height: SizeConfig.blockSizeVertical * 100,
             width: SizeConfig.blockSizeHorizontal * 100,
             color: Colors.transparent,
             child: ListView(
               children: <Widget>[
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(),
                   child: ListTile(
                     title: Text(
@@ -70,7 +70,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                       bottom: SizeConfig.blockSizeVertical*2,
                       ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '1. Verification and Background Checks:',
                       style: TextStyle(
@@ -90,7 +90,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '2. Trip Confirmation:',
                       style: TextStyle(
@@ -111,7 +111,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '3. Communication Guidelines:',
                       style: TextStyle(
@@ -131,7 +131,7 @@ class safety_protocol_page extends StatelessWidget {
                 Padding(
                   padding:
                       EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '4. Safety Ratings and Feedback:',
                       style: TextStyle(
@@ -152,7 +152,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '5. Sharing Petrol Expenses:',
                       style: TextStyle(
@@ -173,7 +173,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '6. Traffic Rules and Safe Driving:',
                       style: TextStyle(
@@ -194,7 +194,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '7. No Alcohol or Drug Consumption:',
                       style: TextStyle(
@@ -215,7 +215,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '8. Vehicle Maintenance and Safety:',
                       style: TextStyle(
@@ -236,7 +236,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '9. Emergency Preparedness:',
                       style: TextStyle(
@@ -253,16 +253,16 @@ class safety_protocol_page extends StatelessWidget {
                     ),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
                 Padding(padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*10)),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(
                     // top: SizeConfig.blockSizeVertical,
                   ),
@@ -281,7 +281,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '1. Verification and Background Checks:',
                       style: TextStyle(
@@ -302,7 +302,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '2. Trip Confirmation:',
                       style: TextStyle(
@@ -323,7 +323,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '3. Communication Guidelines:',
                       style: TextStyle(
@@ -344,7 +344,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '4. Safety Ratings and Feedback:',
                       style: TextStyle(
@@ -364,7 +364,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '5. Sharing Petrol Expenses:',
                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
@@ -379,7 +379,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '6. Traffic Rules and Safety:',
                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
@@ -394,7 +394,7 @@ class safety_protocol_page extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
                   ),
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       '7. No Alcohol or Drug Consumption:',
                       style: TextStyle(fontSize:18,fontWeight: FontWeight.w600),
@@ -405,7 +405,7 @@ class safety_protocol_page extends StatelessWidget {
                     ),
                   ),
                 ),
-                ListTile(
+                const ListTile(
                   title: Text(
                     '8. Personal Safety Awareness:',
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
@@ -418,7 +418,7 @@ class safety_protocol_page extends StatelessWidget {
                     ),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
