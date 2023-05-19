@@ -3,14 +3,10 @@ import 'dart:convert';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:veloce/Profile/first.dart';
 import 'dart:math';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Screens/cross_feedback.dart';
-import 'package:veloce/Screens/passenger.dart';
 import 'package:veloce/Screens/pilot.dart';
-import 'package:veloce/Screens/splashscreen.dart';
 import 'package:veloce/pilot_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +17,6 @@ import 'package:http/http.dart' as http;
 import '../Consts/constants.dart';
 import '../Helper/HelperVariables.dart';
 import '../api_otp_methods.dart';
-import 'option.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 var showOTPs = false;
@@ -31,7 +26,7 @@ class PilotTrip extends StatefulWidget {
   static var id = 'PilotTripScreen';
   final String? destname;
 
-  const PilotTrip({this.destname});
+  const PilotTrip({super.key, this.destname});
 
   @override
   _PilotTripState createState() => _PilotTripState();
@@ -58,14 +53,7 @@ class _PilotTripState extends State<PilotTrip> {
 
   void getPolyPoint(double slat, double slong, double dlat, double dlong,
       var waypoint) async {
-    print(slat.toString() +
-        " " +
-        slong.toString() +
-        " " +
-        dlat.toString() +
-        " " +
-        dlong.toString() +
-        " ");
+    print("$slat $slong $dlat $dlong ");
     polylineCoordinate.clear();
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -141,8 +129,8 @@ class _PilotTripState extends State<PilotTrip> {
   double ans = 0;
   var waypoint;
   double end = 0;
-  bool _isLoading = true;
-  bool _internetStat = true;
+  final bool _isLoading = true;
+  final bool _internetStat = true;
   List<int> otp = [
     Random().nextInt(9),
     Random().nextInt(9),
@@ -208,14 +196,14 @@ class _PilotTripState extends State<PilotTrip> {
 
   void postFunc() async {
     // print("Entered the object2");
-    var _apiResponse = await OtpMethods().postOtp(
+    var apiResponse = await OtpMethods().postOtp(
         pilot: int.parse(HelperVariables.Phone),
         passenger: HelperVariables.otherPhone,
         otp: int.parse(otp.join('')),
         type: "end");
     // print("Entered the object");
 
-    if (_apiResponse == 200) {
+    if (apiResponse == 200) {
       setState(() {
         loading = false;
       });
@@ -250,7 +238,7 @@ class _PilotTripState extends State<PilotTrip> {
                   padding: EdgeInsets.symmetric(
                       horizontal: SizeConfig.safeBlockVertical,
                       vertical: SizeConfig.safeBlockVertical),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Rate your Co-rider",
                       style: TextStyle(
@@ -281,7 +269,7 @@ class _PilotTripState extends State<PilotTrip> {
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 2,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 50),
                   child: Center(
                     child: Text(
@@ -295,7 +283,7 @@ class _PilotTripState extends State<PilotTrip> {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Center(
                         child: RatingBar.builder(
                           glow: false,
@@ -305,32 +293,32 @@ class _PilotTripState extends State<PilotTrip> {
                           itemBuilder: (context, index) {
                             switch (index) {
                               case 0:
-                                return Icon(
+                                return const Icon(
                                   Icons.sentiment_very_dissatisfied,
                                   color: Colors.red,
                                 );
                               case 1:
-                                return Icon(
+                                return const Icon(
                                   Icons.sentiment_dissatisfied,
                                   color: Colors.redAccent,
                                 );
                               case 2:
-                                return Icon(
+                                return const Icon(
                                   Icons.sentiment_neutral,
                                   color: Colors.amber,
                                 );
                               case 3:
-                                return Icon(
+                                return const Icon(
                                   Icons.sentiment_satisfied,
                                   color: Colors.lightGreen,
                                 );
                               case 4:
-                                return Icon(
+                                return const Icon(
                                   Icons.sentiment_very_satisfied,
                                   color: Colors.green,
                                 );
                               default:
-                                return Icon(Icons.close);
+                                return const Icon(Icons.close);
                             }
                           },
                           onRatingUpdate: (rating) {
@@ -356,7 +344,7 @@ class _PilotTripState extends State<PilotTrip> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
+                              const Text(
                                 "Did the passenger pay you the amount?",
                                 style: TextStyle(
                                     color: Colors.grey,
@@ -373,7 +361,7 @@ class _PilotTripState extends State<PilotTrip> {
                                           MaterialStateProperty.all(
                                               Colors.black)),
                                       onPressed: () {},
-                                      child: Text(
+                                      child: const Text(
                                         'NO',
                                         style: TextStyle(
                                             color: Colors.white,
@@ -387,7 +375,7 @@ class _PilotTripState extends State<PilotTrip> {
                                           MaterialStateProperty.all(
                                               Colors.black)),
                                       onPressed: () {},
-                                      child: Text(
+                                      child: const Text(
                                         'Yes',
                                         style: TextStyle(
                                             color: Colors.white,
@@ -423,11 +411,11 @@ class _PilotTripState extends State<PilotTrip> {
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderSide:
-                            BorderSide(width: 0.5, color: Colors.black),
+                            const BorderSide(width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           hintText: "Write your feedback...",
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'Nunito Sans',
@@ -454,7 +442,7 @@ class _PilotTripState extends State<PilotTrip> {
                         // print("Custom Feedback is: $customFeedback");
                         CrossFeedbackDialog().postFeedback();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("Feedback Submitted"),
                             duration: Duration(seconds: 3),
                           ),
@@ -484,7 +472,7 @@ class _PilotTripState extends State<PilotTrip> {
         return WillPopScope(
             onWillPop: () async => false,
             child: AlertDialog(
-              backgroundColor: Color.fromARGB(255, 227, 227, 227),
+              backgroundColor: const Color.fromARGB(255, 227, 227, 227),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
@@ -492,7 +480,7 @@ class _PilotTripState extends State<PilotTrip> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
+                          const Text(
                             'Your ride is completed! \n\nPlease share this OTP with the passenger after the payment!',
                             style: TextStyle(
                                 fontSize: 15,
@@ -501,21 +489,21 @@ class _PilotTripState extends State<PilotTrip> {
                                 fontWeight: FontWeight.w600),
                           ),
                           // ignore: avoid_types_as_parameter_names
-                          Consumer<Data>(builder: (context, Data, child) {
+
                             // print("Data.load:${Data.load}");
-                            return SizedBox(
+                          SizedBox(
                               height: SizeConfig.safeBlockVertical * 10,
                               width: SizeConfig.safeBlockHorizontal * 73,
                               child: loading == true
-                                  ? Center(
+                                  ? const Center(
                                       child: CircularProgressIndicator(
                                       color: Colors.black,
                                     ))
                                   : ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: 4,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      padding: EdgeInsets.all(10),
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      padding: const EdgeInsets.all(10),
                                       itemBuilder: (context, index) {
                                         return Center(
                                           child: Card(
@@ -531,7 +519,7 @@ class _PilotTripState extends State<PilotTrip> {
                                                 child: Center(
                                                     child: Text(
                                                   "${otp[index]}",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -541,8 +529,8 @@ class _PilotTripState extends State<PilotTrip> {
                                           ),
                                         );
                                       }),
-                            );
-                          })
+
+                          )
                         ],
                       ),
                     )
@@ -736,10 +724,10 @@ class _PilotTripState extends State<PilotTrip> {
     // print("2");
     initailizeWebsocket();
     // print("3");
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       getlocation();
     });
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       getDataOfOtherUser();
     });
     // print("4");
@@ -815,7 +803,7 @@ class _PilotTripState extends State<PilotTrip> {
                                 val = jsonDecode(snapshot.data);
                                 if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
-                                  Future.delayed(Duration(seconds: 2), () {
+                                  Future.delayed(const Duration(seconds: 2), () {
                                     Navigator.of(context)
                                         .pushReplacementNamed(firstpage.id);
                                   });
@@ -833,7 +821,7 @@ class _PilotTripState extends State<PilotTrip> {
                             });
                           }
                           // print("the value of data is $data");
-                          return Text('');
+                          return const Text('');
                         }),
                   ),
                   SizedBox(
@@ -872,7 +860,7 @@ class _PilotTripState extends State<PilotTrip> {
                                     color: Colors.lightBlueAccent,
                                     width: 5),
                                 Polyline(
-                                    polylineId: PolylineId('PilotsRoute'),
+                                    polylineId: const PolylineId('PilotsRoute'),
                                     color: Colors.black,
                                     points: polylineCoordinate,
                                     width: 5),
@@ -898,8 +886,8 @@ class _PilotTripState extends State<PilotTrip> {
                             color: Colors.white,
                             child: Column(
                               children: [
-                                Text('Tap on the name to call the person!',
-                                  style: const TextStyle(
+                                const Text('Tap on the name to call the person!',
+                                  style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Nunito Sans',
                                       fontWeight: FontWeight.w900,
@@ -914,7 +902,7 @@ class _PilotTripState extends State<PilotTrip> {
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                              image: NetworkImage('$image'),
+                                              image: NetworkImage(image),
                                               // 'https://imagebr.nyc3.cdn.digitaloceanspaces.com/$image'),
                                               fit: BoxFit.fill)),
                                     ),
@@ -932,10 +920,10 @@ class _PilotTripState extends State<PilotTrip> {
                                             borderRadius: BorderRadius.circular(15),
                                             color: Colors.black,
                                             child: Padding(
-                                              padding: EdgeInsets.all(10.0),
+                                              padding: const EdgeInsets.all(10.0),
                                               child: Text(
                                                 '$Othername',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 12,
                                                     fontFamily: 'Nunito Sans',
                                                     fontWeight: FontWeight.w900,
@@ -946,7 +934,7 @@ class _PilotTripState extends State<PilotTrip> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 25,
                                     ),
                                     GestureDetector(
@@ -995,14 +983,14 @@ class _PilotTripState extends State<PilotTrip> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.my_location_outlined,
                                 color: Colors.white,
                               ),
 
                               Text(
-                                "${widget.destname!.split(',')[0]+widget.destname!.split(',')[1]}",
-                                style: TextStyle(
+                                widget.destname!.split(',')[0]+widget.destname!.split(',')[1],
+                                style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Nunito Sans',
                                     fontWeight: FontWeight.w900,
@@ -1040,7 +1028,7 @@ class Data with ChangeNotifier {
 
   void doS(bool loads) {
     load = loads;
-    print("Printing listeners with change:" + load.toString());
+    print("Printing listeners with change:$load");
     notifyListeners();
   }
 }

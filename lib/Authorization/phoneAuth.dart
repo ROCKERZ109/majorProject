@@ -99,7 +99,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
         dialogContext = context;
         return AlertDialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 5,
           content: Container(
               color: Colors.white,
@@ -179,7 +179,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
         dialogContext = contexts;
         return AlertDialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 5,
           content: Container(
             color: Colors.white,
@@ -324,13 +324,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
                             ],
                             decoration: const InputDecoration(
                                 prefix: Text(
-                              '+91',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'Nunito Sans',
-                                  fontSize: 14.5,
-                                  color: Colors.black),
-                            )),
+                                  '+91',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontFamily: 'Nunito Sans',
+                                      fontSize: 14.5,
+                                      color: Colors.black),
+                                )),
                             style: const TextStyle(
                                 letterSpacing: 2,
                                 fontWeight: FontWeight.w800,
@@ -362,13 +362,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                   color: Colors.black,
                                   child: const Center(
                                       child: Text(
-                                    'Send OTP',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'Nunito Sans',
-                                        fontSize: 14.5,
-                                        color: Colors.white),
-                                  ))),
+                                        'Send OTP',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            fontFamily: 'Nunito Sans',
+                                            fontSize: 14.5,
+                                            color: Colors.white),
+                                      ))),
                             ),
                           ),
                         )
@@ -395,54 +395,54 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         content: Center(
                           child: _timeout
                               ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                      Icon(
-                                        Icons
-                                            .signal_wifi_connected_no_internet_4,
-                                        size: SizeConfig.safeBlockVertical * 5,
-                                      ),
-                                      const Text(
-                                        "Slow internet!",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'NunitoSans',
-                                            fontSize: 15),
-                                      ),
-                                    ])
-                              : CircularProgressIndicator(
-                                  color: Colors.black,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons
+                                      .signal_wifi_connected_no_internet_4,
+                                  size: SizeConfig.safeBlockVertical * 5,
                                 ),
+                                const Text(
+                                  "Slow internet!",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NunitoSans',
+                                      fontSize: 15),
+                                ),
+                              ])
+                              : CircularProgressIndicator(
+                            color: Colors.black,
+                          ),
                         ),
                         actionsAlignment: MainAxisAlignment.center,
                         actions: [
                           _timeout
                               ? Container(
-                                  width: SizeConfig.safeBlockHorizontal * 40,
-                                  height: SizeConfig.safeBlockVertical * 5,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      sendOtpcall();
-                                      setState(() {
-                                        _timeout = false;
-                                        checkAbsorb = true;
-                                      });
-                                      print("cliked slow internet");
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      splashFactory: NoSplash.splashFactory,
-                                    ),
-                                    child: const Text(
-                                      "Try Again",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'NunitoSans',
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                )
+                            width: SizeConfig.safeBlockHorizontal * 40,
+                            height: SizeConfig.safeBlockVertical * 5,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                sendOtpcall();
+                                setState(() {
+                                  _timeout = false;
+                                  checkAbsorb = true;
+                                });
+                                print("cliked slow internet");
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                splashFactory: NoSplash.splashFactory,
+                              ),
+                              child: const Text(
+                                "Try Again",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'NunitoSans',
+                                    fontSize: 16),
+                              ),
+                            ),
+                          )
                               : Container()
                         ],
                       ),

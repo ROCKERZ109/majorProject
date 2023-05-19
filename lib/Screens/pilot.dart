@@ -28,7 +28,7 @@ import '../Service/network_service.dart';
 var wayPointVal = const LatLng(0.0, 0.0);
 
 Future<String> getAddressFromLatLng(double lat, double lng) async {
-  if (lat != null && lng != null) {
+  if (lng != null) {
     var response = await http.get(
         Uri.parse(
             'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBSrF5pLo5KLbOfEcifs1TuoTAm20qCM0M&language=en&latlng=$lat,$lng'),
@@ -36,12 +36,14 @@ Future<String> getAddressFromLatLng(double lat, double lng) async {
 
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
-      String _formattedAddress = data["results"][0]["formatted_address"];
-      return _formattedAddress;
-    } else
+      String formattedAddress = data["results"][0]["formatted_address"];
+      return formattedAddress;
+    } else {
       return null.toString();
-  } else
+    }
+  } else {
     return null.toString();
+  }
 }
 
 class PilotScreen extends StatefulWidget {
@@ -72,7 +74,7 @@ class _PilotScreenState extends State<PilotScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   late LatLng src =
       LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
-
+//removed static from pilot and passenger screen
   static LatLng des = const LatLng(-30.2968691, -30.2968691);
   LatLng markerDestination = const LatLng(-30.2968691, -30.2968691);
   List<LatLng> polylineCoordinates = [];
@@ -364,6 +366,7 @@ class _PilotScreenState extends State<PilotScreen> {
     }
 
     initailizeWebsocket();
+    des = const LatLng(-30.2968691, -30.2968691);
     // TODO: implement initState
     super.initState();
   }
@@ -392,7 +395,7 @@ class _PilotScreenState extends State<PilotScreen> {
   Future<String> getAddressFromLatLng(double lat, double lng) async {
     print("$lat,$lng");
 
-    if (lat != null && lng != null) {
+    if (lng != null) {
       print("Enasdasdasdterasded");
       var response = await http.get(
           Uri.parse(
@@ -401,13 +404,15 @@ class _PilotScreenState extends State<PilotScreen> {
       print('awe');
       if (response.statusCode == 200) {
         Map data = jsonDecode(response.body);
-        String _formattedAddress = data["results"][0]["formatted_address"];
-        print("response ==== $_formattedAddress");
-        return _formattedAddress;
-      } else
+        String formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $formattedAddress");
+        return formattedAddress;
+      } else {
         return null.toString();
-    } else
+      }
+    } else {
       return null.toString();
+    }
   }
 
   @override
@@ -417,7 +422,7 @@ class _PilotScreenState extends State<PilotScreen> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return ChangeNotifierProvider<MyModel>(
         create: (BuildContext context) => GetModel(),
         child: WillPopScope(
@@ -503,11 +508,11 @@ class _PilotScreenState extends State<PilotScreen> {
                                     icon: BitmapDescriptor.defaultMarkerWithHue(
                                         200),
                                   ),
-                                  // Marker(
-                                  //   markerId: const MarkerId('destination'),
-                                  //   position: des,
-                                  //   icon: destinationIcon,
-                                  // ),
+                                  Marker(
+                                    markerId: const MarkerId('destination'),
+                                    position: des,
+                                    icon: destinationIcon,
+                                  ),
                                 },
                                 onMapCreated: (mapController) {
                                   setState(() {
@@ -874,6 +879,7 @@ class _PilotScreenState extends State<PilotScreen> {
                   ),
           )),
         ));
+    }
   }
 
   Future<void> _WayPoint() async {
@@ -1037,7 +1043,7 @@ class RequestResponseWidget extends StatelessWidget {
   final VoidCallback? onTap;
 
   const RequestResponseWidget(
-      {required this.response, required this.color, this.onTap});
+      {super.key, required this.response, required this.color, this.onTap});
 
   @override
   Widget build(BuildContext context) {

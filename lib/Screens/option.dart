@@ -66,7 +66,7 @@ class Button extends StatelessWidget {
   final String title;
   final GestureTapCallback onTap;
 
-  const Button({required this.title, required this.onTap});
+  const Button({super.key, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

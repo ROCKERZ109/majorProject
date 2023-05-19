@@ -1,5 +1,4 @@
 import 'package:veloce/Screens/pilotripscreen.dart';
-import 'Screens/passengertripscreen.dart';
 import 'api_otp_methods.dart';
 import 'sizeConfig.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class PilotPopupDialog extends StatefulWidget {
   final int pilot;
   final int passenger;
 
-  PilotPopupDialog({required this.pilot, required this.passenger});
+  const PilotPopupDialog({super.key, required this.pilot, required this.passenger});
 
   @override
   State<PilotPopupDialog> createState() => _PilotPopupDialogState();
@@ -20,9 +19,9 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
   var dialogContext;
 
   void validateInput(BuildContext context) async {
-    var _apiResponse = await OtpMethods()
+    var apiResponse = await OtpMethods()
         .validateOtp(otp: x, pilot: widget.pilot, passenger: widget.passenger);
-    if (_apiResponse.body == "true") {
+    if (apiResponse.body == "true") {
       // Navigator.pop(this.context);
       if(!mounted)return;
       setState(()async {
@@ -31,14 +30,14 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
         OtpMethods().deleteOtp(otp: x, pilot: widget.pilot, passenger: widget.passenger);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Ride Started"),
           duration: Duration(seconds: 2),
         ),
       );
-    } else if (_apiResponse.body == "false") {
+    } else if (apiResponse.body == "false") {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Wrong Otp"),
         duration: Duration(milliseconds: 2000),
       ));
@@ -58,7 +57,7 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor:
               const Color.fromARGB(255, 227, 227, 227).withOpacity(0.90),
-          title: Row(children:  [
+          title: Row(children:  const [
             Material(
               color: Colors.transparent,
               child: Text(
@@ -92,7 +91,7 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
                     defaultPinTheme: PinTheme(
                       width: SizeConfig.safeBlockHorizontal * 15,
                       height: SizeConfig.safeBlockVertical * 7,
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           fontSize: 20,
                           fontFamily: 'NunitoSans',
                           color: Color.fromRGBO(30, 60, 87, 1),

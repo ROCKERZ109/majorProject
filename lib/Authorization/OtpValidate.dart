@@ -12,7 +12,6 @@ import 'package:veloce/Authorization/phoneAuth.dart';
 import 'package:veloce/Authorization/registrationScreen.dart';
 import 'package:veloce/Profile/first.dart';
 import '../NoInternet/app_scaffold.dart';
-import '../Screens/option.dart';
 import '../Service/network_service.dart';
 import '../sizeConfig.dart';
 
@@ -20,7 +19,7 @@ class OtpValidation extends StatefulWidget {
   static var id = 'OtpValidation';
   final String? token;
 
-  const OtpValidation({this.token});
+  const OtpValidation({super.key, this.token});
 
   @override
   _OtpValidationState createState() => _OtpValidationState();
@@ -160,7 +159,7 @@ class _OtpValidationState extends State<OtpValidation> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return WillPopScope(
         onWillPop: () async {
           setState(() {
@@ -208,7 +207,7 @@ class _OtpValidationState extends State<OtpValidation> {
                         Text(
                           'Enter the received OTP sent to +91${HelperVariables.Phone}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Nunito Sans',
                               fontSize: 15,
@@ -241,13 +240,13 @@ class _OtpValidationState extends State<OtpValidation> {
                             },
                             style: TextButton.styleFrom(
                                 splashFactory: NoSplash.splashFactory),
-                            child: Text(
+                            child: const Text(
                               "change number?",
                               style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontFamily: 'Nunito Sans',
                                   fontSize: 14.5,
-                                  color: const Color.fromARGB(255, 56, 56, 56)),
+                                  color: Color.fromARGB(255, 56, 56, 56)),
                             )),
                         SizedBox(
                           height: SizeConfig.safeBlockVertical * 4,
@@ -317,6 +316,7 @@ class _OtpValidationState extends State<OtpValidation> {
           ),
         ),
       );
+    }
   }
 
   Map<String, String> header = {

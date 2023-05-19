@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veloce/Authorization/phoneAuth.dart';
 import 'package:veloce/Profile/first.dart';
-import 'package:veloce/Screens/option.dart';
 import 'dart:convert';
 import '../sizeConfig.dart';
 
@@ -14,7 +13,7 @@ class SplashScreen extends StatefulWidget {
   static var id = 'SplashScreen';
   final String? token;
 
-  const SplashScreen({this.token});
+  const SplashScreen({super.key, this.token});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -95,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: SizeConfig.safeBlockHorizontal * 35,
               child: Image.asset('assets/logo.gif')),
         ),
-        Positioned(
+        const Positioned(
           bottom: 15,
             right: 15,
 

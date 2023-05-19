@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import '../Helper/HelperVariables.dart';
 import '../sizeConfig.dart';
 import 'package:http/http.dart' as http;
 
 class ReportIssueForm extends StatefulWidget {
+  const ReportIssueForm({super.key});
+
   @override
   _ReportIssueFormState createState() => _ReportIssueFormState();
 }
@@ -48,7 +49,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
       submitIssue(_issueDescription,context);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Issue reported successfully')),
+        const SnackBar(content: Text('Issue reported successfully')),
       );
 
       _formKey.currentState!.reset();
@@ -158,14 +159,14 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 230, 230, 230),
+        backgroundColor: const Color.fromARGB(255, 230, 230, 230),
         foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
-        title: Text('Describe the issue'),
+        title: const Text('Describe the issue'),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -174,7 +175,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 3,
                 ),
-                Text(
+                const Text(
                   'To ensure a seamless user experience, kindly provide a concise summary of any technical issues or challenges faced while using the app or during a ride.'
                   ,style: TextStyle(fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -182,7 +183,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
 
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 TextFormField(
                   maxLines: 10,
@@ -195,17 +196,17 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
                   onSaved: (value) {
                     _issueDescription = value!;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'enter issue here',
                   ),
                 ),
-                SizedBox(height: 7),
+                const SizedBox(height: 7),
                 GestureDetector(
                  onTap: (){
                    UploadImage(ImageSource.gallery);
                  },
-                  child: Container(
+                  child: SizedBox(
                     // color: Colors.grey,
                     height: SizeConfig.safeBlockVertical*6,
                     width: SizeConfig.safeBlockHorizontal*100,
@@ -213,17 +214,17 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('Click here to attach screenshot!',
+                        const Text('Click here to attach screenshot!',
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Nunito Sans',
                             fontSize: 17
                         ),
                         ),
-                        Icon(Icons.attach_file),
+                        const Icon(Icons.attach_file),
                         Visibility(
                             visible: showPicture,
-                            child: Icon(Icons.check,
+                            child: const Icon(Icons.check,
                             color: Colors.green,
                             ))
                       ],

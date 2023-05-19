@@ -10,7 +10,7 @@ import 'report_an_issue_page.dart';
 import 'package:http/http.dart'as http;
 
 class TwoWidget extends StatefulWidget {
-   TwoWidget({
+   const TwoWidget({
     super.key,
   });
 
@@ -28,7 +28,7 @@ void get_data(context) async{
   if(response.statusCode==200)
     {
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context)=>SplashScreen()), (route) => false);
+          MaterialPageRoute(builder: (context)=>const SplashScreen()), (route) => false);
     }
 }
 
@@ -58,14 +58,14 @@ void get_data(context) async{
                       onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=> profile_page()),
+                          MaterialPageRoute(builder: (context)=> const profile_page()),
                         );
 
 
                       },
                       icon: CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage('${fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":"$fetched_image"}'),
+                        backgroundImage: NetworkImage(fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":fetched_image),
                         radius:  SizeConfig.safeBlockHorizontal*11.75,
                       ),
                       iconSize: 270,
@@ -78,8 +78,8 @@ void get_data(context) async{
           title: Padding(
             padding: const EdgeInsets.only(left: 30),
             child: Text(
-              "$fetched_name",
-              style: TextStyle(
+              fetched_name,
+              style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Nunito Sans',
                   fontSize: 35),
@@ -96,7 +96,7 @@ void get_data(context) async{
                 width: SizeConfig.safeBlockHorizontal * 100,
                 child: Material(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(70),
                     topRight: Radius.circular(70),
                   ),
@@ -107,7 +107,7 @@ void get_data(context) async{
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             height: SizeConfig.safeBlockVertical * 10,
                             width: SizeConfig.safeBlockVertical * 20,
                             child: ElevatedButton(
@@ -118,10 +118,10 @@ void get_data(context) async{
                                     const Color.fromARGB(255, 230, 230, 230),
                                     splashFactory: NoSplash.splashFactory,
                                     elevation: 0,
-                                    padding: EdgeInsets.symmetric(horizontal: 0)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 0)),
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                    children: const [
                                       Icon(
                                         Icons.feedback_outlined,
                                         size: 40,
@@ -138,7 +138,7 @@ void get_data(context) async{
                           SizedBox(
                             width: SizeConfig.safeBlockHorizontal * 5,
                           ),
-                          Container(
+                          SizedBox(
                             height: SizeConfig.safeBlockVertical * 10,
                             width: SizeConfig.safeBlockVertical * 20,
                             child: Builder(
@@ -146,7 +146,7 @@ void get_data(context) async{
                                 return ElevatedButton(
                                     onPressed: () {
                                       Navigator.push(context,
-                                      MaterialPageRoute(builder: (context)=>profile_page(value: 300,)));
+                                      MaterialPageRoute(builder: (context)=>const profile_page(value: 300,)));
                                     },
                                     style: ElevatedButton.styleFrom(
                                         foregroundColor: Colors.black,
@@ -156,7 +156,7 @@ void get_data(context) async{
                                         elevation: 0),
                                     child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
+                                        children: const [
                                           Icon(
                                             Icons.motorcycle,
                                             size: 40,
@@ -185,7 +185,7 @@ void get_data(context) async{
                                 return ElevatedButton(
                                     onPressed: () {
                                       Navigator.push(context,
-                                          MaterialPageRoute(builder: (context)=> safety_protocol_page(),)
+                                          MaterialPageRoute(builder: (context)=> const safety_protocol_page(),)
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -217,7 +217,7 @@ void get_data(context) async{
                                                 padding:EdgeInsets.only(
 
                                                     bottom: SizeConfig.safeBlockVertical),
-                                                child: Text(
+                                                child: const Text(
                                                   "Adhere to safety guidelines for passengers and pilots during rides",
                                                   style: TextStyle(
                                                       fontWeight: FontWeight.w600,
@@ -228,7 +228,7 @@ void get_data(context) async{
                                             ],
                                           ),
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.warning_amber_outlined,
                                           size: 70,
                                         )
@@ -241,7 +241,7 @@ void get_data(context) async{
                       SizedBox(
                         height: SizeConfig.safeBlockVertical * 8,
                       ),
-                      Container(
+                      SizedBox(
                         width: SizeConfig.safeBlockHorizontal * 70,
                         height: SizeConfig.safeBlockVertical * 6,
                         child: Builder(
@@ -250,7 +250,7 @@ void get_data(context) async{
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context)=> ReportIssueForm(),
+                                    MaterialPageRoute(builder: (context)=> const ReportIssueForm(),
                                     ),
                                   );
                                 },
@@ -274,7 +274,7 @@ void get_data(context) async{
                       SizedBox(
                         height: SizeConfig.safeBlockVertical * 2,
                       ),
-                      Container(
+                      SizedBox(
                         width: SizeConfig.safeBlockHorizontal * 70,
                         height: SizeConfig.safeBlockVertical * 6,
                         child: ElevatedButton(
@@ -314,7 +314,7 @@ void get_data(context) async{
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: const [
                   CircularProgressIndicator(
                     color: Colors.black,
                   ),

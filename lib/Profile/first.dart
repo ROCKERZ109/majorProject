@@ -1,23 +1,18 @@
-import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:veloce/Helper/HelperVariables.dart';
 import '../NoInternet/app_scaffold.dart';
 import '../Screens/first.dart';
 import '../Screens/passenger.dart';
 import '../Screens/passengertripscreen.dart';
 import '../Screens/pilot.dart';
-import '../Screens/pilot.dart';
 import '../Screens/pilotripscreen.dart';
 import '../Service/network_service.dart';
-import 'swipePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../sizeConfig.dart';
-import 'sizeConfig.dart';
 import 'package:flutter/material.dart';
 import 'profile_second.dart';
 
@@ -132,18 +127,19 @@ class _firstpageState extends State<firstpage> {
   });
     super.initState();
   }
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return WillPopScope(
         onWillPop: ()async=>false,
         child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 230, 230, 230),
+          backgroundColor: const Color.fromARGB(255, 230, 230, 230),
           foregroundColor: Colors.black,
           automaticallyImplyLeading: false,
           toolbarHeight: 150,
@@ -152,7 +148,7 @@ class _firstpageState extends State<firstpage> {
               children: [
 
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     right: 30,
                   ),
                   child: CircleAvatar(
@@ -165,14 +161,14 @@ class _firstpageState extends State<firstpage> {
                               onPressed: (){
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context)=> TwoWidget()),
+                                  MaterialPageRoute(builder: (context)=> const TwoWidget()),
                                 );
 
 
                               },
                               icon: CircleAvatar(
                                 backgroundColor: Colors.transparent,
-                                backgroundImage: NetworkImage('${fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":"$fetched_image"}'),
+                                backgroundImage: NetworkImage(fetched_image=="https://imagenauft.fra1.digitaloceanspaces.com/"?"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew=":fetched_image),
                                 radius: SizeConfig.safeBlockHorizontal*11.5,
                               ),
                               iconSize:SizeConfig.safeBlockVertical*10.75,
@@ -190,13 +186,13 @@ class _firstpageState extends State<firstpage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(2.0),
-                  child: Container(
+                  child: SizedBox(
                     // width:SizeConfig.safeBlockHorizontal*12,
                     height: SizeConfig.safeBlockVertical*5.75,
                     child: Image.asset('assets/logo.png'),
                   ),
                 ),
-                Text(
+                const Text(
                   "haratRide",
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
@@ -213,7 +209,7 @@ class _firstpageState extends State<firstpage> {
           width: SizeConfig.safeBlockHorizontal * 100,
           child: Material(
             color: Colors.white,
-            borderRadius: BorderRadius.only(topRight: Radius.circular(70), topLeft: Radius.circular(70)),
+            borderRadius: const BorderRadius.only(topRight: Radius.circular(70), topLeft: Radius.circular(70)),
             child: Padding(
               padding: const EdgeInsets.only(top: 50),
               child:
@@ -227,14 +223,14 @@ class _firstpageState extends State<firstpage> {
                     left: SizeConfig.safeBlockHorizontal * 10,
                     right: SizeConfig.safeBlockHorizontal *10,
                   ),
-                  child: Container(
+                  child: SizedBox(
                     // color: Colors.grey,
                     height: SizeConfig.safeBlockVertical * 17,
                     child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        color: Color.fromARGB(255, 230, 230, 230),
+                        color: const Color.fromARGB(255, 230, 230, 230),
                         elevation: 10,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -300,7 +296,7 @@ class _firstpageState extends State<firstpage> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.transparent,
                                 radius: SizeConfig.safeBlockHorizontal*14,
-                                backgroundImage: AssetImage('assets/geul2.png'),
+                                backgroundImage: const AssetImage('assets/geul2.png'),
 
                               ),
                             ),
@@ -325,7 +321,7 @@ class _firstpageState extends State<firstpage> {
                   margin: EdgeInsets.only(top: SizeConfig.safeBlockVertical*6),
 
                   height: SizeConfig.safeBlockVertical * 4,
-                  child: Text(
+                  child: const Text(
                     'Select your role below',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -335,7 +331,7 @@ class _firstpageState extends State<firstpage> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
 
                // /   margin: EdgeInsets.only(top: SizeConfig.safeBlockVertical*4),
                   width: SizeConfig.safeBlockHorizontal * 60,
@@ -362,7 +358,7 @@ class _firstpageState extends State<firstpage> {
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 6,
                 ),
-                Container(
+                SizedBox(
 
 
                   width: SizeConfig.safeBlockHorizontal * 60,
@@ -392,6 +388,7 @@ class _firstpageState extends State<firstpage> {
         ),
     ),
       );
+    }
   }
 }
 

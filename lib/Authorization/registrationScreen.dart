@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -341,6 +341,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         )),
       ),
     );
+    }
   }
 
   Future<void> _showMyDialog() async {

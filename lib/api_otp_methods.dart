@@ -21,7 +21,7 @@ class OtpMethods {
   Future<http.Response> validateOtp(
       {required int pilot, required int passenger, required int otp, String? type}) async {
     final Uri url = Uri.parse(
-        "http://209.38.239.190/otp/validateOTP?pilot=${pilot}&passenger=${passenger}&otp=${otp}");
+        "http://209.38.239.190/otp/validateOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
     var response = await http.get(url);
     return response;
   }
@@ -29,7 +29,7 @@ class OtpMethods {
   void deleteOtp(
       {required int pilot, required int passenger, required int otp}) async {
     final Uri url = Uri.parse(
-        "http://209.38.239.190/otp/deleteOTP?pilot=${pilot}&passenger=${passenger}&otp=${otp}");
+        "http://209.38.239.190/otp/deleteOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
     await http.delete(url);
   }
 }

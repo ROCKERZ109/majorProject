@@ -315,7 +315,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
     getLocation();
     setIcon();
     initailizePassengerWebsocket();
-
+    PassengerScreen.des = const LatLng(-30.2968691, -30.2968691);
 
     // TODO: implement initState
     super.initState();
@@ -342,7 +342,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
     var networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
-    } else
+    } else {
       return WillPopScope(
       onWillPop: () async {
         deleteUser(int.parse(HelperVariables.Phone));
@@ -834,6 +834,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
             ),
           )),
     );
+    }
   }
 
   Future<void> showWaitingTimeDialog() async {
