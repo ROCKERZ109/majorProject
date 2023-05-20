@@ -1,3 +1,40 @@
+import 'package:flutter/material.dart';
+
+void main(){
+  runApp(MyHome());
+}
+
+class MyHome extends StatefulWidget {
+  const MyHome({Key? key}) : super(key: key);
+
+  @override
+  State<MyHome> createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: SafeArea(
+        child: Scaffold(
+          body: Container(
+            child: Text('Graphic Era deemed to be University Clement Town Bell road near ISBT Road ',
+            style: TextStyle(
+                fontSize: 15,
+                overflow: TextOverflow.ellipsis,
+                fontFamily: 'Nunito Sans',
+                fontWeight: FontWeight.w900,
+                color: Colors.black
+            ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 // // import 'dart:async';
 // // import 'package:flutter/cupertino.dart';
 // // import 'package:flutter/material.dart';

@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Profile/first.dart';
 import 'package:veloce/Screens/passenger.dart';
+import 'package:veloce/Testing/pro.dart';
 import 'package:veloce/passenger_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +116,7 @@ class _PassengerTripState extends State<PassengerTrip> {
     }
   }
 
-  _callNumber() async{
+  _callNumber() async {
     var number = '${widget.phone}';
     var res = await FlutterPhoneDirectCaller.callNumber(number);
   }
@@ -160,7 +161,7 @@ class _PassengerTripState extends State<PassengerTrip> {
           // print("Printing the widget.phone ${widget.phone!}");
         });
       } else if (end <= 0.075 && checkEnd == 0) {
-      print('entered end');
+        print('entered end');
         _EndDialog();
         checkEnd = 1;
         // print(checkEnd);
@@ -280,8 +281,15 @@ class _PassengerTripState extends State<PassengerTrip> {
           otp: x,
           pilot: widget.phone!,
           passenger: int.parse(HelperVariables.Phone));
-
-      _FeedbackDialog();
+      channel!.sink.close();
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) {
+        return CrossFeedback(
+          role: 'Passenger',
+          phone: widget.phone.toString(),
+          destination: widget.destiname,
+        );
+      }), (route) => false);
       // Navigator.pushNamedAndRemoveUntil(
       //     context, Options.id,(route)=>false);
     } else if (apiResponse.body == "false") {
@@ -495,8 +503,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(width: 0.5, color: Colors.black),
+                            borderSide: const BorderSide(
+                                width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           hintText: "Write your feedback...",
@@ -532,8 +540,10 @@ class _PassengerTripState extends State<PassengerTrip> {
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context)
-                            .pushReplacementNamed(firstpage.id);
+                        updateRide('updatePassengerRide');
+                        updateRide('updateTotalRide');
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            firstpage.id, (route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -546,6 +556,11 @@ class _PassengerTripState extends State<PassengerTrip> {
             ),
           );
         });
+  }
+
+  void updateRide(String api) async {
+    var response = await http.get(Uri.parse(
+        'http://209.38.239.47/users/$api?phone=${int.parse(HelperVariables.Phone)}'));
   }
 
   Future<void> _EndDialog() async {
@@ -570,7 +585,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.transparent,
                           child: Text(
                             'Your ride is completed! \n\n'
-                            'Please pay ₹${distance<3.25?10:3.25*distance} to the Pilot by any method you would like to pay\n\n'
+                            'Please pay ₹${distance < 3.25 ? 10 : 3.25 * distance} to the Pilot by any method you would like to pay\n\n'
                             'After completing the payment, please enter the OTP shared by Pilot to complete the ride',
                             style: const TextStyle(
                                 fontSize: 15,
@@ -804,7 +819,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                                       PassengerScreen.des.longitude);
                                 } else if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
-                                  Future.delayed(const Duration(seconds: 2), () {
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
                                     Navigator.of(context)
                                         .pushReplacementNamed(firstpage.id);
                                   });
@@ -882,7 +898,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              const Text('Tap on the name to call the person!',
+                              const Text(
+                                'Tap on the name to call the person!',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontFamily: 'Nunito Sans',
@@ -904,14 +921,14 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           _callNumber();
                                         },
                                         child: Material(
                                           elevation: 5,
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                           color: Colors.white,
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
@@ -972,10 +989,10 @@ class _PassengerTripState extends State<PassengerTrip> {
                         borderRadius: BorderRadius.circular(25),
                         color: Colors.black,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.50),
+                          padding: const EdgeInsets.all(0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children:  [
+                            children: [
                               const Icon(
                                 Icons.my_location_outlined,
                                 color: Colors.white,
@@ -984,9 +1001,12 @@ class _PassengerTripState extends State<PassengerTrip> {
                                 width: 10,
                               ),
                               Text(
-                                widget.destiname!.split(',')[0]+widget.destiname!.split(',')[1],
-                                style: const TextStyle(
+                                widget.destiname!,
+                                // widget.destiname!.split(',')[0] +
+                                //     widget.destiname!.split(',')[1],
+                                style: TextStyle(
                                     fontSize: 15,
+                                    overflow: TextOverflow.ellipsis,
                                     fontFamily: 'Nunito Sans',
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white),

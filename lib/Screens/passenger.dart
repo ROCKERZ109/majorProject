@@ -25,10 +25,12 @@ import '../Service/network_service.dart';
 // import 'package:geolocator/geolocator.dart';
 bool polyCheck = false;
 bool destWidgetCheck = false;
-double distance  = 0;
+double distance = 0;
+
 class PassengerScreen extends StatefulWidget {
   static var id = 'PassengerScreen';
   static LatLng des = const LatLng(-30.2968691, -30.2968691);
+
   const PassengerScreen({Key? key}) : super(key: key);
 
   //API key: AIzaSyCScR-fqEvQ3t_tQtnX_nVo7Ir1e5AzhNQ
@@ -46,9 +48,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
   // static double dlat = 30.2968691;
   // static double dlong = 78.0019436;
   late LatLng src =
-  LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
-
-
+      LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
 
   // final TextEditingController _destinationController = TextEditingController();
   List<LatLng> polylineCoordinates = [];
@@ -65,16 +65,17 @@ class _PassengerScreenState extends State<PassengerScreen> {
   var isSourceChecked = false;
   var currentLoc;
   var pickupbottom = 80.0;
-  var pickupleft   = 20.0;
-  var dropbottom   = 18.0;
-  var dropleft     = 20.0;
+  var pickupleft = 20.0;
+  var dropbottom = 18.0;
+  var dropleft = 20.0;
 
-  double sum       = 0;
+  double sum = 0;
   bool isDestandSrcSet = false;
   GoogleMapController? googleMapController;
   var LatLngIterator;
   bool isSentOnce = false;
   bool showPlaceSearch = true;
+
 //moved the des variable from dowanwards to upwards
   Timer? waitingTime;
 
@@ -98,14 +99,14 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
   void setIcon() async {
     await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(size: Size(39, 15)), 'assets/ldk.png')
+            const ImageConfiguration(size: Size(39, 15)), 'assets/ldk.png')
         .then((icon) {
       setState(() {
         srcIcon = icon;
       });
     });
     await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(size: Size(45, 45)), 'assets/ldk.png')
+            const ImageConfiguration(size: Size(45, 45)), 'assets/ldk.png')
         .then((icon) {
       setState(() {
         // destinationIcon = icon;
@@ -124,7 +125,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
   }
 
   void waitForPilotResponse() {
-    waitingTime = Timer.periodic(const Duration(seconds:20), (timer) {
+    waitingTime = Timer.periodic(const Duration(seconds: 20), (timer) {
       if (!mounted) {
         return;
       }
@@ -132,7 +133,9 @@ class _PassengerScreenState extends State<PassengerScreen> {
       timer.cancel();
     });
   }
- var waypoint;
+
+  var waypoint;
+
   void getLocation() async {
     Location location = Location();
 
@@ -148,7 +151,6 @@ class _PassengerScreenState extends State<PassengerScreen> {
         return;
       }
 
-
       setState(() {
         //remember to remove these two
         HelperVariables.passengercurrentLocation = currentLocation;
@@ -157,7 +159,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
         if (polylineCoordinates.isNotEmpty) {
           for (LatLng ltln in polylineCoordinates) {
             if (LatLng(
-                currentLocation!.latitude!, currentLocation!.longitude!) ==
+                    currentLocation!.latitude!, currentLocation!.longitude!) ==
                 ltln) {
               setState(() {
                 itcheck = true;
@@ -166,10 +168,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
           }
           if (itcheck == true) {
             for (int i = 0;
-            polylineCoordinates[i] !=
-                LatLng(currentLocation!.latitude!,
-                    currentLocation!.longitude!);
-            i++) {
+                polylineCoordinates[i] !=
+                    LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!);
+                i++) {
               polylineCoordinates.removeAt(i);
             }
             setState(() {
@@ -251,7 +253,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
       "gender": HelperVariables.gender,
       "currLoc": currLocation,
       //added dest
-      "dest":PassengerScreen.des,
+      "dest": PassengerScreen.des,
       "destination": searchLocation,
     });
     var response = await (isSentOnce
@@ -263,7 +265,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
   void deleteUser(int phone) async {
     var url =
-    Uri.parse('http://209.38.239.190/passengers/deleteUser?phone=$phone');
+        Uri.parse('http://209.38.239.190/passengers/deleteUser?phone=$phone');
     var resp = await http.delete(url);
     print(resp.body);
   }
@@ -281,32 +283,26 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
     // print(HelperVariables.Phone.runtimeType);
 
-
     var url = Uri.parse(
-        'http://209.38.239.190/passengers/getpilot?long=${PassengerScreen.des.longitude}&lat=${PassengerScreen.des
-            .latitude}&currLong=${src.longitude}&currLat=${src
-            .latitude}&phone=${HelperVariables.Phone}');
+        'http://209.38.239.190/passengers/getpilot?long=${PassengerScreen.des.longitude}&lat=${PassengerScreen.des.latitude}&currLong=${src.longitude}&currLat=${src.latitude}&phone=${HelperVariables.Phone}');
     var resp = await http.get(url);
-    var data=jsonDecode(resp.body);
+    var data = jsonDecode(resp.body);
     print(data);
     print("yahan tak toh aagya");
-  //Added the setState here which was not there, the risk is it may ctash
+    //Added the setState here which was not there, the risk is it may ctash
     setState(() {
-      waypoint=data['waypoint'];
-
+      waypoint = data['waypoint'];
     });
     print('searchResponse ${resp.body}');
   }
 
   void initailizePassengerWebsocket() async {
-    final channel =
-    WebSocketChannel.connect(
+    final channel = WebSocketChannel.connect(
         Uri.parse('ws://209.38.239.190:3001?phone=${HelperVariables.Phone}'));
     channel.sink.add("Hello From flutter");
     setState(() {
       passengerStream = channel.stream;
     });
-
   }
 
   @override
@@ -344,327 +340,179 @@ class _PassengerScreenState extends State<PassengerScreen> {
       return noInternetScaff();
     } else {
       return WillPopScope(
-      onWillPop: () async {
-        deleteUser(int.parse(HelperVariables.Phone));
-        return true;
-      },
-      child: SafeArea(
-          child: Scaffold(
-            body: currentLocation == null
-                ? const Center(
-                child: CircularProgressIndicator(
+        onWillPop: () async {
+          deleteUser(int.parse(HelperVariables.Phone));
+          return true;
+        },
+        child: SafeArea(
+            child: Scaffold(
+          body: currentLocation == null
+              ? const Center(
+                  child: CircularProgressIndicator(
                   color: Colors.black,
                   strokeWidth: 3.5,
                 ))
-                : SingleChildScrollView(
-              child: Container(
-                height: SizeConfig.safeBlockVertical * 100,
-                width: SizeConfig.safeBlockHorizontal * 100,
-                color: const Color(0xFFDFE1F3),
-                child: Stack(children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 100,
-                        width: SizeConfig.safeBlockHorizontal * 100,
-                        child: GoogleMap(
-                          mapType: MapType.normal,
-                          buildingsEnabled: false,
-                          myLocationEnabled: true,
-                          tiltGesturesEnabled: true,
-                          zoomControlsEnabled: false,
-                          initialCameraPosition: CameraPosition(
-                            target: src,
-                            zoom: 17.5,
-                          ),
-                          polylines: {
-                            Polyline(
-                              polylineId: const PolylineId("route"),
-                              points: polylineCoordinates,
-                              color: Colors.black,
-                              width: 5,
-                            ),
-                          },
-                          markers: {
-                            // Marker(
-                            //   markerId: const MarkerId('source'),
-                            //   position:LatLng(currentLocation!.latitude!,currentLocation!.longitude!),
-                            //   icon: BitmapDescriptor.defaultMarkerWithHue(210),
-                            // ),
-                            // Marker(
-                            //   markerId: const MarkerId('current Location'),
-                            //   position: src,
-                            //   consumeTapEvents: true,
-                            //   // position: LatLng(currentLocation!.latitude!,
-                            //   //     currentLocation!.longitude!),
-                            //   icon: srcIcon,
-                            // ),
-                            Marker(
-                                markerId: const MarkerId('destination'),
-                                position: PassengerScreen.des,
-                                icon: destinationIcon),
-                          },
-                          onMapCreated: (mapController) {
-                            setState(() {
-                              _mapController.complete(mapController);
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: const [
-                            // Container(
-                            //   color: Colors.black,
-                            //   height: SizeConfig.safeBlockVertical * 4.5,
-                            //   width: SizeConfig.safeBlockHorizontal * 25,
-                            //   child: Center(
-                            //       child: Text(
-                            //         '$distance km',
-                            //         style: const TextStyle(
-                            //           fontFamily: 'Nunito Sans',
-                            //           fontWeight: FontWeight.w600,
-                            //           color: Colors.white,
-                            //         ),
-                            //       )),
-                            // ),
-                            // SizedBox(
-                            //   height: SizeConfig.safeBlockVertical * 1,
-                            // ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     sendPassengerLocation();
-                            //   },
-                            //   child: const Material(
-                            //     color: Colors.black,
-                            //     child: Padding(
-                            //       padding: EdgeInsets.all(10.0),
-                            //       child: Text(
-                            //         'Search me a ride',
-                            //         style: TextStyle(
-                            //           fontFamily: 'Nunito Sans',
-                            //           fontWeight: FontWeight.w600,
-                            //           color: Colors.white,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Visibility(
-                    visible: showPlaceSearch,
-                    child: Positioned(
-                      bottom: pickupbottom,
-                      left: pickupleft,
-                      child: InkWell(
-                        onTap: () async {
-                          var place = await PlacesAutocomplete.show(
-                              context: context,
-                              apiKey: map_api_key,
-                              overlayBorderRadius: BorderRadius.circular(25),
-                              logo: Container(
-                                width: SizeConfig.safeBlockHorizontal * 100,
-                                height: SizeConfig.safeBlockVertical * 7,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25)),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      src = LatLng(currentLocation!.latitude!,
-                                          currentLocation!.longitude!);
-                                      Navigator.pop(context);
-                                      //Commented setState here
-                                      // setState(() {
-                                        isSourceChecked = true;
-                                      // });
-                                      print(src);
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                        SizeConfig.safeBlockHorizontal *
-                                            5,
-                                      ),
-                                      const Icon(
-                                        Icons.gps_fixed,
-                                        color: Colors.blue,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                        SizeConfig.safeBlockHorizontal *
-                                            5,
-                                      ),
-                                      const Text(
-                                        'Use current location',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'Nunito Sans',
-                                            fontSize: 16.5),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+              : SingleChildScrollView(
+                  child: Container(
+                    height: SizeConfig.safeBlockVertical * 100,
+                    width: SizeConfig.safeBlockHorizontal * 100,
+                    color: const Color(0xFFDFE1F3),
+                    child: Stack(children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical * 100,
+                            width: SizeConfig.safeBlockHorizontal * 100,
+                            child: GoogleMap(
+                              mapType: MapType.normal,
+                              buildingsEnabled: false,
+                              myLocationEnabled: true,
+                              tiltGesturesEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: CameraPosition(
+                                target: src,
+                                zoom: 17.5,
                               ),
-                              decoration: const InputDecoration(
-                                  counterStyle:
-                                  TextStyle(fontWeight: FontWeight.w900)),
-                              mode: Mode.overlay,
-                              types: [],
-                              strictbounds: false,
-                              radius: 50,
-                              components: [
-                                gmws.Component(
-                                  gmws.Component.country,
-                                  'in',
+                              polylines: {
+                                Polyline(
+                                  polylineId: const PolylineId("route"),
+                                  points: polylineCoordinates,
+                                  color: Colors.black,
+                                  width: 5,
                                 ),
+                              },
+                              markers: {
+                                // Marker(
+                                //   markerId: const MarkerId('source'),
+                                //   position:LatLng(currentLocation!.latitude!,currentLocation!.longitude!),
+                                //   icon: BitmapDescriptor.defaultMarkerWithHue(210),
+                                // ),
+                                // Marker(
+                                //   markerId: const MarkerId('current Location'),
+                                //   position: src,
+                                //   consumeTapEvents: true,
+                                //   // position: LatLng(currentLocation!.latitude!,
+                                //   //     currentLocation!.longitude!),
+                                //   icon: srcIcon,
+                                // ),
+                                Marker(
+                                    markerId: const MarkerId('destination'),
+                                    position: PassengerScreen.des,
+                                    icon: destinationIcon),
+                              },
+                              onMapCreated: (mapController) {
+                                setState(() {
+                                  _mapController.complete(mapController);
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            child: Column(
+                              children: const [
+                                // Container(
+                                //   color: Colors.black,
+                                //   height: SizeConfig.safeBlockVertical * 4.5,
+                                //   width: SizeConfig.safeBlockHorizontal * 25,
+                                //   child: Center(
+                                //       child: Text(
+                                //         '$distance km',
+                                //         style: const TextStyle(
+                                //           fontFamily: 'Nunito Sans',
+                                //           fontWeight: FontWeight.w600,
+                                //           color: Colors.white,
+                                //         ),
+                                //       )),
+                                // ),
+                                // SizedBox(
+                                //   height: SizeConfig.safeBlockVertical * 1,
+                                // ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     sendPassengerLocation();
+                                //   },
+                                //   child: const Material(
+                                //     color: Colors.black,
+                                //     child: Padding(
+                                //       padding: EdgeInsets.all(10.0),
+                                //       child: Text(
+                                //         'Search me a ride',
+                                //         style: TextStyle(
+                                //           fontFamily: 'Nunito Sans',
+                                //           fontWeight: FontWeight.w600,
+                                //           color: Colors.white,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
-                              onError: (err) {
-                                print(err);
-                              });
-                          if (place != null) {
-                            setState(() {
-                              searchLocation = place.description.toString();
-                              setState(() {
-                                isSourceChecked = true;
-                              });
-                            });
-                            final plist = gmws.GoogleMapsPlaces(
-                              apiKey: map_api_key,
-                              apiHeaders:
-                              await const GoogleApiHeaders().getHeaders(),
-                            );
-                            String placeId = place.placeId ?? "0";
-                            print(placeId);
-                            final detail =
-                            await plist.getDetailsByPlaceId(placeId);
-                            final geometry = detail.result.geometry!;
-                            final lat = geometry.location.lat;
-                            final long = geometry.location.lng;
-                            setState(() {
-                              src = LatLng(lat, long);
-                              polylineCoordinates.clear();
-                              googleMapController!.animateCamera(
-                                  CameraUpdate.newCameraPosition(
-                                      CameraPosition(
-                                          bearing: 45,
-                                          zoom: 17.5,
-                                          tilt: 1.2,
-                                          target: src)));
-                            });
-                          }
-                        },
-                        child: destWidgetCheck
-                            ? Center(
-                          child: SizedBox(
-                              height: SizeConfig.safeBlockVertical * 7,
-                              width:
-                              SizeConfig.safeBlockHorizontal * 14,
-                              child: Card(
-                                color: Colors.black.withOpacity(1),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(25)),
-                                elevation: 5,
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.edit_location_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )),
-                        )
-                            : Container(
-                          margin: EdgeInsets.only(
-                              top: SizeConfig.safeBlockVertical * 2),
-                          width: SizeConfig.safeBlockHorizontal * 75,
-                          height: SizeConfig.safeBlockVertical * 7.5,
-                          child: Card(
-                            color: Colors.black.withOpacity(1),
-                            elevation: 5,
-                            child: const Center(
-                              child: Text(
-                                'Pick up location',
-                                style: TextStyle(
-                                  fontFamily: 'Nunito Sans',
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                ),
-                              ),
                             ),
-                            // child: TextFormField(
-                            //   controller: _destinationController,
-                            //   // textAlign: TextAlign.center,
-                            //   style: const TextStyle(
-                            //       fontFamily: 'Nunito Sans',
-                            //       fontWeight: FontWeight.w600,
-                            //       fontSize: 17),
-                            //   decoration: const InputDecoration(
-                            //     prefixText: '  ',
-                            //     hintText: 'Enter your destination',
-                            //     // hintStyle: TextStyle(),
-                            //     border: InputBorder.none,
-                            //   ),
-                            // ),
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                  ),
-                  // Container(
-                  //   margin: EdgeInsets.fromLTRB(
-                  //       SizeConfig.safeBlockHorizontal * 60.0, 0, 0, 0),
-                  //   height: SizeConfig.safeBlockVertical * 6,
-                  //   width: SizeConfig.safeBlockHorizontal * 30,
-                  //   child: Card(
-                  //       elevation: 3.5,
-                  //       child: Material(
-                  //         child: InkWell(
-                  //           onTap: () {},
-                  //           splashColor: Colors.blue,
-                  //           child: const Center(
-                  //               child: Text(
-                  //             'GO',
-                  //             style: TextStyle(
-                  //                 fontFamily: 'Nunito Sans',
-                  //                 fontWeight: FontWeight.w600,
-                  //                 fontSize: 17),
-                  //           )),
-                  //         ),
-                  //       )),
-                  // ),
-
-                  // Dotted(),
-                  // Dotted(),
-                  // Dotted(),
-                  Visibility(
-                    visible: showPlaceSearch,
-                    child: Positioned(
-                      bottom: dropbottom,
-                      left: dropleft,
-                      child: InkWell(
-                          onTap: () async {
-                            if (isSourceChecked == false) {
-                              _SourceError();
-                            } else {
+                      Visibility(
+                        visible: showPlaceSearch,
+                        child: Positioned(
+                          bottom: pickupbottom,
+                          left: pickupleft,
+                          child: InkWell(
+                            onTap: () async {
                               var place = await PlacesAutocomplete.show(
                                   context: context,
                                   apiKey: map_api_key,
                                   overlayBorderRadius:
-                                  BorderRadius.circular(25),
+                                      BorderRadius.circular(25),
                                   logo: Container(
-                                    width:
-                                    SizeConfig.safeBlockHorizontal * 100,
+                                    width: SizeConfig.safeBlockHorizontal * 100,
                                     height: SizeConfig.safeBlockVertical * 7,
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                        BorderRadius.circular(25)),
+                                            BorderRadius.circular(25)),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          src = LatLng(
+                                              currentLocation!.latitude!,
+                                              currentLocation!.longitude!);
+                                          Navigator.pop(context);
+                                          //Commented setState here
+                                          // setState(() {
+                                          isSourceChecked = true;
+                                          // });
+                                          print(src);
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width:
+                                                SizeConfig.safeBlockHorizontal *
+                                                    5,
+                                          ),
+                                          const Icon(
+                                            Icons.gps_fixed,
+                                            color: Colors.blue,
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                SizeConfig.safeBlockHorizontal *
+                                                    5,
+                                          ),
+                                          const Text(
+                                            'Use current location',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito Sans',
+                                                fontSize: 16.5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
+                                  decoration: const InputDecoration(
+                                      counterStyle: TextStyle(
+                                          fontWeight: FontWeight.w900)),
                                   mode: Mode.overlay,
                                   types: [],
                                   strictbounds: false,
@@ -680,8 +528,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                   });
                               if (place != null) {
                                 setState(() {
-                                  searchLocation =
-                                      place.description.toString();
+                                  searchLocation = place.description.toString();
+                                  setState(() {
+                                    isSourceChecked = true;
+                                  });
                                 });
                                 final plist = gmws.GoogleMapsPlaces(
                                   apiKey: map_api_key,
@@ -689,151 +539,301 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                       .getHeaders(),
                                 );
                                 String placeId = place.placeId ?? "0";
-
+                                print(placeId);
                                 final detail =
-                                await plist.getDetailsByPlaceId(placeId);
+                                    await plist.getDetailsByPlaceId(placeId);
                                 final geometry = detail.result.geometry!;
                                 final lat = geometry.location.lat;
                                 final long = geometry.location.lng;
-                                var newLatLng = LatLng(lat, long);
                                 setState(() {
-                                  PassengerScreen.des = LatLng(lat, long);
-                                });
-                                googleMapController?.animateCamera(
-                                    CameraUpdate.newCameraPosition(
-                                        CameraPosition(
-                                            target: newLatLng, zoom: 17.5)));
-                                polylineCoordinates.clear();
-                                getPolyPoints(PassengerScreen.des.latitude, PassengerScreen.des.longitude);
-                                polyCheck = true;
-                                destWidgetCheck = true;
-                                setState(() {
-                                  pickupbottom =
-                                      SizeConfig.safeBlockVertical * 90;
-                                  pickupleft =
-                                      SizeConfig.safeBlockHorizontal * 85;
-                                  dropbottom =
-                                      SizeConfig.safeBlockVertical * 80;
-                                  dropleft =
-                                      SizeConfig.safeBlockHorizontal * 85;
-                                  isDestandSrcSet = true;
+                                  src = LatLng(lat, long);
+                                  polylineCoordinates.clear();
+                                  googleMapController!.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                              bearing: 45,
+                                              zoom: 17.5,
+                                              tilt: 1.2,
+                                              target: src)));
                                 });
                               }
-                            }
-                          },
-                          child: destWidgetCheck
-                              ? Center(
+                            },
+                            child: destWidgetCheck
+                                ? Center(
+                                    child: SizedBox(
+                                        height:
+                                            SizeConfig.safeBlockVertical * 7,
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 14,
+                                        child: Card(
+                                          color: Colors.black.withOpacity(1),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25)),
+                                          elevation: 5,
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.edit_location_outlined,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.safeBlockVertical * 2),
+                                    width: SizeConfig.safeBlockHorizontal * 75,
+                                    height: SizeConfig.safeBlockVertical * 7.5,
+                                    child: Card(
+                                      color: Colors.black.withOpacity(1),
+                                      elevation: 5,
+                                      child: const Center(
+                                        child: Text(
+                                          'Pick up location',
+                                          style: TextStyle(
+                                            fontFamily: 'Nunito Sans',
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      // child: TextFormField(
+                                      //   controller: _destinationController,
+                                      //   // textAlign: TextAlign.center,
+                                      //   style: const TextStyle(
+                                      //       fontFamily: 'Nunito Sans',
+                                      //       fontWeight: FontWeight.w600,
+                                      //       fontSize: 17),
+                                      //   decoration: const InputDecoration(
+                                      //     prefixText: '  ',
+                                      //     hintText: 'Enter your destination',
+                                      //     // hintStyle: TextStyle(),
+                                      //     border: InputBorder.none,
+                                      //   ),
+                                      // ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //   margin: EdgeInsets.fromLTRB(
+                      //       SizeConfig.safeBlockHorizontal * 60.0, 0, 0, 0),
+                      //   height: SizeConfig.safeBlockVertical * 6,
+                      //   width: SizeConfig.safeBlockHorizontal * 30,
+                      //   child: Card(
+                      //       elevation: 3.5,
+                      //       child: Material(
+                      //         child: InkWell(
+                      //           onTap: () {},
+                      //           splashColor: Colors.blue,
+                      //           child: const Center(
+                      //               child: Text(
+                      //             'GO',
+                      //             style: TextStyle(
+                      //                 fontFamily: 'Nunito Sans',
+                      //                 fontWeight: FontWeight.w600,
+                      //                 fontSize: 17),
+                      //           )),
+                      //         ),
+                      //       )),
+                      // ),
+
+                      // Dotted(),
+                      // Dotted(),
+                      // Dotted(),
+                      Visibility(
+                        visible: showPlaceSearch,
+                        child: Positioned(
+                          bottom: dropbottom,
+                          left: dropleft,
+                          child: InkWell(
+                              onTap: () async {
+                                if (isSourceChecked == false) {
+                                  _SourceError();
+                                } else {
+                                  var place = await PlacesAutocomplete.show(
+                                      context: context,
+                                      apiKey: map_api_key,
+                                      overlayBorderRadius:
+                                          BorderRadius.circular(25),
+                                      logo: Container(
+                                        width: SizeConfig.safeBlockHorizontal *
+                                            100,
+                                        height:
+                                            SizeConfig.safeBlockVertical * 7,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25)),
+                                      ),
+                                      mode: Mode.overlay,
+                                      types: [],
+                                      strictbounds: false,
+                                      radius: 50,
+                                      components: [
+                                        gmws.Component(
+                                          gmws.Component.country,
+                                          'in',
+                                        ),
+                                      ],
+                                      onError: (err) {
+                                        print(err);
+                                      });
+                                  if (place != null) {
+                                    setState(() {
+                                      searchLocation =
+                                          place.description.toString();
+                                    });
+                                    final plist = gmws.GoogleMapsPlaces(
+                                      apiKey: map_api_key,
+                                      apiHeaders: await const GoogleApiHeaders()
+                                          .getHeaders(),
+                                    );
+                                    String placeId = place.placeId ?? "0";
+
+                                    final detail = await plist
+                                        .getDetailsByPlaceId(placeId);
+                                    final geometry = detail.result.geometry!;
+                                    final lat = geometry.location.lat;
+                                    final long = geometry.location.lng;
+                                    var newLatLng = LatLng(lat, long);
+                                    setState(() {
+                                      PassengerScreen.des = LatLng(lat, long);
+                                    });
+                                    googleMapController?.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                            CameraPosition(
+                                                target: newLatLng,
+                                                zoom: 17.5)));
+                                    polylineCoordinates.clear();
+                                    getPolyPoints(PassengerScreen.des.latitude,
+                                        PassengerScreen.des.longitude);
+                                    polyCheck = true;
+                                    destWidgetCheck = true;
+                                    setState(() {
+                                      pickupbottom =
+                                          SizeConfig.safeBlockVertical * 90;
+                                      pickupleft =
+                                          SizeConfig.safeBlockHorizontal * 85;
+                                      dropbottom =
+                                          SizeConfig.safeBlockVertical * 80;
+                                      dropleft =
+                                          SizeConfig.safeBlockHorizontal * 85;
+                                      isDestandSrcSet = true;
+                                    });
+                                  }
+                                }
+                              },
+                              child: destWidgetCheck
+                                  ? Center(
+                                      child: SizedBox(
+                                          height:
+                                              SizeConfig.safeBlockVertical * 7,
+                                          width:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  14,
+                                          child: Card(
+                                            color: Colors.black.withOpacity(1),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25)),
+                                            elevation: 5,
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.edit_location_outlined,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )),
+                                    )
+                                  : SizedBox(
+                                      height: SizeConfig.safeBlockVertical * 7,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 75,
+                                      child: Card(
+                                          color: Colors.black.withOpacity(1),
+                                          elevation: 5,
+                                          child: const Center(
+                                            child: Text(
+                                              'Destination',
+                                              style: TextStyle(
+                                                fontFamily: 'Nunito Sans',
+                                                fontWeight: FontWeight.w900,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )),
+                                    )),
+                        ),
+                      ),
+                      Visibility(
+                        visible: isDestandSrcSet,
+                        child: Positioned(
+                            bottom: SizeConfig.safeBlockVertical * 2,
+                            left: SizeConfig.safeBlockHorizontal * 9,
                             child: SizedBox(
-                                height:
-                                SizeConfig.safeBlockVertical * 7,
-                                width:
-                                SizeConfig.safeBlockHorizontal * 14,
-                                child: Card(
+                              height: SizeConfig.safeBlockVertical * 7,
+                              width: SizeConfig.safeBlockHorizontal * 70,
+                              child: Card(
                                   color: Colors.black.withOpacity(1),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(25)),
                                   elevation: 5,
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.edit_location_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )),
-                          )
-                              : SizedBox(
-                            height: SizeConfig.safeBlockVertical * 7,
-                            width: SizeConfig.safeBlockHorizontal * 75,
-                            child: Card(
-                                color: Colors.black.withOpacity(1),
-                                elevation: 5,
-                                child: const Center(
-                                  child: Text(
-                                    'Destination',
-                                    style: TextStyle(
-                                      fontFamily: 'Nunito Sans',
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )),
-                          )),
-                    ),
-                  ),
-                  Visibility(
-                    visible: isDestandSrcSet,
-                    child: Positioned(
-                        bottom: SizeConfig.safeBlockVertical * 2,
-                        left: SizeConfig.safeBlockHorizontal * 9,
-                        child: SizedBox(
-                          height: SizeConfig.safeBlockVertical * 7,
-                          width: SizeConfig.safeBlockHorizontal * 70,
-                          child: Card(
-                              color: Colors.black.withOpacity(1),
-                              elevation: 5,
-                              child: InkWell(
-                                onTap: () {
-                                  showWaitingTimeDialog();
-                                  sendPassengerLocation();
-                                  // initailizePassengerWebsocket();
-                                  setState(() {
-                                    isSentOnce = true;
-                                    showPlaceSearch = false;
-                                  });
-                                },
-                                child: const Material(
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Text(
-                                      'Search me a ride',
-                                      style: TextStyle(
-                                        fontFamily: 'Nunito Sans',
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {
+                                      showWaitingTimeDialog();
+                                      sendPassengerLocation();
+                                      // initailizePassengerWebsocket();
+                                      setState(() {
+                                        isSentOnce = true;
+                                        showPlaceSearch = false;
+                                      });
+                                    },
+                                    child: const Material(
+                                      color: Colors.transparent,
+                                      child: Center(
+                                        child: Text(
+                                          'Search me a ride',
+                                          style: TextStyle(
+                                            fontFamily: 'Nunito Sans',
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              )),
-                        )),
-                  ),
-                  Positioned(
-                      child: StreamBuilder(
+                                  )),
+                            )),
+                      ),
+                      Positioned(
+                          child: StreamBuilder(
                         stream: passengerStream,
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
                           if (snapshot.hasData) {
-
                             var response = jsonDecode(snapshot.data);
 
                             if (response['passenger'] ==
                                 int.parse(HelperVariables.Phone)) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 deleteUser(int.parse(HelperVariables.Phone));
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                            return PassengerTrip(
-                                                phone: response['pilot'],
-                                                waypoint:waypoint,
-                                                destiname:searchLocation
-                                            );
-                                          }),(route)=>false);
-
-
-                                });
-
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                  return PassengerTrip(
+                                      phone: response['pilot'],
+                                      waypoint: waypoint,
+                                      destiname: searchLocation);
+                                }), (route) => false);
+                              });
                             }
                           }
                           return const SizedBox.shrink();
                         },
                       ))
-                ]),
-              ),
-            ),
-          )),
-    );
+                    ]),
+                  ),
+                ),
+        )),
+      );
     }
   }
 
@@ -978,7 +978,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 5,
           content: SizedBox(
               height: SizeConfig.safeBlockVertical * 8,

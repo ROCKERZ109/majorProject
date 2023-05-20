@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CrossFeedbackDialog  {
-  void postFeedback({int?phone,String? other,String?role, String? starRating, String? experienceRating, String? customFeedback,String? destination}) async {
+  void postFeedback({int?phone,String? other,String?role, String? starRating, String? experienceRating, String? customFeedback,String? destination,String? paid}) async {
     var response = await http.post(
       Uri.parse("http://209.38.239.190/feedback/crossFeedback"),
       body: jsonEncode({
@@ -13,6 +13,7 @@ class CrossFeedbackDialog  {
           "with": other,
           "destination":destination,
           "riderStatus": role,
+          "paid":paid,
           "starRating": starRating.toString(),
           "experienceRating": experienceRating.toString(),
           "customFeedback": customFeedback
