@@ -189,7 +189,8 @@ class _PilotTripState extends State<PilotTrip> {
         setState(() {
           showOTPs = true;
         });
-      } else if (end <= 0.075 && checkEnd == 0) {
+        // added &&ridesarted
+      } else if (end <= 0.075 && checkEnd == 0 && rideStarted) {
         postFunc();
         _EndDialog();
         checkEnd = 1;
@@ -289,47 +290,46 @@ class _PilotTripState extends State<PilotTrip> {
                     padding: const EdgeInsets.all(10),
                     child: Center(
                         child: RatingBar.builder(
-                          glow: false,
-                          unratedColor: Colors.grey,
-
-                          initialRating: 3,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return const Icon(
-                                  Icons.sentiment_very_dissatisfied,
-                                  color: Colors.red,
-                                );
-                              case 1:
-                                return const Icon(
-                                  Icons.sentiment_dissatisfied,
-                                  color: Colors.redAccent,
-                                );
-                              case 2:
-                                return const Icon(
-                                  Icons.sentiment_neutral,
-                                  color: Colors.amber,
-                                );
-                              case 3:
-                                return const Icon(
-                                  Icons.sentiment_satisfied,
-                                  color: Colors.lightGreen,
-                                );
-                              case 4:
-                                return const Icon(
-                                  Icons.sentiment_very_satisfied,
-                                  color: Colors.green,
-                                );
-                              default:
-                                return const Icon(Icons.close);
-                            }
-                          },
-                          onRatingUpdate: (rating) {
-                            experienceRating = rating;
-                            // print("Experience Rating is: $experienceRating");
-                          },
-                        ))),
+                      glow: false,
+                      unratedColor: Colors.grey,
+                      initialRating: 3,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        switch (index) {
+                          case 0:
+                            return const Icon(
+                              Icons.sentiment_very_dissatisfied,
+                              color: Colors.red,
+                            );
+                          case 1:
+                            return const Icon(
+                              Icons.sentiment_dissatisfied,
+                              color: Colors.redAccent,
+                            );
+                          case 2:
+                            return const Icon(
+                              Icons.sentiment_neutral,
+                              color: Colors.amber,
+                            );
+                          case 3:
+                            return const Icon(
+                              Icons.sentiment_satisfied,
+                              color: Colors.lightGreen,
+                            );
+                          case 4:
+                            return const Icon(
+                              Icons.sentiment_very_satisfied,
+                              color: Colors.green,
+                            );
+                          default:
+                            return const Icon(Icons.close);
+                        }
+                      },
+                      onRatingUpdate: (rating) {
+                        experienceRating = rating;
+                        // print("Experience Rating is: $experienceRating");
+                      },
+                    ))),
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 2,
                 ),
@@ -453,7 +453,8 @@ class _PilotTripState extends State<PilotTrip> {
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context).pushNamedAndRemoveUntil(firstpage.id, (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            firstpage.id, (route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -623,7 +624,8 @@ class _PilotTripState extends State<PilotTrip> {
                         'to': HelperVariables.otherPhone,
                         'location': "cancel"
                       }));
-                      Navigator.of(context).pushReplacementNamed(firstpage.id);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, firstpage.id, (route) => false);
                     },
                     child: Center(
                       child: SizedBox(
@@ -775,7 +777,7 @@ class _PilotTripState extends State<PilotTrip> {
 
   var checkOnce = 0;
   var checkEnd = 0;
-  var endVal=0;
+  var endVal = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -807,16 +809,25 @@ class _PilotTripState extends State<PilotTrip> {
                                   _showMyDialog();
                                   Future.delayed(const Duration(seconds: 2),
                                       () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(firstpage.id);
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        firstpage.id, (route) => false);
                                   });
 
                                   channel!.sink.close();
                                   checkOnce = 1;
-                                } else if (val == 'end' && endVal==0) {
+                                } else if (val == 'end' && endVal == 0) {
                                   channel!.sink.close();
-                                  Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_)=>CrossFeedback(role: 'pilot',phone:HelperVariables.otherPhone.toString(),)), (route) => false);
-                                   endVal=1;
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => CrossFeedback(
+                                                role: 'pilot',
+                                                phone: HelperVariables
+                                                    .otherPhone
+                                                    .toString(),
+                                              )),
+                                      (route) => false);
+                                  endVal = 1;
                                 } else {
                                   data[0] = val[0];
                                   data[1] = val[1];

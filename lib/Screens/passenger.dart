@@ -239,12 +239,12 @@ class _PassengerScreenState extends State<PassengerScreen> {
     // var geohasher = GeoHasher();
     // var destination = geohasher.encode(des.longitude, des.latitude, precision: 6);
     Uri url;
-    if (!isSentOnce) {
-      url = Uri.parse('http://209.38.239.190/passengers/pushNewUser');
-    } else {
-      url = Uri.parse('http://209.38.239.190/passengers/updateUser');
-    }
-
+    // if (!isSentOnce) {
+    //   url = Uri.parse('http://209.38.239.190/passengers/pushNewUser');
+    // } else {
+    //   url = Uri.parse('http://209.38.239.190/passengers/updateUser');
+    // }
+    url = Uri.parse('http://209.38.239.190/passengers/pushNewUser');
     Map<String, String> header = {
       'Content-Type': 'application/json',
     };
@@ -257,9 +257,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
       "dest": PassengerScreen.des,
       "destination": searchLocation,
     });
-    var response = await (isSentOnce
-        ? http.put(url, body: msg, headers: header)
-        : http.post(url, body: msg, headers: header));
+    var response = await
+        //  (isSentOnce
+        //     ? http.put(url, body: msg, headers: header)
+        http.post(url, body: msg, headers: header);
     searchPilot();
     print(response.body);
   }

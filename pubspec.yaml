@@ -48,7 +48,6 @@ dependencies:
   provider: ^6.0.5
   dart_geohash: ^2.0.2
   firebase_core: 2.8.0
-  firebase_core_platform_interface: 4.6.0
   firebase_auth: 4.3.0
   pinput: ^2.2.31
   email_validator: ^2.1.16
