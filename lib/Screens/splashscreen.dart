@@ -25,8 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
     getValidation().whenComplete(() async {
       Timer(
           const Duration(seconds: 2),
-          () => Get.to(() =>
-              finalPhone == null ? const PhoneAuth() : const firstpage()));
+          () => Navigator.pushReplacement(
+              (context),
+              MaterialPageRoute(
+                  builder: (context) => finalPhone == null
+                      ? const PhoneAuth()
+                      : const firstpage())));
     });
 
     // TODO: implement initState

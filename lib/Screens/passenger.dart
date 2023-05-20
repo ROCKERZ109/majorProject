@@ -13,6 +13,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:veloce/Screens/passengertripscreen.dart';
+import 'package:veloce/Profile/first.dart';
 import 'package:veloce/sizeConfig.dart';
 import 'package:dart_geohash/dart_geohash.dart';
 
@@ -341,8 +342,84 @@ class _PassengerScreenState extends State<PassengerScreen> {
     } else {
       return WillPopScope(
         onWillPop: () async {
-          deleteUser(int.parse(HelperVariables.Phone));
-          return true;
+          final shouldPop = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  backgroundColor: Color.fromARGB(255, 227, 227, 227),
+                  title: const Text(
+                    "are you sure you want to go back?",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  insetPadding: EdgeInsets.all(SizeConfig.safeBlockVertical),
+                  titlePadding: EdgeInsets.symmetric(
+                      vertical: SizeConfig.safeBlockVertical * 2,
+                      horizontal: SizeConfig.safeBlockHorizontal * 5),
+                  actions: <Widget>[
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.safeBlockVertical * 5,
+                              bottom: SizeConfig.safeBlockVertical * 1),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              deleteUser(int.parse(HelperVariables.Phone));
+                              Navigator.of(context).pushReplacementNamed(
+                                  firstpage.id,
+                                  result: true);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            child: const Text(
+                              "Yes",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'NunitoSans',
+                                  fontSize: 15),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.safeBlockVertical * 10,
+                              bottom: SizeConfig.safeBlockVertical * 1),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  splashFactory: NoSplash.splashFactory,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 227, 227, 227),
+                                  side: BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  )),
+                              child: const Text(
+                                "No",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'NunitoSans',
+                                    fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              });
+          return shouldPop!;
         },
         child: SafeArea(
             child: Scaffold(
@@ -564,17 +641,30 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                         height:
                                             SizeConfig.safeBlockVertical * 7,
                                         width:
-                                            SizeConfig.safeBlockHorizontal * 14,
+                                            SizeConfig.safeBlockHorizontal * 25,
                                         child: Card(
                                           color: Colors.black.withOpacity(1),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(25)),
                                           elevation: 5,
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.edit_location_outlined,
-                                              color: Colors.white,
+                                          child: Center(
+                                            child: Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.edit_location_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                  "Pick up",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Nunito Sans',
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      color: Colors.white,
+                                                      fontSize: 11),
+                                                )
+                                              ],
                                             ),
                                           ),
                                         )),
@@ -712,13 +802,13 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     destWidgetCheck = true;
                                     setState(() {
                                       pickupbottom =
-                                          SizeConfig.safeBlockVertical * 90;
+                                          SizeConfig.safeBlockVertical * 85;
                                       pickupleft =
-                                          SizeConfig.safeBlockHorizontal * 85;
+                                          SizeConfig.safeBlockHorizontal * 75;
                                       dropbottom =
-                                          SizeConfig.safeBlockVertical * 80;
+                                          SizeConfig.safeBlockVertical * 77;
                                       dropleft =
-                                          SizeConfig.safeBlockHorizontal * 85;
+                                          SizeConfig.safeBlockHorizontal * 75;
                                       isDestandSrcSet = true;
                                     });
                                   }
@@ -731,17 +821,32 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                               SizeConfig.safeBlockVertical * 7,
                                           width:
                                               SizeConfig.safeBlockHorizontal *
-                                                  14,
+                                                  25,
                                           child: Card(
                                             color: Colors.black.withOpacity(1),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(25)),
                                             elevation: 5,
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.edit_location_outlined,
-                                                color: Colors.white,
+                                            child: Center(
+                                              child: Row(
+                                                children: const [
+                                                  Icon(
+                                                    Icons
+                                                        .edit_location_outlined,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                    "Destination",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Nunito Sans',
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        color: Colors.white,
+                                                        fontSize: 11),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           )),
@@ -861,7 +966,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
                       elevation: 3,
                       backgroundColor: const Color.fromARGB(255, 172, 172, 172),
                       onPressed: () {
+                        setState(() {
+                          showPlaceSearch = true;
+                        });
                         waitingTime!.cancel();
+                        deleteUser(int.parse(HelperVariables.Phone));
                         Navigator.of(context).pop();
                       },
                       child: Icon(

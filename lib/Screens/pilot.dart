@@ -15,6 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:veloce/Helper/HelperVariables.dart';
 import 'package:veloce/Consts/constants.dart';
+import 'package:veloce/Profile/first.dart';
 import 'package:google_maps_webservice/places.dart' as gmws;
 import 'dart:math';
 import 'package:http/http.dart' as http;
@@ -427,8 +428,85 @@ class _PilotScreenState extends State<PilotScreen> {
           create: (BuildContext context) => GetModel(),
           child: WillPopScope(
             onWillPop: () async {
-              deleteUser(int.parse(HelperVariables.Phone));
-              return true;
+              final shouldPop = await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      backgroundColor: Color.fromARGB(255, 227, 227, 227),
+                      title: const Text(
+                        "are you sure you want to go back?",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      insetPadding:
+                          EdgeInsets.all(SizeConfig.safeBlockVertical),
+                      titlePadding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.safeBlockVertical * 2,
+                          horizontal: SizeConfig.safeBlockHorizontal * 5),
+                      actions: <Widget>[
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig.safeBlockVertical * 5,
+                                  bottom: SizeConfig.safeBlockVertical * 1),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  deleteUser(int.parse(HelperVariables.Phone));
+                                  Navigator.of(context).pushReplacementNamed(
+                                      firstpage.id,
+                                      result: true);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  splashFactory: NoSplash.splashFactory,
+                                ),
+                                child: const Text(
+                                  "Yes",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NunitoSans',
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig.safeBlockVertical * 10,
+                                  bottom: SizeConfig.safeBlockVertical * 1),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      splashFactory: NoSplash.splashFactory,
+                                      backgroundColor:
+                                          Color.fromARGB(255, 227, 227, 227),
+                                      side: BorderSide(
+                                        color: Colors.black,
+                                        width: 2,
+                                      )),
+                                  child: const Text(
+                                    "No",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'NunitoSans',
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  });
+              return shouldPop!;
             },
             child: SafeArea(
                 child: Scaffold(

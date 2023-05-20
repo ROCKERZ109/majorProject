@@ -126,6 +126,8 @@ class _firstpageState extends State<firstpage> {
     super.initState();
   }
 
+  var ctime;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -134,7 +136,17 @@ class _firstpageState extends State<firstpage> {
       return noInternetScaff();
     } else {
       return WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async {
+          DateTime now = DateTime.now();
+          if (ctime == null || now.difference(ctime) > Duration(seconds: 2)) {
+            //add duration of press gap
+            ctime = now;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('Press Back Button Again to Exit')));
+            return false;
+          }
+          return true;
+        },
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
