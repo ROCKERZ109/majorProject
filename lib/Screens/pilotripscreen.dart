@@ -16,6 +16,7 @@ import 'package:veloce/sizeConfig.dart';
 import 'package:http/http.dart' as http;
 import '../Consts/constants.dart';
 import '../Helper/HelperVariables.dart';
+import '../Testing/pro.dart';
 import '../api_otp_methods.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
@@ -288,6 +289,7 @@ class _PilotTripState extends State<PilotTrip> {
                         child: RatingBar.builder(
                           glow: false,
                           unratedColor: Colors.grey,
+
                           initialRating: 3,
                           itemCount: 5,
                           itemBuilder: (context, index) {
@@ -447,8 +449,7 @@ class _PilotTripState extends State<PilotTrip> {
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context)
-                            .pushReplacementNamed(firstpage.id);
+                        Navigator.of(context).pushNamedAndRemoveUntil(firstpage.id, (route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -774,6 +775,7 @@ class _PilotTripState extends State<PilotTrip> {
 
   var checkOnce = 0;
   var checkEnd = 0;
+  var endVal=0;
 
   @override
   Widget build(BuildContext context) {
@@ -810,9 +812,10 @@ class _PilotTripState extends State<PilotTrip> {
 
                                   channel!.sink.close();
                                   checkOnce = 1;
-                                } else if (val == 'end') {
-                                  _FeedbackDialog();
-
+                                } else if (val == 'end' && endVal==0) {
+                                  channel!.sink.close();
+                                  Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_)=>CrossFeedback(role: 'pilot',phone:HelperVariables.otherPhone.toString(),)), (route) => false);
+                                   endVal=1;
                                 } else {
                                   data[0] = val[0];
                                   data[1] = val[1];

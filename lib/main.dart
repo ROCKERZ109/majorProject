@@ -1,4 +1,5 @@
 import 'package:veloce/Profile/first.dart';
+import 'package:veloce/Testing/pro.dart';
 
 import 'Service/network_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -139,6 +140,7 @@ class MyApp extends StatelessWidget {
         // NotificationPage.id: (_) => const NotificationPage(),
         PassengerTrip.id: (_) => const PassengerTrip(),
         PilotTrip.id: (_) => const PilotTrip(),
+        CrossFeedback.id: (_) =>  CrossFeedback(role: 'pilot',),
         firstpage.id:(_) => const firstpage()
 
         // List.id: (_) => const List(),
