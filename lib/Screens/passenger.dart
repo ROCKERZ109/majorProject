@@ -30,6 +30,7 @@ double distance = 0;
 class PassengerScreen extends StatefulWidget {
   static var id = 'PassengerScreen';
   static LatLng des = const LatLng(-30.2968691, -30.2968691);
+
   const PassengerScreen({Key? key}) : super(key: key);
 
   //API key: AIzaSyCScR-fqEvQ3t_tQtnX_nVo7Ir1e5AzhNQ
@@ -74,6 +75,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
   var LatLngIterator;
   bool isSentOnce = false;
   bool showPlaceSearch = true;
+
 //moved the des variable from dowanwards to upwards
   Timer? waitingTime;
 
@@ -133,6 +135,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
   }
 
   var waypoint;
+
   void getLocation() async {
     Location location = Location();
 

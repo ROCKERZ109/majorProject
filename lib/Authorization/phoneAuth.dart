@@ -79,12 +79,16 @@ class _PhoneAuthState extends State<PhoneAuth> {
           print("Here I have entered!");
           print(credential.smsCode);
         },
-        verificationFailed: (FirebaseAuthException e) {},
+        verificationFailed: (FirebaseAuthException e) {
+          print(e);
+        },
         codeSent: (String verificationId, int? resendToken) {
           PhoneAuth.verify = verificationId;
           Navigator.pushNamed(context, OtpValidation.id);
         },
-        codeAutoRetrievalTimeout: (String verificationId) {},
+        codeAutoRetrievalTimeout: (String verificationId) {
+          print(verificationId);
+        },
       );
     }
   }

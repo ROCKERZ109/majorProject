@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Profile/first.dart';
 import 'package:veloce/Screens/passenger.dart';
+import 'package:veloce/Testing/pro.dart';
 import 'package:veloce/passenger_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
@@ -280,8 +281,15 @@ class _PassengerTripState extends State<PassengerTrip> {
           otp: x,
           pilot: widget.phone!,
           passenger: int.parse(HelperVariables.Phone));
-
-      _FeedbackDialog();
+      channel!.sink.close();
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) {
+        return CrossFeedback(
+          role: 'Passenger',
+          phone: widget.phone.toString(),
+          destination: widget.destiname,
+        );
+      }), (route) => false);
       // Navigator.pushNamedAndRemoveUntil(
       //     context, Options.id,(route)=>false);
     } else if (apiResponse.body == "false") {
@@ -532,8 +540,10 @@ class _PassengerTripState extends State<PassengerTrip> {
                             duration: Duration(seconds: 3),
                           ),
                         );
-                        Navigator.of(context)
-                            .pushReplacementNamed(firstpage.id);
+                        updateRide('updatePassengerRide');
+                        updateRide('updateTotalRide');
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            firstpage.id, (route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -546,6 +556,11 @@ class _PassengerTripState extends State<PassengerTrip> {
             ),
           );
         });
+  }
+
+  void updateRide(String api) async {
+    var response = await http.get(Uri.parse(
+        'http://209.38.239.47/users/$api?phone=${int.parse(HelperVariables.Phone)}'));
   }
 
   Future<void> _EndDialog() async {
@@ -974,7 +989,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                         borderRadius: BorderRadius.circular(25),
                         color: Colors.black,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.50),
+                          padding: const EdgeInsets.all(0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -986,10 +1001,12 @@ class _PassengerTripState extends State<PassengerTrip> {
                                 width: 10,
                               ),
                               Text(
-                                widget.destiname!.split(',')[0] +
-                                    widget.destiname!.split(',')[1],
-                                style: const TextStyle(
+                                widget.destiname!,
+                                // widget.destiname!.split(',')[0] +
+                                //     widget.destiname!.split(',')[1],
+                                style: TextStyle(
                                     fontSize: 15,
+                                    overflow: TextOverflow.ellipsis,
                                     fontFamily: 'Nunito Sans',
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white),
