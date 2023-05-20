@@ -17,23 +17,22 @@ class safety_protocol_page extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Row(
           children: [
-            Builder(
-              builder: (context) {
-                return IconButton(
-                  onPressed: () {
-                    Navigator.pop(context,
-                        SlideRightPageRoute(page: const TwoWidget(),
-                    )
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                );
-              }
-            ),
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Navigator.pop(
+                      context,
+                      SlideRightPageRoute(
+                        page: const TwoWidget(),
+                      ));
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 35,
+                ),
+              );
+            }),
             const Text(
               'Safety Protocol',
               style: TextStyle(fontFamily: 'Nunito Sans'),
@@ -50,7 +49,8 @@ class safety_protocol_page extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 const Divider(
-                  color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
+                  color: Color.fromARGB(
+                      255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
                 const Padding(
@@ -68,21 +68,20 @@ class safety_protocol_page extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      bottom: SizeConfig.blockSizeVertical*2,
-                      ),
+                    bottom: SizeConfig.blockSizeVertical * 2,
+                  ),
                   child: const ListTile(
                     title: Text(
                       '1. Verification and Background Checks:',
                       style: TextStyle(
-                        fontSize: 18,
+                          fontSize: 18,
                           fontFamily: 'Nunito Sans',
                           fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
                       'Pilots are required to undergo a thorough verification process, including background checks, before being approved as a rider.',
-                      style: TextStyle(
-                        fontSize: 15,
-                          fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
@@ -254,18 +253,22 @@ class safety_protocol_page extends StatelessWidget {
                   ),
                 ),
                 const Divider(
-                  color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
+                  color: Color.fromARGB(
+                      255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
-                Padding(padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*10)),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical * 10)),
                 const Divider(
-                  color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
+                  color: Color.fromARGB(
+                      255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
                 const Padding(
                   padding: EdgeInsets.only(
-                    // top: SizeConfig.blockSizeVertical,
-                  ),
+                      // top: SizeConfig.blockSizeVertical,
+                      ),
                   child: ListTile(
                     title: Text(
                       'Safety Protocol for Passengers',
@@ -276,7 +279,9 @@ class safety_protocol_page extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical*1)),
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: SizeConfig.blockSizeVertical * 1)),
                 Padding(
                   padding: EdgeInsets.only(
                     bottom: SizeConfig.blockSizeVertical * 2,
@@ -354,9 +359,8 @@ class safety_protocol_page extends StatelessWidget {
                     ),
                     subtitle: Text(
                       'Passengers should provide ratings and feedback on each ride, allowing pilots to improve their services and maintain safety standards.',
-                      style: TextStyle(
-                        fontSize: 15,
-                          fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
@@ -367,11 +371,13 @@ class safety_protocol_page extends StatelessWidget {
                   child: const ListTile(
                     title: Text(
                       '5. Sharing Petrol Expenses:',
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
                       'Passengers are encouraged to participate in sharing petrol expenses with pilots to promote fairness and cost-sharing.',
-                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
@@ -382,11 +388,13 @@ class safety_protocol_page extends StatelessWidget {
                   child: const ListTile(
                     title: Text(
                       '6. Traffic Rules and Safety:',
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
                       'Passengers should observe and follow all traffic rules and regulations during the ride, contributing to a safe and responsible journey.',
-                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
@@ -397,18 +405,20 @@ class safety_protocol_page extends StatelessWidget {
                   child: const ListTile(
                     title: Text(
                       '7. No Alcohol or Drug Consumption:',
-                      style: TextStyle(fontSize:18,fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(
                       'Passengers must refrain from consuming alcohol or drugs during the ride to ensure a safe and comfortable environment.',
-                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
                 const ListTile(
                   title: Text(
                     '8. Personal Safety Awareness:',
-                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   subtitle: Text(
                     'Passengers should remain vigilant and exercise personal safety measures, such as wearing seat belts and being aware of their surroundings.',
@@ -419,7 +429,8 @@ class safety_protocol_page extends StatelessWidget {
                   ),
                 ),
                 const Divider(
-                  color: Color.fromARGB(255, 230, 230, 230), // Customize the color of the line
+                  color: Color.fromARGB(
+                      255, 230, 230, 230), // Customize the color of the line
                   thickness: 1.0, // Adjust the thickness of the line
                 ),
               ],

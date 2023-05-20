@@ -23,8 +23,6 @@ class ClickPicture extends StatefulWidget {
   _ClickPictureState createState() => _ClickPictureState();
 }
 
-
-
 class _ClickPictureState extends State<ClickPicture> {
   File? image;
 
@@ -43,9 +41,9 @@ class _ClickPictureState extends State<ClickPicture> {
           ? null
           : 'https://imagenauft.fra1.digitaloceanspaces.com/${HelperVariables.img_url}',
       "token": widget.token,
-      "pilot":0,
-      "passenger":0,
-      "total":0
+      "pilot": 0,
+      "passenger": 0,
+      "total": 0
     });
     print(body);
     Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -54,7 +52,7 @@ class _ClickPictureState extends State<ClickPicture> {
     print("entered");
     if (response.statusCode == 200) {
       final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       sharedPreferences.setString('name', HelperVariables.Name);
       sharedPreferences.setString('email', HelperVariables.Email);
       sharedPreferences.setString('gender', HelperVariables.gender);
@@ -154,7 +152,7 @@ class _ClickPictureState extends State<ClickPicture> {
     //   print('Permission granted');
     try {
       final image =
-      await ImagePicker().pickImage(source: source, imageQuality: 30);
+          await ImagePicker().pickImage(source: source, imageQuality: 30);
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() {
@@ -221,94 +219,127 @@ class _ClickPictureState extends State<ClickPicture> {
       return noInternetScaff();
     } else {
       return SafeArea(
-        child: Scaffold(
-          body: SizedBox(
-            height: SizeConfig.safeBlockVertical * 100,
-            width: SizeConfig.safeBlockHorizontal * 100,
-            child: Stack(children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 13,
+          child: Scaffold(
+        body: SizedBox(
+          height: SizeConfig.safeBlockVertical * 100,
+          width: SizeConfig.safeBlockHorizontal * 100,
+          child: Stack(children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 13,
+                ),
+                const Text('Upload Your Picture!',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Nunito Sans',
+                        fontSize: 25)),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 2.5,
+                ),
+                const Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    'Our app uses your image solely for verification purposes and keeps it secure and confidential.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Nunito Sans',
+                        fontSize: 14,
+                        color: Colors.grey),
                   ),
-                  const Text('Upload Your Picture!',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Nunito Sans',
-                          fontSize: 25)),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 2.5,
-                  ),
-                  const Material(
-                    color: Colors.transparent,
-                    child: Text(
-                      'Our app uses your image solely for verification purposes and keeps it secure and confidential.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito Sans',
-                          fontSize: 14,
-                          color: Colors.grey),
-                    ),
-                  ),
-                  Visibility(
-                    visible: showPicture,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: SizeConfig.safeBlockVertical * 2.5,
-                        ),
-                        Container(
-                          height: SizeConfig.safeBlockVertical * 25,
-                          width: SizeConfig.safeBlockHorizontal * 50,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: FileImage(image == null
-                                      ? File.fromUri(Uri.parse(''))
-                                      : image!),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * resize,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 7,
-                    width: SizeConfig.safeBlockHorizontal * 50,
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      color: Colors.black,
-                      child: InkWell(
-                        splashColor: Colors.black12,
-                        borderRadius: BorderRadius.circular(15),
-                        onTap: () {
-                          UploadImage(ImageSource.camera);
-                        },
-                        child: Material(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(15),
-                            child: const Center(
-                                child: Text(
-                                  'Camera',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: 'Nunito Sans',
-                                      fontSize: 14.5,
-                                      color: Colors.white),
-                                ))),
+                ),
+                Visibility(
+                  visible: showPicture,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: SizeConfig.safeBlockVertical * 2.5,
                       ),
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 25,
+                        width: SizeConfig.safeBlockHorizontal * 50,
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: FileImage(image == null
+                                    ? File.fromUri(Uri.parse(''))
+                                    : image!),
+                                fit: BoxFit.fill)),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * resize,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 7,
+                  width: SizeConfig.safeBlockHorizontal * 50,
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    color: Colors.black,
+                    child: InkWell(
+                      splashColor: Colors.black12,
+                      borderRadius: BorderRadius.circular(15),
+                      onTap: () {
+                        UploadImage(ImageSource.camera);
+                      },
+                      child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
+                          child: const Center(
+                              child: Text(
+                            'Camera',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Nunito Sans',
+                                fontSize: 14.5,
+                                color: Colors.white),
+                          ))),
                     ),
                   ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 7,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 7,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 7,
+                  width: SizeConfig.safeBlockHorizontal * 50,
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    color: Colors.black,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(15),
+                      onTap: () {
+                        UploadImage(ImageSource.gallery);
+                      },
+                      splashColor: Colors.black12,
+                      child: const Material(
+                          color: Colors.transparent,
+                          child: Center(
+                              child: Text(
+                            'Gallery',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Nunito Sans',
+                                fontSize: 14.5,
+                                color: Colors.white),
+                          ))),
+                    ),
                   ),
-                  SizedBox(
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical * 7,
+                ),
+                Visibility(
+                  visible: opened,
+                  child: SizedBox(
                     height: SizeConfig.safeBlockVertical * 7,
                     width: SizeConfig.safeBlockHorizontal * 50,
                     child: Card(
@@ -319,93 +350,60 @@ class _ClickPictureState extends State<ClickPicture> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(15),
                         onTap: () {
-                          UploadImage(ImageSource.gallery);
+                          _showMyDialog();
+
+                          upload(context, image!);
                         },
                         splashColor: Colors.black12,
                         child: const Material(
                             color: Colors.transparent,
                             child: Center(
                                 child: Text(
-                                  'Gallery',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: 'Nunito Sans',
-                                      fontSize: 14.5,
-                                      color: Colors.white),
-                                ))),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 7,
-                  ),
-                  Visibility(
-                    visible: opened,
-                    child: SizedBox(
-                      height: SizeConfig.safeBlockVertical * 7,
-                      width: SizeConfig.safeBlockHorizontal * 50,
-                      child: Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        color: Colors.black,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(15),
-                          onTap: () {
-                            _showMyDialog();
-
-                            upload(context, image!);
-                          },
-                          splashColor: Colors.black12,
-                          child: const Material(
-                              color: Colors.transparent,
-                              child: Center(
-                                  child: Text(
-                                    'Proceed',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'Nunito Sans',
-                                        fontSize: 14.5,
-                                        color: Colors.white),
-                                  ))),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Align(
-                  alignment: Alignment.topRight,
-                  child: SizedBox(
-                    width: SizeConfig.safeBlockHorizontal * 25,
-                    child: TextButton(
-                        onPressed: () {
-                          CreateNewUser(context);
-                          _showMyDialog();
-                        },
-                        style: TextButton.styleFrom(
-                            splashFactory: NoSplash.splashFactory),
-                        child: Row(
-                          children: const [
-                            Text(
-                              "Skip",
+                              'Proceed',
                               style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontFamily: 'Nunito Sans',
-                                  fontSize: 20,
-                                  color: Color.fromARGB(255, 81, 81, 81)),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color.fromARGB(255, 81, 81, 81),
-                              size: 35,
-                            ),
-                          ],
-                        )),
-                  ))
-            ]),
-          ),
-        ));
+                                  fontSize: 14.5,
+                                  color: Colors.white),
+                            ))),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Align(
+                alignment: Alignment.topRight,
+                child: SizedBox(
+                  width: SizeConfig.safeBlockHorizontal * 25,
+                  child: TextButton(
+                      onPressed: () {
+                        CreateNewUser(context);
+                        _showMyDialog();
+                      },
+                      style: TextButton.styleFrom(
+                          splashFactory: NoSplash.splashFactory),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Skip",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Nunito Sans',
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 81, 81, 81)),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color.fromARGB(255, 81, 81, 81),
+                            size: 35,
+                          ),
+                        ],
+                      )),
+                ))
+          ]),
+        ),
+      ));
     }
   }
 }

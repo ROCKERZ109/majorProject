@@ -39,8 +39,11 @@ class _OptionsState extends State<Options> {
                 title: 'Passenger',
                 onTap: () {
                   // Navigator.of(context).pushReplacementNamed(PassengerScreen.id);
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      FirstScreen(screenName: PassengerScreen.id)), (Route<dynamic> route) => false);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FirstScreen(screenName: PassengerScreen.id)),
+                      (Route<dynamic> route) => false);
                 },
               ),
               SizedBox(

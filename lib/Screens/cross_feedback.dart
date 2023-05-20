@@ -1,4 +1,3 @@
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -11,7 +10,7 @@ class CrossFeedbackDialog  {
           "phone": phone,
           // HelperVariables.Phone, //variable needed
           "with": other,
-          "destination":destination,
+          "destination": destination,
           "riderStatus": role,
           "paid":paid,
           "starRating": starRating.toString(),
@@ -27,6 +26,4 @@ class CrossFeedbackDialog  {
     print(response
         .statusCode); //This thing not getting printed on console. ERROR!!!!!!
   }
-
-
 }

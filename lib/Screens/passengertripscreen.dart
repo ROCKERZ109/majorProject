@@ -160,7 +160,8 @@ class _PassengerTripState extends State<PassengerTrip> {
           showOTP = true;
           // print("Printing the widget.phone ${widget.phone!}");
         });
-      } else if (end <= 0.075 && checkEnd == 0) {
+        // added &&ridesarted
+      } else if (end <= 0.075 && checkEnd == 0 && rideStarted) {
         print('entered end');
         _EndDialog();
         checkEnd = 1;
@@ -749,7 +750,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                     onTap: () {
                       channel!.sink.add(jsonEncode(
                           {'to': widget.phone, 'location': "cancel"}));
-                      Navigator.of(context).pushReplacementNamed(firstpage.id);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, firstpage.id, (route) => false);
                     },
                     child: Center(
                       child: SizedBox(
@@ -821,8 +823,8 @@ class _PassengerTripState extends State<PassengerTrip> {
                                   _showMyDialog();
                                   Future.delayed(const Duration(seconds: 2),
                                       () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(firstpage.id);
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        firstpage.id, (route) => false);
                                   });
                                   channel!.sink.close();
                                   checkOnce = 1;
@@ -989,29 +991,32 @@ class _PassengerTripState extends State<PassengerTrip> {
                         borderRadius: BorderRadius.circular(25),
                         color: Colors.black,
                         child: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Icon(
-                                Icons.my_location_outlined,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                widget.destiname!,
-                                // widget.destiname!.split(',')[0] +
-                                //     widget.destiname!.split(',')[1],
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontFamily: 'Nunito Sans',
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white),
-                              ),
-                            ],
+                          padding: const EdgeInsets.all(10.5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: NeverScrollableScrollPhysics(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Icon(
+                                  Icons.my_location_outlined,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  widget.destiname!,
+                                  // widget.destiname!.split(',')[0] +
+                                  //     widget.destiname!.split(',')[1],
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Nunito Sans',
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

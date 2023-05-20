@@ -26,8 +26,6 @@ class _NotifyState extends State<Notify> {
     print("exitted websocekt method ");
   }
 
-
-
   @override
   void initState() {
     initailizeWebsocket();
@@ -72,7 +70,7 @@ class _NotifyState extends State<Notify> {
                           snapshot.hasData
                               ? 'Upendra Ne bulayaa hai'
                               : 'Kuch nahi aaya',
-                          style:const  TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontFamily: 'Nunito Sans',
                               fontWeight: FontWeight.w900),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class message extends StatefulWidget {
   const message({Key? key}) : super(key: key);
 
@@ -11,11 +12,11 @@ class _messageState extends State<message> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: const Color.fromARGB(255, 230, 230, 230),
-          foregroundColor: Colors.black,
-          automaticallyImplyLeading: false,
-          toolbarHeight: 150,
+        elevation: 0,
+        backgroundColor: const Color.fromARGB(255, 230, 230, 230),
+        foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 150,
       ),
     );
   }

@@ -69,7 +69,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '924567143903',
     projectId: 'bharatride-d69af',
     storageBucket: 'bharatride-d69af.appspot.com',
-    iosClientId: '924567143903-t2pfs05s87e5dp6o9fdfb6pk4qk5qcpo.apps.googleusercontent.com',
+    iosClientId:
+        '924567143903-t2pfs05s87e5dp6o9fdfb6pk4qk5qcpo.apps.googleusercontent.com',
     iosBundleId: 'com.example.Bharatride',
   );
 }

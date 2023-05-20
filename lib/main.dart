@@ -21,6 +21,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+
 var token;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -34,9 +35,7 @@ void main() async {
   }
 
   await Firebase.initializeApp();
-  token = await FirebaseMessaging.instance
-      .getToken()
-      .then((value) =>value);
+  token = await FirebaseMessaging.instance.getToken().then((value) => value);
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
@@ -143,12 +142,12 @@ class MyApp extends StatelessWidget {
         CrossFeedback.id: (_) =>  CrossFeedback(role: 'pilot',),
         firstpage.id:(_) => const firstpage()
 
-        // List.id: (_) => const List(),
-        // PilotPopupDialog.id: (_) => PilotPopupDialog(pilot: 0, passenger:0,),
-        // PassengerPopupDialog.id: (_) => PassengerPopupDialog(pilot: 0, passenger: 0,),
-      },
-      initialRoute:SplashScreen.id,
-      // ),
-    ));
+                // List.id: (_) => const List(),
+                // PilotPopupDialog.id: (_) => PilotPopupDialog(pilot: 0, passenger:0,),
+                // PassengerPopupDialog.id: (_) => PassengerPopupDialog(pilot: 0, passenger: 0,),
+              },
+              initialRoute: SplashScreen.id,
+              // ),
+            ));
   }
 }
