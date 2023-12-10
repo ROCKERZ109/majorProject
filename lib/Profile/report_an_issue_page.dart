@@ -19,7 +19,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
   final _formKey = GlobalKey<FormState>();
   String _issueDescription = '';
   void upload(context, File imageFile) async {
-    const String url = 'http://209.38.239.223/uploads';
+    const String url = 'http://64.227.133.85:3001/uploads';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
     print(imageFile.path);
@@ -56,7 +56,7 @@ class _ReportIssueFormState extends State<ReportIssueForm> {
 
   Future<void> submitIssue(
       String issueDescription, BuildContext context) async {
-    var url = Uri.parse('http://209.38.239.190/feedback/crossFeedback');
+    var url = Uri.parse('http://64.227.106.247:5000/feedback/crossFeedback');
     Map<String, String> headers = {'Content-Type': 'application/json'};
     var response = await http.post(url,
         body: jsonEncode({'issue_description': issueDescription}),

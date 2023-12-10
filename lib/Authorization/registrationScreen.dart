@@ -309,7 +309,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               HelperVariables.Email = email;
                             });
                             //      _showMyDialog();
-                            Navigator.pushNamed(context, ClickPicture.id);
+                            Navigator.pushReplacementNamed(context, ClickPicture.id);
                           } else {
                             _DetailsError();
                             // Navigator.pushNamed(context, SecondScreen.id);

@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:veloce/Helper/HelperVariables.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veloce/Authorization/phoneAuth.dart';
 import 'package:veloce/Profile/first.dart';
 import 'dart:convert';
+
 import '../sizeConfig.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,8 +46,10 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     // print("entered");
+
+
     var url =
-        Uri.parse('http://209.38.239.47/users/user?phone=${int.parse(phone)}');
+        Uri.parse('http://139.59.90.159:25060/users/user?phone=${int.parse(phone)}');
 
     http.Response response = await http.get(url, headers: header);
     var data = jsonDecode(response.body);

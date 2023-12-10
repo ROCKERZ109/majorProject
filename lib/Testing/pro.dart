@@ -92,12 +92,10 @@
 // //  }
 // // // }
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Helper/HelperVariables.dart';
 import 'package:veloce/Profile/first.dart';
-import 'package:veloce/Screens/passenger.dart';
 
 import '../Screens/cross_feedback.dart';
 import '../sizeConfig.dart';
@@ -108,7 +106,7 @@ class CrossFeedback extends StatefulWidget {
   final String?role;
   final String?phone;
   final String?destination;
-  const CrossFeedback({this.role,this.phone,this.destination}) ;
+  const CrossFeedback({super.key, this.role,this.phone,this.destination}) ;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -121,7 +119,7 @@ class _CrossFeedbackState extends State<CrossFeedback> {
   var NoColor=Colors.black;
   var YesColor=Colors.black;
   var experienceRating=0.0;
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   var customFeedback;
   void updateRide(String api)async{
     var response = await http.get(Uri.parse('http://209.38.239.47/users/$api?phone=${int.parse(HelperVariables.Phone)}'));

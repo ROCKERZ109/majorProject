@@ -7,7 +7,7 @@ class OtpMethods {
       required int passenger,
       required int otp,
       String? type}) async {
-    final Uri url = Uri.parse("http://209.38.239.190/otp/postOTP");
+    final Uri url = Uri.parse("http://64.227.106.247:3001/otp/postOTP");
     final body = jsonEncode(
         {"pilot": pilot, "passenger": passenger, "otp": otp, "type": type});
     Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -23,7 +23,7 @@ class OtpMethods {
       required int otp,
       String? type}) async {
     final Uri url = Uri.parse(
-        "http://209.38.239.190/otp/validateOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
+        "http://64.227.106.247:3001/otp/validateOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
     var response = await http.get(url);
     return response;
   }
@@ -31,7 +31,7 @@ class OtpMethods {
   void deleteOtp(
       {required int pilot, required int passenger, required int otp}) async {
     final Uri url = Uri.parse(
-        "http://209.38.239.190/otp/deleteOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
+        "http://64.227.106.247:3001/otp/deleteOTP?pilot=$pilot&passenger=$passenger&otp=$otp");
     await http.delete(url);
   }
 }

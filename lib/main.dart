@@ -22,6 +22,8 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
+import 'Service/pilot_methods.dart';
+
 var token;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -116,31 +118,40 @@ class MyApp extends StatelessWidget {
         // child:
         //
 
-      MultiProvider(
-        providers: [
-        StreamProvider(
-        create: (context) => NetworkService().controller.stream,
-    initialData: NetworkStatus.offline,
-    )
-    ],
-    child:GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      routes: {
-        SplashScreen.id: (_) =>  SplashScreen(token: token,),
-        PhoneAuth.id: (_) => const PhoneAuth(),
-        OtpValidation.id: (_) => OtpValidation(token: token,),
-        RegisterScreen.id: (_) => const RegisterScreen(),
-        ClickPicture.id: (_) =>  ClickPicture(token: token,),
-        Options.id: (_) => const Options(),
-        PassengerScreen.id: (_) => const PassengerScreen(),
-        PilotScreen.id: (_) => const PilotScreen(),
-        Notify.id: (_) => const Notify(),
-        // NotificationPage.id: (_) => const NotificationPage(),
-        PassengerTrip.id: (_) => const PassengerTrip(),
-        PilotTrip.id: (_) => const PilotTrip(),
-        CrossFeedback.id: (_) =>  CrossFeedback(role: 'pilot',),
-        firstpage.id:(_) => const firstpage()
+        MultiProvider(
+            providers: [
+          StreamProvider(
+            create: (context) => NetworkService().controller.stream,
+            initialData: NetworkStatus.offline,
+          ),
+          ChangeNotifierProvider<PilotMethods>(
+            create: (BuildContext context) => GetPilotMethods(),
+          )
+        ],
+            child: GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              navigatorKey: navigatorKey,
+              routes: {
+                SplashScreen.id: (_) => SplashScreen(token: token),
+                PhoneAuth.id: (_) => const PhoneAuth(),
+                OtpValidation.id: (_) => OtpValidation(
+                      token: token,
+                    ),
+                RegisterScreen.id: (_) => const RegisterScreen(),
+                ClickPicture.id: (_) => ClickPicture(
+                      token: token,
+                    ),
+                Options.id: (_) => const Options(),
+                PassengerScreen.id: (_) => const PassengerScreen(),
+                PilotScreen.id: (_) => const PilotScreen(),
+                Notify.id: (_) => const Notify(),
+                // NotificationPage.id: (_) => const NotificationPage(),
+                PassengerTrip.id: (_) => const PassengerTrip(),
+                PilotTrip.id: (_) => const PilotTrip(),
+                CrossFeedback.id: (_) => const CrossFeedback(
+                      role: 'pilot',
+                    ),
+                firstpage.id: (_) => const firstpage()
 
                 // List.id: (_) => const List(),
                 // PilotPopupDialog.id: (_) => PilotPopupDialog(pilot: 0, passenger:0,),

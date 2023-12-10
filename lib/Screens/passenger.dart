@@ -22,6 +22,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../NoInternet/app_scaffold.dart';
 import '../Service/network_service.dart';
+import '../Service/pilot_passenger_common_methods.dart';
 
 // import 'package:geolocator/geolocator.dart';
 bool polyCheck = false;
@@ -93,7 +94,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
   void getUserInfo() async {
     var res = await http.get(Uri.parse(
-        'http://209.38.239.47/users/user?phone=${HelperVariables.Phone}'));
+        'http://139.59.90.159:25060/users/user?phone=${HelperVariables.Phone}'));
     var data = jsonDecode(res.body);
     print(data);
   }
@@ -244,7 +245,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
     // } else {
     //   url = Uri.parse('http://209.38.239.190/passengers/updateUser');
     // }
-    url = Uri.parse('http://209.38.239.190/passengers/pushNewUser');
+    url = Uri.parse('http://64.227.106.247:5000/passengers/pushNewUser');
     Map<String, String> header = {
       'Content-Type': 'application/json',
     };
@@ -256,6 +257,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
       //added dest
       "dest": PassengerScreen.des,
       "destination": searchLocation,
+       //added timestamp
+      "timestamp":DateTime.now().toString()
     });
     var response = await
         //  (isSentOnce
@@ -267,44 +270,42 @@ class _PassengerScreenState extends State<PassengerScreen> {
 
   void deleteUser(int phone) async {
     var url =
-        Uri.parse('http://209.38.239.190/passengers/deleteUser?phone=$phone');
+        Uri.parse('http://64.227.106.247:5000/passengers/deleteUser?phone=$phone');
     var resp = await http.delete(url);
     print(resp.body);
   }
 
   void searchPilot() async {
-    // print("Entered search pilot");
-    // print(PassengerScreen.des.longitude);
-    // print(PassengerScreen.des
-    //     .latitude);
-    // print(src.longitude);
-    // print(src.latitude);
-    // print(HelperVariables.Phone);
-    // print(PassengerScreen.des.longitude.runtimeType);
-    // print(PassengerScreen.des.latitude.runtimeType);
 
-    // print(HelperVariables.Phone.runtimeType);
 
     var url = Uri.parse(
-        'http://209.38.239.190/passengers/getpilot?long=${PassengerScreen.des.longitude}&lat=${PassengerScreen.des.latitude}&currLong=${src.longitude}&currLat=${src.latitude}&phone=${HelperVariables.Phone}');
+        'http://64.227.106.247:5000/passengers/getpilot?long=${PassengerScreen.des.longitude}&lat=${PassengerScreen.des.latitude}&currLong=${src.longitude}&currLat=${src.latitude}&phone=${HelperVariables.Phone}');
     var resp = await http.get(url);
     var data = jsonDecode(resp.body);
     print(data);
-    print("yahan tak toh aagya");
-    //Added the setState here which was not there, the risk is it may ctash
+
+    //Added the setState here which was not there, the risk is it may crash
     setState(() {
       waypoint = data['waypoint'];
     });
     print('searchResponse ${resp.body}');
   }
 
-  void initailizePassengerWebsocket() async {
-    final channel = WebSocketChannel.connect(
-        Uri.parse('ws://209.38.239.190:3001?phone=${HelperVariables.Phone}'));
-    channel.sink.add("Hello From flutter");
-    setState(() {
-      passengerStream = channel.stream;
-    });
+  void initailizePassengerWebsocket() async{
+    try {
+      // final channel = WebSocketChannel.connect(
+      //     Uri.parse('ws://209.38.239.190:3001?phone=${HelperVariables.Phone}'));
+      // channel.sink.add("Hello From flutter");
+
+        passengerStream = await PilotPassengerCommonMethods().initializeWebsocket(port: 3001,phone: HelperVariables.Phone).then((value) => value.stream);
+
+        setState(()  { });
+    }
+    catch(e)
+    {
+      print(e);
+      // showGeneralDialog(context: context, pageBuilder: pageBuilder)
+    }
   }
 
   @override
@@ -341,7 +342,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
     } else {
-      return WillPopScope(
+  return WillPopScope(
         onWillPop: () async {
           final shouldPop = await showDialog(
               context: context,
@@ -350,7 +351,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                 return AlertDialog(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  backgroundColor: Color.fromARGB(255, 227, 227, 227),
+                  backgroundColor: const Color.fromARGB(255, 227, 227, 227),
                   title: const Text(
                     "are you sure you want to go back?",
                     style: TextStyle(color: Colors.black),
@@ -369,9 +370,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               deleteUser(int.parse(HelperVariables.Phone));
-                              Navigator.of(context).pushReplacementNamed(
-                                  firstpage.id,
-                                  result: true);
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  firstpage.id, (route) => false);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
@@ -399,8 +399,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
                               style: ElevatedButton.styleFrom(
                                   splashFactory: NoSplash.splashFactory,
                                   backgroundColor:
-                                      Color.fromARGB(255, 227, 227, 227),
-                                  side: BorderSide(
+                                      const Color.fromARGB(255, 227, 227, 227),
+                                  side: const BorderSide(
                                     color: Colors.black,
                                     width: 2,
                                   )),
@@ -480,7 +480,13 @@ class _PassengerScreenState extends State<PassengerScreen> {
                               },
                               onMapCreated: (mapController) {
                                 setState(() {
-                                  _mapController.complete(mapController);
+                                  try {
+                                    _mapController.complete(mapController);
+                                  }
+                                  catch(e)
+                                  {
+                                    print(e);
+                                  }
                                 });
                               },
                             ),
@@ -593,8 +599,8 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                           fontWeight: FontWeight.w900)),
                                   mode: Mode.overlay,
                                   types: [],
-                                  strictbounds: false,
-                                  radius: 50,
+                                  strictbounds: true,
+                                  radius: 50000,
                                   components: [
                                     gmws.Component(
                                       gmws.Component.country,
@@ -647,25 +653,30 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                           color: Colors.black.withOpacity(1),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(25)),
+                                                  BorderRadius.circular(15)),
                                           elevation: 5,
-                                          child: Center(
-                                            child: Row(
-                                              children: const [
-                                                Icon(
-                                                  Icons.edit_location_outlined,
-                                                  color: Colors.white,
-                                                ),
-                                                Text(
-                                                  "Pick up",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito Sans',
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      color: Colors.white,
-                                                      fontSize: 11),
-                                                )
-                                              ],
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Center(
+                                              child: Row(
+                                                children: const [
+                                                  Icon(
+                                                    Icons
+                                                        .edit_location_outlined,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                    "Pick up",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Nunito Sans',
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        color: Colors.white,
+                                                        fontSize: 11),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         )),
@@ -759,8 +770,9 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                       ),
                                       mode: Mode.overlay,
                                       types: [],
-                                      strictbounds: false,
-                                      radius: 50,
+                                      location: gmws.Location(lat: currentLocation!.latitude!, lng:currentLocation!.longitude!),
+                                      strictbounds:true,
+                                      radius: 50000,
                                       components: [
                                         gmws.Component(
                                           gmws.Component.country,
@@ -805,11 +817,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                       pickupbottom =
                                           SizeConfig.safeBlockVertical * 85;
                                       pickupleft =
-                                          SizeConfig.safeBlockHorizontal * 75;
+                                          SizeConfig.safeBlockHorizontal * 67.5;
                                       dropbottom =
                                           SizeConfig.safeBlockVertical * 77;
                                       dropleft =
-                                          SizeConfig.safeBlockHorizontal * 75;
+                                          SizeConfig.safeBlockHorizontal * 67.5;
                                       isDestandSrcSet = true;
                                     });
                                   }
@@ -822,32 +834,36 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                               SizeConfig.safeBlockVertical * 7,
                                           width:
                                               SizeConfig.safeBlockHorizontal *
-                                                  25,
+                                                  30,
                                           child: Card(
                                             color: Colors.black.withOpacity(1),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(25)),
+                                                    BorderRadius.circular(15)),
                                             elevation: 5,
-                                            child: Center(
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons
-                                                        .edit_location_outlined,
-                                                    color: Colors.white,
-                                                  ),
-                                                  Text(
-                                                    "Destination",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'Nunito Sans',
-                                                        fontWeight:
-                                                            FontWeight.w900,
-                                                        color: Colors.white,
-                                                        fontSize: 11),
-                                                  )
-                                                ],
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: Row(
+                                                  children: const [
+                                                    Icon(
+                                                      Icons
+                                                          .edit_location_outlined,
+                                                      color: Colors.white,
+                                                    ),
+                                                    Text(
+                                                      "Destination",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Nunito Sans',
+                                                          fontWeight:
+                                                              FontWeight.w900,
+                                                          color: Colors.white,
+                                                          fontSize: 11),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           )),
@@ -914,23 +930,31 @@ class _PassengerScreenState extends State<PassengerScreen> {
                         stream: passengerStream,
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.hasData) {
-                            var response = jsonDecode(snapshot.data);
-
-                            if (response['passenger'] ==
-                                int.parse(HelperVariables.Phone)) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                deleteUser(int.parse(HelperVariables.Phone));
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                  return PassengerTrip(
-                                      phone: response['pilot'],
-                                      waypoint: waypoint,
-                                      destiname: searchLocation);
-                                }), (route) => false);
-                              });
+                          try {
+                            if (snapshot.hasData) {
+                              var response = jsonDecode(snapshot.data);
+                               print(snapshot.data.toString() + "I am printing thje stream data");
+                              if (response['passenger'] ==
+                                  int.parse(HelperVariables.Phone)) {
+                                WidgetsBinding.instance.addPostFrameCallback((
+                                    _) {
+                                  deleteUser(int.parse(HelperVariables.Phone));
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            return PassengerTrip(
+                                                phone: response['pilot'],
+                                                waypoint: waypoint,
+                                                destiname: searchLocation);
+                                          }), (route) => false);
+                                });
+                              }
                             }
+
+                          }
+                          catch(e)
+                          {
+                            // print(e);
                           }
                           return const SizedBox.shrink();
                         },
@@ -960,7 +984,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 elevation: 5,
                 title: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Container(
+                  SizedBox(
                     height: SizeConfig.safeBlockVertical * 5,
                     width: SizeConfig.safeBlockHorizontal * 5,
                     child: FloatingActionButton(

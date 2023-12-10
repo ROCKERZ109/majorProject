@@ -20,12 +20,11 @@ class TwoWidget extends StatefulWidget {
 
 class _TwoWidgetState extends State<TwoWidget> {
   var phone;
-
   var counter = false;
 
   void get_data(context) async {
     var response = await http.get(Uri.parse(
-        'http://209.38.239.47/users/updateToken?phone=${HelperVariables.Phone}&token=null'));
+        'http://139.59.90.159:25060/users/updateToken?phone=${HelperVariables.Phone}&token=null'));
     if (response.statusCode == 200) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -66,7 +65,7 @@ class _TwoWidgetState extends State<TwoWidget> {
                     icon: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(fetched_image ==
-                              "https://imagenauft.fra1.digitaloceanspaces.com/"
+                              "https://image-db.sfo3.digitaloceanspaces.com/"
                           ? "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew="
                           : fetched_image),
                       radius: SizeConfig.safeBlockHorizontal * 11.75,
@@ -153,8 +152,8 @@ class _TwoWidgetState extends State<TwoWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const profile_page(
-                                                      value: 300,
+                                                profile_page(
+                                                      value: SizeConfig.safeBlockVertical*60,
                                                     )));
                                       },
                                       style: ElevatedButton.styleFrom(

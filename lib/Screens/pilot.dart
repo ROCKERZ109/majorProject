@@ -1,5 +1,7 @@
 import 'dart:collection';
+import 'package:veloce/Service/pilot_passenger_common_methods.dart';
 
+import '../Service/pilot_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:veloce/Screens/first.dart';
@@ -32,7 +34,7 @@ Future<String> getAddressFromLatLng(double lat, double lng) async {
   if (lng != null) {
     var response = await http.get(
         Uri.parse(
-            'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBSrF5pLo5KLbOfEcifs1TuoTAm20qCM0M&language=en&latlng=$lat,$lng'),
+            'https://maps.google.com/maps/api/geocode/json?key=AIzaSyCt81mnB2M6-ZieZxCQq0XsHnNB5hK63QU&language=en&latlng=$lat,$lng'),
         headers: {"Content-Type": "application/json"});
 
     if (response.statusCode == 200) {
@@ -58,6 +60,7 @@ class PilotScreen extends StatefulWidget {
 
 class _PilotScreenState extends State<PilotScreen> {
   Timer? timer;
+  Timer? timerForRemovingRequest;
 
   @override
   void dispose() {
@@ -75,6 +78,7 @@ class _PilotScreenState extends State<PilotScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   late LatLng src =
       LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+
 //removed static from pilot and passenger screen
   static LatLng des = const LatLng(-30.2968691, -30.2968691);
   LatLng markerDestination = const LatLng(-30.2968691, -30.2968691);
@@ -164,9 +168,10 @@ class _PilotScreenState extends State<PilotScreen> {
     });
   }
 
+
   void getTheDetailsOfRiders() async {
     var response = await http
-        .get(Uri.parse('http://209.38.239.47/users/user?phone=7452976914'));
+        .get(Uri.parse('http://139.59.90.159:25060/users/user?phone=7452976914'));
     var data = jsonDecode(response.body);
     print(data);
   }
@@ -275,32 +280,39 @@ class _PilotScreenState extends State<PilotScreen> {
       "updatePolyLines": {"coordinates": updatePolyLines, "type": "LineString"},
     });
 
-    var url = Uri.parse('http://209.38.239.190/pilots/updateUser');
+    var url = Uri.parse('http://64.227.106.247:5000/pilots/updateUser');
     var response = await http.put(url, body: msg, headers: header);
     print("User updated");
     print("${response.body}kuch ni aaya");
     print("Userasdsads updated");
   }
 
-  void initailizeWebsocket() async {
-    final channel = WebSocketChannel.connect(
-        Uri.parse('ws://209.38.239.190:3001?phone=${HelperVariables.Phone}'));
-    channel.sink.add("Hello From flutter");
-    setState(() {
-      stream = channel.stream;
-    });
-    print("exitted websocket method ");
+  void initailizeWebsocket()  async {
+    try {
+      // final channel = WebSocketChannel.connect(
+      //     Uri.parse('ws://209.38.239.190:3001?phone=${HelperVariables.Phone}'));
+      // channel.sink.add("Hello From flutter");
+
+
+        stream =await PilotPassengerCommonMethods().initializeWebsocket(phone: HelperVariables.Phone,port: 3001).then((value) => value.stream);
+        setState((){ });
+    }
+    catch(e)
+    {
+      print(e);
+      // showGeneralDialog(context: context, pageBuilder: pageBuilder)
+    }
   }
 
   void getUserInfo() async {
     var res = await http.get(Uri.parse(
-        'http://209.38.239.47/users/user?phone=${HelperVariables.Phone}'));
+        'http://139.59.90.159:25060/users/user?phone=${HelperVariables.Phone}'));
     var data = jsonDecode(res.body);
   }
 
   Future acceptUser(int passengerPhone, int pilotPhone, var abc) async {
     var res = await http.get(Uri.parse(
-        'http://209.38.239.190/accepted?pilot=$pilotPhone&passenger=$passengerPhone'));
+        'http://64.227.106.247:5000/accepted?pilot=$pilotPhone&passenger=$passengerPhone'));
     print("Is it because of this?!");
     print(res.body);
     if (!mounted) {
@@ -322,9 +334,9 @@ class _PilotScreenState extends State<PilotScreen> {
     print(destination);
     Uri url;
     if (!isSentOnce) {
-      url = Uri.parse('http://209.38.239.190/pilots/pushNewUser');
+      url = Uri.parse('http://64.227.106.247:5000/pilots/pushNewUser');
     } else {
-      url = Uri.parse('http://209.38.239.190/pilots/updateUser');
+      url = Uri.parse('http://64.227.106.247:5000/pilots/updateUser');
     }
 
     Map<String, String> header = {
@@ -356,7 +368,22 @@ class _PilotScreenState extends State<PilotScreen> {
         const Duration(seconds: 4), (Timer t) => updatePilotLocation());
   }
 
+  void stopRequest() async {
+    if (!mounted) return;
+    await Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        showRequest = false;
+        stopMusic();
+        print("The value of show request is:$showRequest");
+      });
+    });
+  }
+
   var Address = "Fetching Address...";
+  var name="";
+  var phone ;
+
+  var destination="";
 
   @override
   void initState() {
@@ -366,7 +393,7 @@ class _PilotScreenState extends State<PilotScreen> {
       print(e);
     }
 
-    initailizeWebsocket();
+   initailizeWebsocket();
     des = const LatLng(-30.2968691, -30.2968691);
     // TODO: implement initState
     super.initState();
@@ -382,7 +409,7 @@ class _PilotScreenState extends State<PilotScreen> {
 
   void deleteUser(int phone) async {
     print("Deleting the phone");
-    var url = Uri.parse('http://209.38.239.190/pilots/deleteUser?phone=$phone');
+    var url = Uri.parse('http://64.227.106.247:5000/pilots/deleteUser?phone=$phone');
     var resp = await http.delete(url);
     print('IS this the ${resp.body}');
   }
@@ -400,7 +427,7 @@ class _PilotScreenState extends State<PilotScreen> {
       print("Enasdasdasdterasded");
       var response = await http.get(
           Uri.parse(
-              'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBSrF5pLo5KLbOfEcifs1TuoTAm20qCM0M&language=en&latlng=$lat,$lng'),
+              'https://maps.google.com/maps/api/geocode/json?key=AIzaSyCt81mnB2M6-ZieZxCQq0XsHnNB5hK63QU&language=en&latlng=$lat,$lng'),
           headers: {"Content-Type": "application/json"});
       print('awe');
       if (response.statusCode == 200) {
@@ -416,6 +443,9 @@ class _PilotScreenState extends State<PilotScreen> {
     }
   }
 
+  var previousData;
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -424,9 +454,8 @@ class _PilotScreenState extends State<PilotScreen> {
     if (networkStatus == NetworkStatus.offline) {
       return noInternetScaff();
     } else {
-      return ChangeNotifierProvider<MyModel>(
-          create: (BuildContext context) => GetModel(),
-          child: WillPopScope(
+      //added PilotMethods().NotAvailableDialogContext(context)
+      return  WillPopScope(
             onWillPop: () async {
               final shouldPop = await showDialog(
                   context: context,
@@ -435,7 +464,7 @@ class _PilotScreenState extends State<PilotScreen> {
                     return AlertDialog(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      backgroundColor: Color.fromARGB(255, 227, 227, 227),
+                      backgroundColor: const Color.fromARGB(255, 227, 227, 227),
                       title: const Text(
                         "are you sure you want to go back?",
                         style: TextStyle(color: Colors.black),
@@ -455,9 +484,8 @@ class _PilotScreenState extends State<PilotScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   deleteUser(int.parse(HelperVariables.Phone));
-                                  Navigator.of(context).pushReplacementNamed(
-                                      firstpage.id,
-                                      result: true);
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      firstpage.id, (route) => false);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.black,
@@ -485,8 +513,8 @@ class _PilotScreenState extends State<PilotScreen> {
                                   style: ElevatedButton.styleFrom(
                                       splashFactory: NoSplash.splashFactory,
                                       backgroundColor:
-                                          Color.fromARGB(255, 227, 227, 227),
-                                      side: BorderSide(
+                                          const Color.fromARGB(255, 227, 227, 227),
+                                      side: const BorderSide(
                                         color: Colors.black,
                                         width: 2,
                                       )),
@@ -525,81 +553,79 @@ class _PilotScreenState extends State<PilotScreen> {
                             SizedBox(
                               height: SizeConfig.safeBlockVertical * 100,
                               width: SizeConfig.safeBlockHorizontal * 100,
-                              child: Consumer<MyModel>(
-                                  builder: (context, MyModel, child) {
-                                return GoogleMap(
-                                  // onCameraMove: (cameraPosition) async {
-                                  //   markerDestination = LatLng(
-                                  //       cameraPosition.target.latitude,
-                                  //       cameraPosition.target.longitude);
-                                  //  MyModel.doS(cameraPosition.target.latitude,
-                                  //       cameraPosition.target.longitude);
-                                  //  // getPolyPoints(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                                  //
-                                  // },
-                                  mapType: MapType.normal,
-                                  zoomControlsEnabled: false,
-                                  onTap: wayPointMarkerLocked
-                                      ? (LatLng val) {}
-                                      : (LatLng val) {
-                                          setState(() {
-                                            if (destWidgetCheck) {
-                                              wayPointVal = val;
-                                              isWayPointSet = true;
-                                              polylineCoordinates.clear();
-                                              getPolyPoints(
-                                                  des.latitude, des.longitude);
-                                              print(wayPointVal);
-                                            }
-                                          });
-                                        },
-                                  myLocationButtonEnabled: true,
-                                  myLocationEnabled: true,
-                                  buildingsEnabled: false,
-                                  tiltGesturesEnabled: true,
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(currentLocation!.latitude!,
-                                        currentLocation!.longitude!),
-                                    zoom: 17.5,
+                              //Removed Consumer<MyModel>
+                              child: GoogleMap(
+                                // onCameraMove: (cameraPosition) async {
+                                //   markerDestination = LatLng(
+                                //       cameraPosition.target.latitude,
+                                //       cameraPosition.target.longitude);
+                                //  MyModel.doS(cameraPosition.target.latitude,
+                                //       cameraPosition.target.longitude);z
+                                //  // getPolyPoints(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                                //
+                                // },
+                                mapType: MapType.normal,
+                                zoomControlsEnabled: false,
+                                onTap: wayPointMarkerLocked
+                                    ? (LatLng val) {}
+                                    : (LatLng val) {
+                                        setState(() {
+                                          if (destWidgetCheck) {
+                                            wayPointVal = val;
+                                            isWayPointSet = true;
+                                            polylineCoordinates.clear();
+                                            getPolyPoints(
+                                                des.latitude, des.longitude);
+                                            print(wayPointVal);
+                                          }
+                                        });
+                                      },
+                                myLocationButtonEnabled: true,
+                                myLocationEnabled: true,
+                                buildingsEnabled: false,
+                                tiltGesturesEnabled: true,
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(currentLocation!.latitude!,
+                                      currentLocation!.longitude!),
+                                  zoom: 17.5,
+                                ),
+                                polylines: {
+                                  Polyline(
+                                      polylineId: const PolylineId("route"),
+                                      points: polylineCoordinates,
+                                      color: Colors.black,
+                                      width: 5,
+                                      geodesic: false),
+                                },
+                                markers: {
+                                  // Marker(
+                                  //   markerId: const MarkerId('current Location'),
+                                  //   position: src,
+                                  //   consumeTapEvents: true,
+                                  //   // position: LatLng(currentLocation!.latitude!,
+                                  //   //     currentLocation!.longitude!),
+                                  //   icon: srcIcon,
+                                  // ),
+                                  Marker(
+                                    markerId: const MarkerId('wayPoint'),
+                                    position: wayPointVal,
+                                    visible: isWayPointSet,
+                                    icon:
+                                        BitmapDescriptor.defaultMarkerWithHue(
+                                            200),
                                   ),
-                                  polylines: {
-                                    Polyline(
-                                        polylineId: const PolylineId("route"),
-                                        points: polylineCoordinates,
-                                        color: Colors.black,
-                                        width: 5,
-                                        geodesic: false),
-                                  },
-                                  markers: {
-                                    // Marker(
-                                    //   markerId: const MarkerId('current Location'),
-                                    //   position: src,
-                                    //   consumeTapEvents: true,
-                                    //   // position: LatLng(currentLocation!.latitude!,
-                                    //   //     currentLocation!.longitude!),
-                                    //   icon: srcIcon,
-                                    // ),
-                                    Marker(
-                                      markerId: const MarkerId('wayPoint'),
-                                      position: wayPointVal,
-                                      visible: isWayPointSet,
-                                      icon:
-                                          BitmapDescriptor.defaultMarkerWithHue(
-                                              200),
-                                    ),
-                                    Marker(
-                                      markerId: const MarkerId('destination'),
-                                      position: des,
-                                      icon: destinationIcon,
-                                    ),
-                                  },
-                                  onMapCreated: (mapController) {
-                                    setState(() {
-                                      _mapController.complete(mapController);
-                                    });
-                                  },
-                                );
-                              }),
+                                  Marker(
+                                    markerId: const MarkerId('destination'),
+                                    position: des,
+                                    icon: destinationIcon,
+                                  ),
+                                },
+                                onMapCreated: (mapController) {
+                                  setState(() {
+                                    _mapController.complete(mapController);
+                                  });
+                                },
+                              ),
                             ),
                             Visibility(
                               visible: isStarted,
@@ -628,9 +654,12 @@ class _PilotScreenState extends State<PilotScreen> {
                                                     BorderRadius.circular(25)),
                                           ),
                                           mode: Mode.overlay,
+                                          location: gmws.Location(
+                                              lat: currentLocation!.latitude!,
+                                              lng: currentLocation!.longitude!),
                                           types: [],
-                                          strictbounds: false,
-                                          radius: 50,
+                                          strictbounds: true,
+                                          radius: 50000,
                                           components: [
                                             gmws.Component(
                                               gmws.Component.country,
@@ -794,16 +823,20 @@ class _PilotScreenState extends State<PilotScreen> {
                               right: SizeConfig.safeBlockHorizontal * 3,
                               bottom: SizeConfig.safeBlockVertical * 7.5,
                               child: StreamBuilder(
-                                stream: stream,
+                                stream:stream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot<dynamic> snapshot) {
-                                  print("entered");
                                   var response;
-                                  print(response);
-                                  if (snapshot.hasData) {
+                                 print("Printing previous Data: $previousData");
+                                 print("Printing snapshot Data: ${snapshot.data}");
+                                 print("Printing show request:$showRequest");
+                                  snapshot.hasData?response = jsonDecode(snapshot.data):'';
+                                  if (snapshot.hasData &&
+                                      snapshot.data != previousData) {
+                                    print("Entered the snapshot");
                                     var isNumberLocked =
                                         false; //bool to check whether the pilot has already blocked the passenger.
-                                    response = jsonDecode(snapshot.data);
+
                                     if (queue.isNotEmpty) {
                                       isNumberLocked = queue
                                           .contains(response['passengerPhone']);
@@ -814,6 +847,13 @@ class _PilotScreenState extends State<PilotScreen> {
                                       showRequest = true;
                                       playMusic();
                                     }
+                                    previousData = snapshot.data;
+                                    if(response['passengerName']!=null && response['passengerDestination']!=null)
+                                          {
+                                            name = response['passengerName'];
+                                            destination = response['passengerDestination'];
+                                            phone = response['passengerPhone'];
+                                          }
                                   }
                                   return Visibility(
                                     visible: showRequest,
@@ -836,7 +876,7 @@ class _PilotScreenState extends State<PilotScreen> {
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                     text: showRequest
-                                                        ? '${response['passengerName']} '
+                                                        ? '$name '
                                                         : '',
                                                     style: const TextStyle(
                                                         fontSize: 17.5,
@@ -855,7 +895,7 @@ class _PilotScreenState extends State<PilotScreen> {
                                                               FontWeight.w600)),
                                                   TextSpan(
                                                       text: showRequest
-                                                          ? '${response['passengerDestination']}'
+                                                          ? destination
                                                               .toString()
                                                           : '',
                                                       style: const TextStyle(
@@ -891,29 +931,56 @@ class _PilotScreenState extends State<PilotScreen> {
                                                   color: Colors.green,
                                                   response: 'Accept',
                                                   onTap: () async {
-                                                    await acceptUser(
-                                                        response[
-                                                            'passengerPhone'],
-                                                        response['pilotPhone'],
-                                                        response[
-                                                            'passengerDest']);
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                      MaterialPageRoute(builder:
-                                                          (BuildContext
-                                                              context) {
-                                                        return PilotTrip(
-                                                            destname: response[
-                                                                'passengerDestination']);
-                                                      }),
-                                                    );
+                                                    var a = await PilotMethods()
+                                                        .isPassengerAvailable(
+                                                        phone: phone,
+                                                        destination: destination);
+                                                    if (a) {
+                                                      await acceptUser(
+                                                          response[
+                                                          'passengerPhone'],
+                                                          response['pilotPhone'],
+                                                          response[
+                                                          'passengerDest']);
+                                                      Navigator.of(context)
+                                                          .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                            context) {
+                                                              return PilotTrip(
+                                                                  destname: response[
+                                                                  'passengerDestination']);
+                                                            }),
+                                                          (route)=>false
+                                                      );
 
-                                                    player.stop();
-                                                    timer!.cancel();
-                                                    deleteUser(int.parse(
-                                                        HelperVariables.Phone));
-                                                  },
-                                                ),
+                                                      player.stop();
+                                                      timer!.cancel();
+                                                      deleteUser(int.parse(
+                                                          HelperVariables
+                                                              .Phone));
+                                                    }
+                                                    else
+                                                      {
+                                                        showRequest = false;
+
+                                                        stopMusic();
+                                                        PilotMethods().NotAvailableDialog(context);
+                                                         Future.delayed(const Duration(seconds: 2),(){
+                                                        Provider.of<PilotMethods>(context,listen: false).popNotAvailableDialogContext(context);
+                                                      });
+                                                        // Consumer<PilotMethods>(
+                                                        //                   // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                                                        //                   builder: (context, PilotMethods, child) {
+                                                        //             Future.delayed(const Duration(seconds: 1),(){
+                                                        //                   PilotMethods.popNotAvailableDialogContext();
+                                                        //                 });
+                                                        //             return const SizedBox.shrink();
+                                                        //               });
+
+                                                      }
+                                                  }),
                                               ],
                                             ),
                                           )
@@ -968,7 +1035,7 @@ class _PilotScreenState extends State<PilotScreen> {
                       ),
                     ),
             )),
-          ));
+          );
     }
   }
 
@@ -1234,6 +1301,9 @@ class RequestResponseWidget extends StatelessWidget {
 // ignore: non_constant_identifier_names
 GetModel() {
   return MyModel(username: 'Fetching Address...');
+}
+GetPilotMethods() {
+  return PilotMethods();
 }
 
 class MyModel with ChangeNotifier {

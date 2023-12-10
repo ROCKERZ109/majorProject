@@ -19,13 +19,13 @@ class PilotPopupDialog extends StatefulWidget {
 class _PilotPopupDialogState extends State<PilotPopupDialog> {
   var dialogContext;
 
-  void validateInput(BuildContext context) async {
+  void validateInput(context) async {
     var apiResponse = await OtpMethods()
         .validateOtp(otp: x, pilot: widget.pilot, passenger: widget.passenger);
     if (apiResponse.body == "true") {
       // Navigator.pop(this.context);
       if (!mounted) return;
-      setState(() async {
+      setState((){
         showOTPs = false;
         rideStarted = true;
         OtpMethods().deleteOtp(
@@ -51,8 +51,9 @@ class _PilotPopupDialogState extends State<PilotPopupDialog> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return ScaffoldMessenger(
-      child: Builder(builder: (BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Builder(builder: (BuildContext context) {
         dialogContext = context;
         return AlertDialog(
           shape:

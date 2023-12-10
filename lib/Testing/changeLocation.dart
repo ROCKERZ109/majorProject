@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main(){
-  runApp(MyHome());
+  runApp(const MyHome());
 }
 
 class MyHome extends StatefulWidget {
@@ -18,7 +18,7 @@ class _MyHomeState extends State<MyHome> {
       home: SafeArea(
         child: Scaffold(
           body: Container(
-            child: Text('Graphic Era deemed to be University Clement Town Bell road near ISBT Road ',
+            child: const Text('Graphic Era deemed to be University Clement Town Bell road near ISBT Road ',
             style: TextStyle(
                 fontSize: 15,
                 overflow: TextOverflow.ellipsis,

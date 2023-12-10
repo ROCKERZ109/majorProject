@@ -39,7 +39,7 @@ class _firstpageState extends State<firstpage> {
   @override
   void get_data(var phone) async {
     var response = await http
-        .get(Uri.parse('http://209.38.239.47/users/user?phone=$phone'));
+        .get(Uri.parse('http://139.59.90.159:25060/users/user?phone=$phone'));
     // var data = response.statusCode;
     var data;
     if (response.statusCode == 200) {
@@ -138,11 +138,11 @@ class _firstpageState extends State<firstpage> {
       return WillPopScope(
         onWillPop: () async {
           DateTime now = DateTime.now();
-          if (ctime == null || now.difference(ctime) > Duration(seconds: 2)) {
+          if (ctime == null || now.difference(ctime) > const Duration(seconds: 2)) {
             //add duration of press gap
             ctime = now;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Press Back Button Again to Exit')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Press Back Button Again to Exit')));
             return false;
           }
           return true;
@@ -177,7 +177,7 @@ class _firstpageState extends State<firstpage> {
                             icon: CircleAvatar(
                               backgroundColor: Colors.transparent,
                               backgroundImage: NetworkImage(fetched_image ==
-                                      "https://imagenauft.fra1.digitaloceanspaces.com/"
+                                      "https://image-db.sfo3.digitaloceanspaces.com/"
                                   ? "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew="
                                   : fetched_image),
                               radius: SizeConfig.safeBlockHorizontal * 11.5,
@@ -213,189 +213,192 @@ class _firstpageState extends State<firstpage> {
             ),
           ),
           backgroundColor: const Color.fromARGB(255, 230, 230, 230),
-          body: SizedBox(
-            height: SizeConfig.safeBlockVertical * 90,
-            width: SizeConfig.safeBlockHorizontal * 100,
-            child: Material(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(70), topLeft: Radius.circular(70)),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          // top: SizeConfig.safeBlockVertical * 1,
-                          // bottom: SizeConfig.safeBlockVertical *0,
-                          left: SizeConfig.safeBlockHorizontal * 10,
-                          right: SizeConfig.safeBlockHorizontal * 10,
-                        ),
-                        child: SizedBox(
-                          // color: Colors.grey,
-                          height: SizeConfig.safeBlockVertical * 17,
-                          child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              color: const Color.fromARGB(255, 230, 230, 230),
-                              elevation: 10,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: SizeConfig.safeBlockVertical * 2,
-                                          left: SizeConfig.blockSizeHorizontal *
-                                              2,
-                                        ),
-                                        child: const Text(
-                                          "Ride With Mates",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Nunito Sans',
-                                              fontSize: 20),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.safeBlockVertical * 1,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          // top: SizeConfig.blockSizeVertical
-                                          left: SizeConfig.safeBlockHorizontal *
-                                              4,
-                                        ),
-                                        child: const Text(
-                                          "For Graphians!",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Nunito Sans',
-                                              fontSize: 17),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                        child: const Text(
-                                          "By Graphians!",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Nunito Sans',
-                                              fontSize: 17),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: SizeConfig.safeBlockHorizontal * 2,
-                                      top: SizeConfig.safeBlockVertical * 2,
-                                      bottom: SizeConfig.safeBlockVertical * 2,
-                                    ),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius:
-                                          SizeConfig.safeBlockHorizontal * 14,
-                                      backgroundImage:
-                                          const AssetImage('assets/geul2.png'),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 20,
-                        //
-                        // child: Center(
-                        //   child: Image.asset('assets/geul.png',
-                        //   height:SizeConfig.safeBlockVertical * 22 ,
-                        //     width: SizeConfig.safeBlockHorizontal*55,
-                        //   ),
-                        // ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.safeBlockVertical * 6),
-                        height: SizeConfig.safeBlockVertical * 4,
-                        child: const Text(
-                          'Select your role below',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Nunito Sans',
-                              fontSize: 14,
-                              color: Colors.grey),
-                        ),
-                      ),
-                      SizedBox(
-                        // /   margin: EdgeInsets.only(top: SizeConfig.safeBlockVertical*4),
-                        width: SizeConfig.safeBlockHorizontal * 60,
-                        height: SizeConfig.safeBlockVertical * 6,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => FirstScreen(
-                                        screenName: PilotScreen.id)),
-                                (Route<dynamic> route) => false);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 10,
-                            backgroundColor: Colors.black,
-                            splashFactory: NoSplash.splashFactory,
+          body: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              height: SizeConfig.safeBlockVertical * 90,
+              width: SizeConfig.safeBlockHorizontal * 100,
+              child: Material(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(70), topLeft: Radius.circular(70)),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            // top: SizeConfig.safeBlockVertical * 1,
+                            // bottom: SizeConfig.safeBlockVertical *0,
+                            left: SizeConfig.safeBlockHorizontal * 10,
+                            right: SizeConfig.safeBlockHorizontal * 10,
                           ),
+                          child: SizedBox(
+                            // color: Colors.grey,
+                            height: SizeConfig.safeBlockVertical * 17,
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                color: const Color.fromARGB(255, 230, 230, 230),
+                                elevation: 10,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: SizeConfig.safeBlockVertical * 2,
+                                            left: SizeConfig.blockSizeHorizontal *
+                                                2,
+                                          ),
+                                          child: const Text(
+                                            "Ride With Mates",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito Sans',
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.safeBlockVertical * 1,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            // top: SizeConfig.blockSizeVertical
+                                            left: SizeConfig.safeBlockHorizontal *
+                                                4,
+                                          ),
+                                          child: const Text(
+                                            "Don't book a driver,",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito Sans',
+                                                fontSize: 17),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left:
+                                                  SizeConfig.blockSizeHorizontal *
+                                                      4),
+                                          child: const Text(
+                                            "Get a companion!",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito Sans',
+                                                fontSize: 17),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: SizeConfig.safeBlockHorizontal * 2,
+                                        top: SizeConfig.safeBlockVertical * 2,
+                                        bottom: SizeConfig.safeBlockVertical * 2,
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius:
+                                            SizeConfig.safeBlockHorizontal * 14,
+                                        backgroundImage:
+                                            const AssetImage('assets/friend_.png'),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ),
+                        Container(
+                          height: SizeConfig.safeBlockVertical * 20,
+                          //
+                          // child: Center(
+                          //   child: Image.asset('assets/geul.png',
+                          //   height:SizeConfig.safeBlockVertical * 22 ,
+                          //     width: SizeConfig.safeBlockHorizontal*55,
+                          //   ),
+                          // ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.safeBlockVertical * 6),
+                          height: SizeConfig.safeBlockVertical * 4,
                           child: const Text(
-                            "Pilot",
+                            'Select your role below',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Nunito Sans',
-                                fontSize: 21),
+                                fontSize: 14,
+                                color: Colors.grey),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 6,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal * 60,
-                        height: SizeConfig.safeBlockVertical * 6,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => FirstScreen(
-                                        screenName: PassengerScreen.id)),
-                                (Route<dynamic> route) => false);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 10,
-                            backgroundColor: Colors.black,
-                            splashFactory: NoSplash.splashFactory,
-                          ),
-                          child: const Text(
-                            "Passenger",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'NunitoSans',
-                                fontSize: 20),
+                        SizedBox(
+                          // /   margin: EdgeInsets.only(top: SizeConfig.safeBlockVertical*4),
+                          width: SizeConfig.safeBlockHorizontal * 60,
+                          height: SizeConfig.safeBlockVertical * 6,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => FirstScreen(
+                                          screenName: PilotScreen.id)),
+                                  (Route<dynamic> route) => false);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 10,
+                              backgroundColor: Colors.black,
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            child: const Text(
+                              "Pilot",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Nunito Sans',
+                                  fontSize: 21),
+                            ),
                           ),
                         ),
-                      ),
-                    ]),
+                        SizedBox(
+                          height: SizeConfig.safeBlockVertical * 6,
+                        ),
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 60,
+                          height: SizeConfig.safeBlockVertical * 6,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => FirstScreen(
+                                          screenName: PassengerScreen.id)),
+                                  (Route<dynamic> route) => false);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 10,
+                              backgroundColor: Colors.black,
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            child: const Text(
+                              "Passenger",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'NunitoSans',
+                                  fontSize: 20),
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
               ),
             ),
           ),

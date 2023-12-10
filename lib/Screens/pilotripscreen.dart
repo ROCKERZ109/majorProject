@@ -7,6 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Screens/cross_feedback.dart';
 import 'package:veloce/Screens/pilot.dart';
+import 'package:veloce/Service/pilot_passenger_common_methods.dart';
 import 'package:veloce/pilot_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _PilotTripState extends State<PilotTrip> {
 
   LocationData? pilotCurrentLocation;
   var image = HelperVariables.img_url;
-  var Othername;
+  var Othername = "Name";
   var beta;
   int ent = 0;
 
@@ -54,7 +55,7 @@ class _PilotTripState extends State<PilotTrip> {
 
   void getPolyPoint(double slat, double slong, double dlat, double dlong,
       var waypoint) async {
-    print("$slat $slong $dlat $dlong ");
+    // print("$slat $slong $dlat $dlong ");
     polylineCoordinate.clear();
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -75,6 +76,7 @@ class _PilotTripState extends State<PilotTrip> {
       for (var point in result.points) {
         polylineCoordinate.add(LatLng(point.latitude, point.longitude));
       }
+      setMarker();
       // setState(() {
       //   print("Entered setState");
       //    print(polylineCoordinate);
@@ -92,26 +94,26 @@ class _PilotTripState extends State<PilotTrip> {
   void setLocations() {}
   var stream;
 
-  // void setMarker() async {
-  //   await BitmapDescriptor.fromAssetImage(
-  //           const ImageConfiguration(size: Size(0, 0)), 'assets/src1.png')
-  //       .then((icon) {
-  //     setState(() {
-  //       customMarker = icon;
-  //     });
-  //   });
-  // }
+  void setMarker() async {
+    await BitmapDescriptor.fromAssetImage(
+            const ImageConfiguration(size: Size(40, 30)), 'assets/li.png')
+        .then((icon) {
+      setState(() {
+        customMarker = icon;
+      });
+    });
+  }
 
   Future<void> closeSocket(int phone) async {
     var response = await http.get(
-        Uri.parse('http://209.38.239.190/closeTheConnection?phone=$phone'));
+        Uri.parse('http://64.227.106.247:5000/closeTheConnection?phone=$phone'));
     var data = jsonDecode(response.body);
     // print(data);
   }
 
   Future<void> deleteFromIds(int phone) async {
     var response = await http
-        .get(Uri.parse('http://209.38.239.190/deleteFromIds?phone=$phone'));
+        .get(Uri.parse('http://64.227.106.247:5000/deleteFromIds?phone=$phone'));
 
     // print(response.body);
   }
@@ -143,14 +145,16 @@ class _PilotTripState extends State<PilotTrip> {
 
   void getlocation() async {
     Location location = Location();
-
+    location.enableBackgroundMode(enable: true);
     await location.getLocation().then((location) {
       pilotCurrentLocation = location;
       // print("${HelperVariables.otherPhone}+HelperVariables.otherPhone");
-      channel!.sink.add(jsonEncode({
-        'to': HelperVariables.otherPhone,
-        'location': [location.latitude, location.longitude]
-      }));
+      if (channel != null && channel!.closeCode == null) {
+        channel!.sink.add(jsonEncode({
+          'to': HelperVariables.otherPhone,
+          'location': [location.latitude, location.longitude]
+        }));
+      }
     });
 
     location.onLocationChanged.listen((newLoc) async {
@@ -550,6 +554,7 @@ class _PilotTripState extends State<PilotTrip> {
   void dispose() {
     // print("Entered dispose");
     // TODO: implement dispose
+    channel?.sink.close();
     super.dispose();
   }
 
@@ -658,49 +663,19 @@ class _PilotTripState extends State<PilotTrip> {
   }
 
   void initailizeWebsocket() async {
-    channel = WebSocketChannel.connect(
-        Uri.parse('ws://209.38.239.190:3005?phone=${HelperVariables.Phone}'));
-    //   try {
-    //     channel = WebSocketChannel.connect(
-    //         Uri.parse('ws://139.59.44.53:3005?phone=${HelperVariables.Phone}'));
-    setState(() {
+
+      channel = await PilotPassengerCommonMethods()
+          .initializeWebsocket(phone: HelperVariables.Phone, port: 3005);
       stream = channel!.stream;
-    });
-    //     // send initial data
-    //   } catch (e) {
-    //     print('Error connecting to WebSocket: $e');
-    //   }
-    //   // channel.sink.add(HelperVariables.passengercurrentLocation);
-    //   // stream = channel.stream;
-    //   channel!.stream.listen((event) {
-    //     print('kuch aaya00');
-    //     print("${jsonDecode(event)[0]}");
-    //     print(event.runtimeType);
-    //
-    //   });
-    // print("exitted websocekt method ");
-    // }
-    //
-    // Stream<String> initailizeWebsocket() {
-    //   channel = WebSocketChannel.connect(
-    //       Uri.parse('ws://139.59.44.53:3005?phone=${HelperVariables.Phone}'));
-    //   // channel!.sink.add(HelperVariables.pilotcurrentLocation);
-    //
-    //   // channel!.stream.listen((event) {
-    //   //   passengerCurrentLocation.latitude != jsonDecode(event)[0];
-    //   //   passengerCurrentLocation.longitude != jsonDecode(event)[1];
-    //   //   print(jsonDecode(event)[0]);
-    //   //   print('this is soem ${passengerCurrentLocation.latitude!}');
-    //   // });
-    //   print("exitted websocekt method ");
-    //   return channel!.stream.map((event) => event);
+      setState(() { });
+
   }
 
   var load = false;
 
   void getDataOfOtherUser() async {
     var response = await http.get(Uri.parse(
-        'http://209.38.239.47/users/user?phone=${HelperVariables.otherPhone}'));
+        'http://139.59.90.159:25060/users/user?phone=${HelperVariables.otherPhone}'));
     var data = jsonDecode(response.body);
 
     setState(() {
@@ -758,7 +733,7 @@ class _PilotTripState extends State<PilotTrip> {
                 children: const <Widget>[
                   Center(
                     child: Text(
-                      'Sorry,your passenger has canceled the ride!',
+                      'Sorry, your passenger has canceled the ride!',
                       style: TextStyle(
                           fontSize: 16.5,
                           fontFamily: 'Nunito Sans',
@@ -828,7 +803,7 @@ class _PilotTripState extends State<PilotTrip> {
                                               )),
                                       (route) => false);
                                   endVal = 1;
-                                } else {
+                                } else if (val[0].runtimeType != String) {
                                   data[0] = val[0];
                                   data[1] = val[1];
                                 }
@@ -882,11 +857,18 @@ class _PilotTripState extends State<PilotTrip> {
                               },
                               markers: {
                                 Marker(
-                                    markerId: const MarkerId('Center'),
-                                    icon: BitmapDescriptor.defaultMarker,
-                                    position: LatLng(data[0], data[1]),
-                                    draggable: true,
-                                    zIndex: 25)
+                                  markerId: const MarkerId('Center'),
+                                  icon: BitmapDescriptor.defaultMarker,
+                                  position: LatLng(data[0], data[1]),
+                                ),
+                                Marker(
+                                  markerId: const MarkerId('Destina'),
+                                  icon: customMarker,
+                                  position: LatLng(
+                                    HelperVariables.passengerDest[0],
+                                    HelperVariables.passengerDest[1],
+                                  ),
+                                ),
                               },
                               onMapCreated: (mapController) {
                                 setState(() {
@@ -919,7 +901,10 @@ class _PilotTripState extends State<PilotTrip> {
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                              image: NetworkImage(image),
+                                              image: NetworkImage(image ==
+                                                      "https://image-db.sfo3.digitaloceanspaces.com/"
+                                                  ? "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew="
+                                                  : image),
                                               // 'https://imagebr.nyc3.cdn.digitaloceanspaces.com/$image'),
                                               fit: BoxFit.fill)),
                                     ),
@@ -940,7 +925,7 @@ class _PilotTripState extends State<PilotTrip> {
                                               padding:
                                                   const EdgeInsets.all(10.0),
                                               child: Text(
-                                                '$Othername',
+                                                Othername,
                                                 style: const TextStyle(
                                                     fontSize: 12,
                                                     fontFamily: 'Nunito Sans',
@@ -957,8 +942,8 @@ class _PilotTripState extends State<PilotTrip> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        print(
-                                            "Entered the cancel ride secttion");
+                                        // print(
+                                        //     "Entered the cancel ride secttion");
                                         await _Cancel();
                                         await closeSocket(
                                             int.parse(HelperVariables.Phone));
@@ -999,23 +984,29 @@ class _PilotTripState extends State<PilotTrip> {
                         color: Colors.black,
                         child: Padding(
                           padding: const EdgeInsets.all(10.50),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Icon(
-                                Icons.my_location_outlined,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                widget.destname!.split(',')[0] +
-                                    widget.destname!.split(',')[1],
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Nunito Sans',
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white),
-                              ),
-                            ],
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Icon(
+                                  Icons.my_location_outlined,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  widget.destname!,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Nunito Sans',
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1047,7 +1038,7 @@ class Data with ChangeNotifier {
 
   void doS(bool loads) {
     load = loads;
-    print("Printing listeners with change:$load");
+    // print("Printing listeners with change:$load");
     notifyListeners();
   }
 }

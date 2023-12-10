@@ -28,7 +28,7 @@ class _ClickPictureState extends State<ClickPicture> {
 
   var redirect = false;
 
-  var url = Uri.parse('http://209.38.239.47/createNewUser');
+  var url = Uri.parse('http://139.59.90.159:25060/createNewUser');
 
   Future<int> CreateNewUser(context) async {
     print("entered");
@@ -39,7 +39,7 @@ class _ClickPictureState extends State<ClickPicture> {
       "gender": HelperVariables.gender,
       "image": HelperVariables.img_url == null
           ? null
-          : 'https://imagenauft.fra1.digitaloceanspaces.com/${HelperVariables.img_url}',
+          : 'https://image-db.sfo3.digitaloceanspaces.com/${HelperVariables.img_url}',
       "token": widget.token,
       "pilot": 0,
       "passenger": 0,
@@ -57,14 +57,14 @@ class _ClickPictureState extends State<ClickPicture> {
       sharedPreferences.setString('email', HelperVariables.Email);
       sharedPreferences.setString('gender', HelperVariables.gender);
       sharedPreferences.setString('image', HelperVariables.img_url.toString());
-      Navigator.pushNamed(context, firstpage.id);
+      Navigator.pushNamedAndRemoveUntil(context, firstpage.id,(route)=>false);
     }
     print(response.body);
     return response.statusCode;
   }
 
   void upload(context, File imageFile) async {
-    const String url = 'http://209.38.239.223/uploads';
+    const String url = 'http://64.227.133.85:3001/uploads';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
     print(imageFile.path);

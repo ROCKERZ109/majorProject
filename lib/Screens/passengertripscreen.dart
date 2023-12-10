@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:veloce/Profile/first.dart';
 import 'package:veloce/Screens/passenger.dart';
+import 'package:veloce/Service/pilot_passenger_common_methods.dart';
 import 'package:veloce/Testing/pro.dart';
 import 'package:veloce/passenger_popup.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -44,7 +45,7 @@ class _PassengerTripState extends State<PassengerTrip> {
   LocationData? pilotLocation;
   var image = HelperVariables.img_url;
   var beta;
-  var Othername;
+  var Othername = "Name";
 
   void setLocations() {}
   WebSocketChannel? channel; //Changed the var channel to WebSocketChannel
@@ -57,18 +58,55 @@ class _PassengerTripState extends State<PassengerTrip> {
 
   void setMarker() async {
     await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(0, 0)), 'assets/src1.png')
+            const ImageConfiguration(size: Size(1, 1)), 'assets/li.png')
         .then((icon) {
       setState(() {
         customMarker = icon;
       });
     });
   }
+  // int connectionAttempts = 0;
+  // final int maxConnectionAttempts = 5;
+  // final Duration retryDelay = Duration(seconds: 2);
+  // void initializeWebsocket() async {
+  //   while (connectionAttempts < maxConnectionAttempts) {
+  //     try {
+  //       channel = WebSocketChannel.connect(
+  //           Uri.parse('ws://209.38.239.190:3005?phone=${HelperVariables.Phone}'));
+  //       // Connection successful, break out of the loop
+  //       break;
+  //     } catch (e) {
+  //       print('WebSocket connection error: $e');
+  //       // Increment connection attempts
+  //       connectionAttempts++;
+  //       // Delay before retrying
+  //       await Future.delayed(retryDelay);
+  //     }
+  //   }
+  //   if (channel == null) {
+  //     print('Failed to establish websocket connection after $maxConnectionAttempts attempts');
+  //     // Handle the failure case
+  //   } else {
+  //     setState(() {
+  //       stream = channel!.stream;
+  //     });
+  //   }
+  // }
+  //
 
-  @override
+
+
+
+
+
+
+
+
+@override
   void dispose() {
     // TODO: implement dispose
     // googleMapController!.dispose();
+    channel!.sink.close();
     super.dispose();
   }
 
@@ -113,6 +151,7 @@ class _PassengerTripState extends State<PassengerTrip> {
       for (var point in result.points) {
         polylineCoordinate.add(LatLng(point.latitude, point.longitude));
       }
+     setMarker();
     }
   }
 
@@ -130,10 +169,14 @@ class _PassengerTripState extends State<PassengerTrip> {
       // print("Location $location");
       // print("passengerLocation $passengerCurrentLocation");
       // print("${widget.phone}+Helpervearoanles");
-      channel!.sink.add(jsonEncode({
-        'to': widget.phone,
-        'location': [location.latitude, location.longitude]
-      }));
+      if (channel != null && channel!.closeCode == null) {
+        channel!.sink.add(jsonEncode({
+          'to': widget.phone,
+          'location': [location.latitude, location.longitude]
+        }));
+        // WebSocket connection is open, proceed with writing data to the StreamSink
+      }
+
     });
     // googleMapController = await _mapController.future;
 
@@ -162,7 +205,7 @@ class _PassengerTripState extends State<PassengerTrip> {
         });
         // added &&ridesarted
       } else if (end <= 0.075 && checkEnd == 0 && rideStarted) {
-        print('entered end');
+        // print('entered end');
         _EndDialog();
         checkEnd = 1;
         // print(checkEnd);
@@ -174,13 +217,19 @@ class _PassengerTripState extends State<PassengerTrip> {
   var checkOnce = 0;
 
   void initailizeWebsocket() async {
-    channel = WebSocketChannel.connect(
-        Uri.parse('ws://209.38.239.190:3005?phone=${HelperVariables.Phone}'));
+    try {
 
+       channel = await PilotPassengerCommonMethods().initializeWebsocket(phone:HelperVariables.Phone,port: 3005);
+       stream = channel!.stream;
+       setState(() {  });
+
+    }
+    catch(e)
+    {
+
+    }
     // channel.sink.add(HelperVariables.passengercurrentLocation);
-    setState(() {
-      stream = channel!.stream;
-    });
+
 
     // channel!.stream.listen((event) {
     //   print('kuch aaya00');
@@ -188,25 +237,25 @@ class _PassengerTripState extends State<PassengerTrip> {
     //   print(event.runtimeType);
     //
     // });
-    print("exitted websocekt method ");
+    // print("exitted websocekt method ");
   }
 
   Future<void> deleteFromIds(int phone) async {
     var response = await http
-        .get(Uri.parse('http://209.38.239.190/deleteFromIds?phone=$phone'));
-    print(response.body);
+        .get(Uri.parse('http://64.227.106.247:5000/deleteFromIds?phone=$phone'));
+    // print(response.body);
   }
 
   Future<void> closeSocket(int phone) async {
     var response = await http.get(
-        Uri.parse('http://209.38.239.190/closeTheConnection?phone=$phone'));
+        Uri.parse('http://64.227.106.247:5000/closeTheConnection?phone=$phone'));
     var data = jsonDecode(response.body);
-    print(data);
+    // print(data);
   }
 
   @override
   void deactivate() {
-    print('Entered deactivate function');
+    // print('Entered deactivate function');
     closeSocket(int.parse(HelperVariables.Phone));
     // TODO: implement deactivate
     super.deactivate();
@@ -214,21 +263,21 @@ class _PassengerTripState extends State<PassengerTrip> {
 
   void getDataOfOtherUser() async {
     var response = await http.get(
-        Uri.parse('http://209.38.239.47/users/user?phone=${widget.phone}'));
+        Uri.parse('http://139.59.90.159:25060/users/user?phone=${widget.phone}'));
     var data = jsonDecode(response.body);
-    print(data);
+    // print(data);
     if (!mounted) return;
     setState(() {
       Othername = data[0]['name'];
       image = data[0]['image'];
     });
-    print(Othername);
-    print(image);
+    // print(Othername);
+    // print(image);
   }
 
   void controllerInitializer() async {
     googleMapController = await _mapController.future;
-    print("Enterd ");
+    // print("Enterd ");
   }
 
   var load = false;
@@ -262,7 +311,7 @@ class _PassengerTripState extends State<PassengerTrip> {
   double starRating = 2, experienceRating = 3;
 
   final _controller = TextEditingController();
-
+  var isDestVisible = false;
   String customFeedback = "";
 
   var data = [30.8, 78.3];
@@ -270,7 +319,7 @@ class _PassengerTripState extends State<PassengerTrip> {
   int x = 0;
 
   void validateInput(BuildContext context) async {
-    print(x);
+    // print(x);
     var apiResponse = await OtpMethods().validateOtp(
         otp: x,
         pilot: widget.phone!,
@@ -561,7 +610,7 @@ class _PassengerTripState extends State<PassengerTrip> {
 
   void updateRide(String api) async {
     var response = await http.get(Uri.parse(
-        'http://209.38.239.47/users/$api?phone=${int.parse(HelperVariables.Phone)}'));
+        'http://139.59.90.159:25060/users/$api?phone=${int.parse(HelperVariables.Phone)}'));
   }
 
   Future<void> _EndDialog() async {
@@ -674,7 +723,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                 children: const <Widget>[
                   Center(
                     child: Text(
-                      'Sorry,your pilot has canceled the ride!',
+                      'Sorry, your pilot has canceled the ride!',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Nunito Sans',
@@ -784,7 +833,7 @@ class _PassengerTripState extends State<PassengerTrip> {
   }
 
   var checkEnd = 0;
-
+  var checkForPolyLines = 0;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -811,7 +860,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                               if (!mounted) return;
                               setState(() {
                                 val = jsonDecode(snapshot.data);
-                                if (val == 'started') {
+                                if (val == 'started' && checkForPolyLines == 0) {
                                   rideStarted = true;
                                   showOTP = false;
                                   getPolyPoint(
@@ -819,6 +868,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                       passengerCurrentLocation!.longitude!,
                                       PassengerScreen.des.latitude,
                                       PassengerScreen.des.longitude);
+                                  checkForPolyLines=1;
                                 } else if (val == 'cancel' && checkOnce == 0) {
                                   _showMyDialog();
                                   Future.delayed(const Duration(seconds: 2),
@@ -828,7 +878,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                   });
                                   channel!.sink.close();
                                   checkOnce = 1;
-                                } else {
+                                } else if(val[0].runtimeType != String){
                                   data[0] = val[0];
                                   data[1] = val[1];
                                 }
@@ -885,8 +935,13 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     markerId: const MarkerId('Center'),
                                     icon: BitmapDescriptor.defaultMarker,
                                     position: LatLng(data[0], data[1]),
-                                    draggable: true,
-                                    zIndex: 25)
+
+                                  ),
+                                Marker(
+                                    markerId: const MarkerId('Destination'),
+                                    icon: customMarker,
+                                    position: LatLng(PassengerScreen.des.latitude,PassengerScreen.des.longitude),
+                                    ),
                               },
                               onMapCreated: (mapController) {
                                 setState(() {
@@ -916,7 +971,9 @@ class _PassengerTripState extends State<PassengerTrip> {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
-                                            image: NetworkImage(image),
+                                            image: NetworkImage(image== "https://image-db.sfo3.digitaloceanspaces.com/"
+                                                ? "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew="
+                                                :image),
                                             fit: BoxFit.fill)),
                                   ),
                                   Column(
@@ -935,7 +992,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Text(
-                                              '$Othername',
+                                              Othername,
                                               style: const TextStyle(
                                                   fontSize: 12,
                                                   fontFamily: 'Nunito Sans',
@@ -994,7 +1051,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                           padding: const EdgeInsets.all(10.5),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -1009,7 +1066,7 @@ class _PassengerTripState extends State<PassengerTrip> {
                                   widget.destiname!,
                                   // widget.destiname!.split(',')[0] +
                                   //     widget.destiname!.split(',')[1],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontFamily: 'Nunito Sans',
                                       fontWeight: FontWeight.w900,

@@ -4,7 +4,7 @@ import 'dart:convert';
 class CrossFeedbackDialog  {
   void postFeedback({int?phone,String? other,String?role, String? starRating, String? experienceRating, String? customFeedback,String? destination,String? paid}) async {
     var response = await http.post(
-      Uri.parse("http://209.38.239.190/feedback/crossFeedback"),
+      Uri.parse("http://64.227.106.247:5000/feedback/crossFeedback"),
       body: jsonEncode({
         "cross_feedback": {
           "phone": phone,

@@ -162,7 +162,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
   Future<bool> checkForDuplicateUser() async {
     print("entered");
     var url = Uri.parse(
-        'http://209.38.239.47/users/user?phone=${int.parse(PhoneAuth.phone.toString())}');
+        'http://139.59.90.159:25060/users/user?phone=${int.parse(PhoneAuth.phone.toString())}');
     print(PhoneAuth.phone);
     http.Response response = await http.get(url, headers: header);
     var data = jsonDecode(response.body);

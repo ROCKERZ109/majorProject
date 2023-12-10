@@ -272,26 +272,40 @@ class _OtpValidationState extends State<OtpValidation> {
                                           PhoneAuthProvider.credential(
                                               verificationId: PhoneAuth.verify,
                                               smsCode: code);
-
+                                         print("Connection established1");
                                       // Sign the user in (or link) with the credential
                                       await auth
                                           .signInWithCredential(credential);
                                       HelperVariables.Phone = PhoneAuth.phone;
 
+                                      print("Connection established2");
                                       final SharedPreferences
                                           sharedPreferences =
                                           await SharedPreferences.getInstance();
+
+                                      print("Connection established3");
                                       sharedPreferences.setString(
                                           'phone', HelperVariables.Phone);
 
+                                      print("Connection established4");
                                       await checkFirstTimeUser()
                                           ? Get.to(() => const RegisterScreen())
-                                          : Get.to(() => const firstpage());
+                                          : Navigator.pushNamedAndRemoveUntil(context,firstpage.id,(route)=>false);
                                       print(HelperVariables.Phone);
                                       print("not transferred");
                                       // Navigator.pushNamed(
                                       //     context, RegisterScreen.id);
-                                    } catch (e) {
+                                    }
+                                    on FirebaseAuthException catch(e)
+                                    {
+                                      print("FirebaseAuthException"+(e.code).toString());
+                                    }
+                                    on FirebaseException catch(e)
+                                    {
+                                      print("FirebaseException"+(e.code).toString());
+                                    }
+                                    catch (e) {
+                                      print(e.toString());
                                       _OTPError();
                                     }
                                   },
@@ -326,14 +340,14 @@ class _OtpValidationState extends State<OtpValidation> {
   void changeToken() {
     print("Chanfed toke");
     var res = http.get(Uri.parse(
-        'http://209.38.239.47/users/updateToken?phone=${int.parse(PhoneAuth.phone.toString())}&token=${widget.token}'));
+        'http://139.59.90.159:25060/users/updateToken?phone=${int.parse(PhoneAuth.phone.toString())}&token=${widget.token}'));
     print("Chanfed toke");
   }
 
   Future<bool> checkFirstTimeUser() async {
     print("entered");
     var url = Uri.parse(
-        'http://209.38.239.47/users/user?phone=${int.parse(PhoneAuth.phone.toString())}');
+        'http://139.59.90.159:25060/users/user?phone=${int.parse(PhoneAuth.phone.toString())}');
     print(PhoneAuth.phone);
     http.Response response = await http.get(url, headers: header);
     var data = jsonDecode(response.body);

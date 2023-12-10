@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:web_socket_channel/io.dart';
 
 class WebSocketService {
-  static const String _baseUrl = 'ws://139.59.44.53:3005?phone=7452976914';
+  static const String _baseUrl = 'ws://64.227.106.247:3005?phone=7452976914';
   static final WebSocketService _instance = WebSocketService._();
   IOWebSocketChannel? _channel;
   StreamController<String>? _streamController;

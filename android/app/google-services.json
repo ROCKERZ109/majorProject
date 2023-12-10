@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:924567143903:android:37154677c40fa78d01706a",
+        "android_client_info": {
+          "package_name": "com.bharatride.veloce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924567143903-l5liiddttg2bhibllub5ulrk9ohqdg8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYJQ61mAF-JHYgUZprk9i8yrYq3aQZL30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924567143903-l5liiddttg2bhibllub5ulrk9ohqdg8n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "924567143903-t2pfs05s87e5dp6o9fdfb6pk4qk5qcpo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.Bharatride"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:924567143903:android:364e5f89d2edaad001706a",
         "android_client_info": {
           "package_name": "com.example.veloce"
@@ -19,22 +55,6 @@
           "android_info": {
             "package_name": "com.example.veloce",
             "certificate_hash": "827e79b089b8849284cfdc44435001901534dd8b"
-          }
-        },
-        {
-          "client_id": "924567143903-8cf7uqu4cjc3amnmtl175v6u46mlp9ir.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.veloce",
-            "certificate_hash": "06706518e1f41cf78c8adba1b6d9dec963588b76"
-          }
-        },
-        {
-          "client_id": "924567143903-i19npf10shc23vcj86f2k6sud2cgd7tg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.veloce",
-            "certificate_hash": "bd2bcc4f489ccb0f38e39adec4e75fd65a9f6411"
           }
         },
         {

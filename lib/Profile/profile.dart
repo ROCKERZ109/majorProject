@@ -119,7 +119,7 @@ class _profile_pageState extends State<profile_page> {
                       radius: SizeConfig.safeBlockHorizontal * 15,
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(fetched_image ==
-                              "https://imagenauft.fra1.digitaloceanspaces.com/"
+                              "https://image-db.sfo3.digitaloceanspaces.com/"
                           ? "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=170667a&w=0&k=20&c=EpwfsVjTx8cqJJZzBMp__1qJ_7qSfsMoWRGnVGuS8Ew="
                           : fetched_image),
                     ),

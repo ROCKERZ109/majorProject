@@ -6,25 +6,28 @@
 // // // var gender = "male";
 // // // var uni = 2002182;
 // //
-// // // Future<void> main() async {
-// // //   print("Connecting to mysql server...");
-// // //
-// // //   // create connection
-// // //   final conn = await MySQLConnection.createConnection(
-// // //     host: 'db-mysql-nyc1-49352-do-user-13193164-0.b.db.ondigitalocean.com',
-// // //   port: 25060,
-// // //   userName: 'doadmin',
-// // //   password: 'AVNS_ORaHJ-uaqGm8Uk4774w',
-// // //   databaseName: 'defaultdb',
-// // //   );
-// // //
-// // //   await conn.connect();
+import 'package:mysql_client/mysql_client.dart';
+
+Future<void> main() async {
+  print("Connecting to mysql server...");
+
+  // create connection
+  final conn = await MySQLConnection.createConnection(
+    host: 'db-mysql-nyc3-50115-do-user-15325170-0.c.db.ondigitalocean.com',
+    port: 25060,
+    userName: 'doadmin',
+    password: 'AVNS_XRgsgECTXd3joI0LVhM',
+    databaseName: 'defaultdb',
+  );
+
+  await conn.connect();
 // // //
 // // // var res = await conn.execute('select * from mainTable');
 // // // print(res.forEach((element) {
 // // //   elem
 // // // }));
-// // // //await conn.execute('Create Table mainTable(phone numeric(10) not null primary key, name varchar(255) not null, email varchar(255) not null, gender varchar(7),univ int)');
+  await conn.execute(
+      'Create Table mainTable(phone numeric(10) not null primary key, name varchar(255) not null, email varchar(255) not null, gender varchar(7),image varchar(255), token varchar(255) not null, pilot int, passenger int, total int)');
 // // // //  var val = await conn.execute( "select * from mainTable where gender = :gender",
 // // // //     {
 // // // //
@@ -157,7 +160,7 @@
 // //   });
 // //   for (int i = 0; i < 10; i++) _channel.sink.add('Hello a haa ab');
 // // }
-import 'package:http/http.dart' as http;
+//   import 'package:http/http.dart' as http;
 
 // var channel;
 // void initailizeWebsocket() async {
@@ -171,20 +174,21 @@ import 'package:http/http.dart' as http;
 // }
 //
 //
-void calldata(var a, var b) async {
-  var response = await http.get(
-      Uri.parse('http://167.71.238.162/users/updateToken?phone=$a&token=NULL'));
 }
+// void calldata(var a, var b) async {
+//   var response = await http.get(
+//       Uri.parse('http://167.71.238.162/users/updateToken?phone=$a&token=NULL'));
+// }
 
-void main() {
-  calldata(7452976914, null);
-  getData();
-  print("Is the problem not here??");
+// void main() {
+//   calldata(7452976914, null);
+//   getData();
+//   print("Is the problem not here??");
 
   // channel.sink.add('2yo');
   // channel.sink.add('3yo');
   // channel.sink.add('4yo');
-}
+// }
 
 void getData() async {
   print("Is the problem here??");
