@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: SizedBox(
               height: SizeConfig.safeBlockVertical * 35,
               width: SizeConfig.safeBlockHorizontal * 35,
-              child: Image.asset('assets/logo.gif')),
+              child: Image.asset('assets/logo.png')),
         ),
         const Positioned(
             bottom: 15,

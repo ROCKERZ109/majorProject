@@ -73,7 +73,7 @@ class _profile_pageState extends State<profile_page> {
                           left: SizeConfig.blockSizeHorizontal * 1,
                         ),
                         child: const Text(
-                          "BharatRide Account",
+                          "Account",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Colors.black,

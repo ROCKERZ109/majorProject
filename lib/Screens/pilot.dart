@@ -805,7 +805,7 @@ class _PilotScreenState extends State<PilotScreen> {
                                           color: Colors.transparent,
                                           child: Center(
                                             child: Text(
-                                              'Start your ride!',
+                                              'Go Live!',
                                               style: TextStyle(
                                                 fontFamily: 'Nunito Sans',
                                                 fontWeight: FontWeight.w900,

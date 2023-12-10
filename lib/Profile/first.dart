@@ -201,13 +201,7 @@ class _firstpageState extends State<firstpage> {
                       child: Image.asset('assets/logo.png'),
                     ),
                   ),
-                  const Text(
-                    "haratRide",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Nunito Sans',
-                        fontSize: 30),
-                  ),
+
                 ],
               ),
             ),
@@ -257,15 +251,7 @@ class _firstpageState extends State<firstpage> {
                                             left: SizeConfig.blockSizeHorizontal *
                                                 2,
                                           ),
-                                          child: const Text(
-                                            "Ride With Mates",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: 'Nunito Sans',
-                                                fontSize: 20),
-                                          ),
+
                                         ),
                                         SizedBox(
                                           height:

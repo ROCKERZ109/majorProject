@@ -1027,7 +1027,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           color: Colors.transparent,
                           child: Center(
                             child: Text(
-                              'Searching for the best ride!',
+                              'Searching for a Pilot!',
                               style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Nunito Sans',
